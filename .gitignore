@@ -1,0 +1,10 @@
+GXPEngine/bin/*
+!GXPEngine/bin/Debug
+GXPEngine/bin/Debug/*
+!GXPEngine/bin/Debug/data/
+!GXPEngine/bin/Debug/*.tmx
+
+GXPEngine/obj/*
+/docs
+
+
