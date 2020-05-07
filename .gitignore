@@ -6,5 +6,6 @@ GXPEngine/bin/Debug/*
 
 GXPEngine/obj/*
 /docs
+.vs/
 
 
