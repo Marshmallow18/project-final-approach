@@ -23,11 +23,7 @@
    <image source="data/image pieces/slice_2_1.png" width="2048" height="2048"/>
   </imagelayer>
  </group>
-<<<<<<< Updated upstream
  <group id="16" name="background image" visible="0">
-=======
- <group id="16" name="background image">
->>>>>>> Stashed changes
   <imagelayer id="3" name="background image 0" locked="1">
    <image source="data/image pieces/map_slice_0_0.png" width="2048" height="2048"/>
   </imagelayer>
