@@ -1,14 +1,16 @@
-GXPEngine/bin/*
-!GXPEngine/bin/Debug
-GXPEngine/bin/Debug/*
-!GXPEngine/bin/Debug/data/
-!GXPEngine/bin/Debug/*.tmx
+/GXPEngine/GXPEngine/bin/*
+!/GXPEngine/GXPEngine/bin/Debug
+/GXPEngine/GXPEngine/bin/Debug/*
+!/GXPEngine/GXPEngine/bin/Debug/data/
+!/GXPEngine/GXPEngine/bin/Debug/*.tmx
 
-GXPEngine/obj/
-/docs
-.vs/
+GXPEngine/docs
 
 .DS_Store
 
-GXPEngine/GXPEngine/bin/Debug/GXPEngine.exe
-GXPEngine/GXPEngine/bin/Debug/GXPEngine.pdb
+/GXPEngine/GXPEngine/obj
+.vs
+.idea
+/GXPEngine/GXPEngine/bin/Debug/GXPEngine.exe
+/GXPEngine/GXPEngine/bin/Debug/GXPEngine.pdb
+/GXPEngine/GXPEngine/GXPEngine.csproj.user
