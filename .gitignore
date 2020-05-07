@@ -8,4 +8,4 @@ GXPEngine/obj/*
 /docs
 .vs/
 
-
+.DS_Store
