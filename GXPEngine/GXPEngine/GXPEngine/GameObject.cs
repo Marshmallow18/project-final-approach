@@ -18,6 +18,40 @@ namespace GXPEngine
 		public bool visible = true;
 		private bool destroyed = false;
 
+		protected bool _enabled = true;
+		private bool _enabledInHierarchy = true;
+		
+		/// <summary>
+		/// Set visibility and add/remove Update and OnCollision
+		/// </summary>
+		/// <param name="active"></param>
+		public void SetActive(bool active)
+		{
+			bool lastEnabled = _enabled;
+			_enabled = active;
+			_enabledInHierarchy = active;
+
+			if (_enabled != lastEnabled)
+			{
+				visible = active;
+
+				for (int i = 0; i < GetChildren().Count; i++)
+				{
+					var child = GetChildren()[i];
+					child._enabled = active;
+					child.visible = active;
+				}
+			}
+		}
+
+		public virtual bool Enabled
+		{
+			get { return _enabled; }
+			set => SetActive(value);
+		}
+
+		public bool EnabledInHierarchy => _enabledInHierarchy;
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														GameObject()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -355,10 +389,14 @@ namespace GXPEngine
 		/// <summary>
 		/// Returns a list of all children that belong to this object.
 		/// The function returns System.Collections.Generic.List<GameObject>.
-		/// NOTE: Never change this list directly yourself!
+		/// (If safe=false, then the method is slightly faster, but modifying the list will break the engine!)
 		/// </summary>
-		public List<GameObject> GetChildren() {
-			return _children;
+		public List<GameObject> GetChildren(bool safe=true) {
+			if (safe) {
+				return new List<GameObject> (_children);
+			} else {
+				return _children;
+			}
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------

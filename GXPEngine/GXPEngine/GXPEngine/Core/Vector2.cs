@@ -2,7 +2,7 @@ using System;
 
 namespace GXPEngine.Core
 {
-	public struct Vector2
+	public partial struct Vector2
 	{
 		public float x;
 		public float y;

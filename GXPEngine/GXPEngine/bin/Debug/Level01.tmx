@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="32" height="38" tilewidth="128" tileheight="128" infinite="0" nextlayerid="19" nextobjectid="1">
+ <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
+  <image source="../../../../../Team23_GXPEngine/GXPEngine/bin/Debug/data/Clouds Border Tileset.png" width="1024" height="1024"/>
+ </tileset>
+ <group id="17" name="walkable image">
+  <imagelayer id="10" name="walkable image 0" locked="1">
+   <image source="data/image pieces/slice_0_0.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="11" name="walkable image 1" locked="1" offsetx="2048" offsety="0">
+   <image source="data/image pieces/slice_0_1.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="12" name="walkable image 2" locked="1" offsetx="0" offsety="2048">
+   <image source="data/image pieces/slice_1_0.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="13" name="walkable image 3" locked="1" offsetx="2048" offsety="2048">
+   <image source="data/image pieces/slice_1_1.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="14" name="walkable image 4" locked="1" offsetx="0" offsety="4096">
+   <image source="data/image pieces/slice_2_0.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="15" name="walkable image 5" locked="1" offsetx="2048" offsety="4096">
+   <image source="data/image pieces/slice_2_1.png" width="2048" height="2048"/>
+  </imagelayer>
+ </group>
+<<<<<<< Updated upstream
+ <group id="16" name="background image" visible="0">
+=======
+ <group id="16" name="background image">
+>>>>>>> Stashed changes
+  <imagelayer id="3" name="background image 0" locked="1">
+   <image source="data/image pieces/map_slice_0_0.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="4" name="background image 1" locked="1" offsetx="2048" offsety="0">
+   <image source="data/image pieces/map_slice_0_1.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="5" name="background image 2" locked="1" offsetx="0" offsety="2048">
+   <image source="data/image pieces/map_slice_1_0.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="6" name="background image 3" locked="1" offsetx="2048" offsety="2048">
+   <image source="data/image pieces/map_slice_1_1.png" width="2048" height="2048"/>
+  </imagelayer>
+  <imagelayer id="7" name="background image 4" locked="1" offsetx="0" offsety="4096">
+   <image source="data/image pieces/map_slice_2_0.png" width="2048" height="1164"/>
+  </imagelayer>
+  <imagelayer id="9" name="background image 5" locked="1" offsetx="2048" offsety="4096">
+   <image source="data/image pieces/map_slice_2_1.png" width="2048" height="1164"/>
+  </imagelayer>
+ </group>
+ <layer id="1" name="layer 1" width="32" height="38">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="18" name="Object Layer 1"/>
+</map>

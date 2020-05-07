@@ -5,7 +5,7 @@ namespace GXPEngine
 	/// <summary>
 	/// Contains several functions for doing floating point Math
 	/// </summary>
-	public static class Mathf
+	public static partial class Mathf
 	{
 		/// <summary>
 		/// Constant PI

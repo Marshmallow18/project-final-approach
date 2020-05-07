@@ -4,8 +4,12 @@ GXPEngine/bin/Debug/*
 !GXPEngine/bin/Debug/data/
 !GXPEngine/bin/Debug/*.tmx
 
-GXPEngine/obj/*
+GXPEngine/obj/
 /docs
 .vs/
 
+.DS_Store
 
+GXPEngine/GXPEngine/bin/Debug/GXPEngine.exe
+
+GXPEngine/GXPEngine/bin/Debug/GXPEngine.pdb

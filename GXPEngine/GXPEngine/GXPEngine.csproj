@@ -9,6 +9,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>GXPEngine</RootNamespace>
     <AssemblyName>GXPEngine</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>True</DebugSymbols>
@@ -30,12 +31,38 @@
     <PlatformTarget>x86</PlatformTarget>
     <ConsolePause>False</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>MyGame</StartupObject>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CaveLevelMapGameObject.cs" />
+    <Compile Include="Components\Arrow.cs" />
+    <Compile Include="Components\CircleGameObject.cs" />
+    <Compile Include="Components\Easing.cs" />
+    <Compile Include="Components\FpsCounter.cs" />
+    <Compile Include="Components\LineSegment.cs" />
+    <Compile Include="Components\MapGameObject.cs" />
+    <Compile Include="Components\MVector2.cs" />
+    <Compile Include="Components\NLineSegment.cs" />
+    <Compile Include="Components\TextBox.cs" />
+    <Compile Include="Components\TiledMapParserExtended.cs" />
+    <Compile Include="Components\TmxFilesLoader.cs" />
+    <Compile Include="Components\Vector2Int.cs" />
+    <Compile Include="CoroutineManager.cs" />
+    <Compile Include="Extensions\MathfExtensions.cs" />
+    <Compile Include="Extensions\SpriteExtensions.cs" />
+    <Compile Include="FollowCamera.cs" />
+    <Compile Include="GXPEngine\Core\SoundSystem.cs" />
+    <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
+    <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
+    <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
+    <Compile Include="IHasSpeed.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -70,7 +97,19 @@
     <Compile Include="GXPEngine\AddOns\Window.cs" />
     <Compile Include="GXPEngine\AddOns\EasyDraw.cs" />
     <Compile Include="GXPEngine\Core\Collision.cs" />
+<<<<<<< Updated upstream
     <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup />
+=======
+    <Compile Include="Tools\MMathf.cs" />
+    <Compile Include="Tools\MRandom.cs" />
+    <Compile Include="Tools\StopWatchTool.cs" />
+    <Compile Include="WalkableImageLayer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="GXPEngine\.DS_Store" />
+    <Content Include="GXPEngine\Core\.DS_Store" />
+  </ItemGroup>
+>>>>>>> Stashed changes
 </Project>

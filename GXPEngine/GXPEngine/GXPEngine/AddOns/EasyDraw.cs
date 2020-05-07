@@ -24,7 +24,7 @@ namespace GXPEngine
 		protected bool _stroke=true;
 		protected bool _fill=true;
 
-		public EasyDraw (int width, int height, bool addCollider=true) : base (new Bitmap (width, height),addCollider)
+		public EasyDraw (int pWidth, int pHeight, bool addCollider=true) : base (new Bitmap (pWidth, pHeight),addCollider)
 		{
 			Initialize ();
 		}
