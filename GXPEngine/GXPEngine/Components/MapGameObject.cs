@@ -96,7 +96,7 @@ namespace GXPEngine
                     int spacing = tileSet.Spacing;
                     int rows = tileSet.Rows;
 
-                    var bm = new Bitmap(tileSet.Image.FileName);
+                    var bm = new Bitmap("data/Clouds_Border_Tileset.png");
                     _tileSetImages[i] = bm;
 
                     for (int j = 0; j < tileSet.TileCount; j++)
