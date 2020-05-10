@@ -88,6 +88,28 @@ public class MyGame : Game
     {
         CoroutineManager.Tick(Time.deltaTime);
 
+        var isWalkable = _caveLevelMap.IsWalkablePosition(_player.Position);
+
+        if (!isWalkable)
+        {
+            var nextPos = _caveLevelMap.GetCollisionPOI(_player.Position, _player.lastPos);
+
+            var normalCollision = _caveLevelMap.GetCollisionNormal(nextPos);
+
+            Console.WriteLine($"nextpos: {nextPos} | normal: {normalCollision}");
+
+            _debugPOI?.SetXY(nextPos.x, nextPos.y);
+            _debugColl?.SetXY(_player.x, _player.y);
+
+            if (_debugNormalPOI != null)
+            {
+                _debugNormalPOI.startPoint = nextPos - _cam.Position + new Vector2(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT);
+                _debugNormalPOI.vector = normalCollision;
+            }
+
+            _player.SetXY(_player.lastPos.x, _player.lastPos.y);
+        }
+
         /*
          * DEBUG
          */
@@ -96,13 +118,14 @@ public class MyGame : Game
         var worldMousePos = _cam.TransformPoint(mousePos.x, mousePos.y) - Vector2.right * (width / 2) * _cam.scaleX -
                             Vector2.up * (height / 2) * _cam.scaleY;
 
-        _debugText.TextValue = "";
+        _debugText.TextValue = _player.Position.ToString();
             //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
         if (Input.GetKeyDown(Key.U))
         {
             ToogleDebug(worldMousePos);
         }
+
     }
 
     private void ToogleDebug(Vector2 worldMousePos)
