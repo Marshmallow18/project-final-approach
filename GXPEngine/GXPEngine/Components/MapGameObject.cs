@@ -35,7 +35,7 @@ namespace GXPEngine
         /// </summary>
         private short[][,] _tileArrays;
 
-        private ObjectGroup _objectGroup;
+        private ObjectGroup[] _objectGroups;
 
         private ImageLayer[] _backGroundImages;
 
@@ -68,7 +68,7 @@ namespace GXPEngine
             _bitMapReuse = new Dictionary<string, Bitmap>();
 
             //Load Object Group
-            _objectGroup = _mapData.ObjectGroups[0];
+            _objectGroups = _mapData.ObjectGroups;
 
             //Section to create the tiles Image and data to be drawn
             //The TilesSet Images are loaded and than used to draw each layer according with the layer data
@@ -474,7 +474,7 @@ namespace GXPEngine
             return -1;
         }
 
-        public ObjectGroup ObjectGroup => _objectGroup;
+        public ObjectGroup[] ObjectGroups => _objectGroups;
 
         public int TotalWidth => _totalWidth;
         public int TotalHeight => _totalHeight;

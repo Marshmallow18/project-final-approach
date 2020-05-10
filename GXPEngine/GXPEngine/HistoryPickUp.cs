@@ -6,33 +6,40 @@ namespace GXPEngine
     /// <summary>
     /// When player goes over it, OnEnterTrigger is excuted, when player goes out OnExitTrigger executed
     /// </summary>
-    public class MemoryPickUp : AnimationSprite, IHasTrigger
+    public class HistoryPickUp : AnimationSprite, IHasTrigger
     {
         private TriggerBehavior _trigger;
+        private string _historyImageFileName = "";
 
-        public MemoryPickUp(string filename, int cols, int rows, int frames = -1, bool keepInCache = false,
+        public HistoryPickUp(string pHistoryImageFileName, string filename, int cols, int rows, int frames = -1, bool keepInCache = false,
             bool addCollider = true) : base(filename, cols, rows, frames, keepInCache, addCollider)
         {
+            _historyImageFileName = pHistoryImageFileName;
             _trigger = new TriggerBehavior(this);
+            
+            DrawableTweener.Blink(this, 1, 0.5f, 600);
         }
 
         void OnCollision(GameObject other)
         {
-            _trigger.OnTrigger(other);
+            if (other is Player)
+                _trigger.OnTrigger(other);
         }
 
         void Update()
         {
             _trigger.HitTest();
+            
+            //Console.WriteLine($"{this} : {alpha}");
         }
 
         void IHasTrigger.OnEnterTrigger(GameObject other)
         {
             Console.WriteLine($"{this}: OnEnterTrigger -> {other}");
-            
+
             DrawableTweener.TweenSpriteAlpha(this, 1, 0, 200, Easing.Equation.QuadEaseOut, 0, () =>
             {
-                GameHud.Instance.ShowFlashBackHud();
+                GameHud.Instance.ShowHistoricHud(_historyImageFileName);
                 this.Destroy();
             });
         }

@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 
 namespace GXPEngine.Components
 {
@@ -8,20 +9,32 @@ namespace GXPEngine.Components
         private Color _bgColor;
         private Color _color;
 
-        public TextBox(string pText, int pWidth, int pHeight) : base(pWidth, pHeight, false)
+        private CenterMode _horAlign;
+        private CenterMode _verAlign;
+
+        private float _textSize;
+        
+        public TextBox(string pText, int pWidth, int pHeight, uint textColor = 0xffffffff, uint bgColor = 0xff000000, CenterMode hor = CenterMode.Min, CenterMode ver = CenterMode.Center, bool addCollider = false) : base(pWidth, pHeight, addCollider)
         {
-            _bgColor = Color.Black;
-            _color = Color.White;
+            _bgColor = Color.FromArgb((int)bgColor);
+            _color = Color.FromArgb((int)textColor);
             _textValue = pText;
+
+            _horAlign = hor;
+            _verAlign = ver;
         }
 
         void Update()
         {
+            if (!Enabled)
+                return;
+
             Clear(_bgColor);
             Fill(_color);
             Stroke(_color);
-            TextAlign(CenterMode.Center, CenterMode.Center);
-            Text(_textValue, width / 2, height / 2);
+            TextAlign(_horAlign, _verAlign);
+            _textSize = TextWidth(_textValue);
+            Text(_textValue, _horAlign == CenterMode.Center ? width / 2f: 0, height / 2f);
         }
 
 

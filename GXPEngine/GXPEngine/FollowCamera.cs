@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Drawing;
+using GXPEngine.Components;
 using GXPEngine.Core;
 using MathfExtensions;
 
 namespace GXPEngine
 {
-    public class FollowCamera : Camera
+    public class FollowCamera : MCamera
     {
         public float speed = 15f;
         public float interpVelocity;

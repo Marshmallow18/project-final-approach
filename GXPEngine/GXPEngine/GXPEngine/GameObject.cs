@@ -10,7 +10,7 @@ namespace GXPEngine
 	public abstract class GameObject : Transformable
 	{
 		public string name;
-		private Collider _collider;
+		protected Collider _collider;
 		
 		private List<GameObject> _children = new List<GameObject>();
 		private GameObject _parent = null;
@@ -33,13 +33,10 @@ namespace GXPEngine
 
 			if (_enabled != lastEnabled)
 			{
-				visible = active;
-
 				for (int i = 0; i < GetChildren().Count; i++)
 				{
 					var child = GetChildren()[i];
-					child._enabled = active;
-					child.visible = active;
+					child._enabled = active && child._enabledInHierarchy;
 				}
 			}
 		}
@@ -141,7 +138,7 @@ namespace GXPEngine
 		/// Gl context, will be supplied by internal caller.
 		/// </param>
 		public virtual void Render(GLContext glContext) {
-			if (visible) {
+			if (Enabled && visible) {
 				glContext.PushMatrix(matrix);
 				
 				RenderSelf (glContext);
@@ -399,6 +396,30 @@ namespace GXPEngine
 			}
 		}
 		
+		public List<GameObject> GetChildrenRecursive(bool safe=true) {
+			
+			var childs = GetChildren();
+			var allChilds = childs;
+			
+			for (int i = 0; i < childs.Count; i++)
+			{
+				var child = childs[i];
+				var childChildren = child.GetChildren();
+				if (childChildren.Count > 0)
+				{
+					allChilds.AddRange(childChildren);
+					child.GetChildrenRecursive();
+				}
+			}
+
+			return allChilds;
+		}
+
+		private void WalkChildTree(GameObject root, out List<GameObject> allChilds)
+		{
+			allChilds = new List<GameObject>();
+		}
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														SetChildIndex()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -448,7 +469,7 @@ namespace GXPEngine
 		/// The other game object.
 		/// </param>
 		virtual public bool HitTest(GameObject other) {
-			return _collider != null && other._collider != null && _collider.HitTest (other._collider);
+			return _collider != null && other._collider != null && _collider.Enabled && _collider.HitTest (other._collider);
 		}
 
 		/// <summary>
@@ -494,7 +515,12 @@ namespace GXPEngine
 				return col;
 			}
 			float minTOI = 1;
-			foreach (GameObject other in objectsToCheck) {
+			foreach (GameObject other in objectsToCheck)
+			{
+
+				if (other.Enabled == false || other.collider.Enabled == false)
+					continue;
+				
 				Vector2 newNormal;
 				float newTOI = TimeOfImpact (other, vx, vy, out newNormal);
 				if (newTOI < minTOI) {

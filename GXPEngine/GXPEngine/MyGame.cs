@@ -6,6 +6,7 @@ using GXPEngine;
 using GXPEngine.Components;
 using GXPEngine.Core;
 using GXPEngine.Extensions;
+using GXPEngine.HUD;
 using TiledMapParserExtended;
 using Rectangle = System.Drawing.Rectangle;
 
@@ -31,44 +32,36 @@ public class MyGame : Game
 
     private CaveLevelMapGameObject _caveLevelMap;
 
+    private BaseLevel _level;
+
     private FollowCamera _cam;
+    public static FollowCamera Cam;
+
+    public static Vector2 WorldMousePosition;
+    
     private FpsCounter _fpsCounter;
 
-    private Player _player;
-    
     /// <summary>
     /// Debug GameObjects
     /// </summary>
     private TextBox _debugText;
+
     private CircleGameObject _circleGo;
-    private EasyDraw _debugColl;
-    private EasyDraw _debugPOI;
-    private Arrow _debugNormalPOI;
-    
+
+    private GameHud _gameHud;
+
     public MyGame() : base(SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN) // Create a window that's 800x600 and NOT fullscreen
     {
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
-
-        _caveLevelMap = new CaveLevelMapGameObject(mapData);
-
-        AddChild(_caveLevelMap);
-
+        var caveLevelMap = new CaveLevelMapGameObject(mapData);
+        
         _cam = new FollowCamera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        AddChild(_cam);
+        Cam = _cam;
+        
+        LoadLevel(caveLevelMap);
 
-        _player = new Player();
-        AddChild(_player);
-        
-        _player.SetXY(1192, 4664);
-        
-        _cam.Target = _player;
-        _cam.Map = _caveLevelMap;
-        _cam.SetXY(1000, 1000);
-        
-        /*
-         * DEBUG
-         */
+        //Debug
         _circleGo = new CircleGameObject(64, 64, (uint) Color.Red.ToArgb());
         var circleGo2 = new CircleGameObject(4, 4);
         AddChild(_circleGo);
@@ -82,71 +75,107 @@ public class MyGame : Game
         _cam.AddChild(_debugText);
         _debugText.x = -SCREEN_WIDTH / 2;
         _debugText.y = -SCREEN_HEIGHT / 2;
+        _debugText.SetActive(false);
     }
 
+    private void LoadLevel(CaveLevelMapGameObject pCaveLevelMap)
+    {
+        string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
+        var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
+
+        _caveLevelMap = pCaveLevelMap;
+        _level = new BaseLevel(_caveLevelMap, _cam);
+
+        AddChild(_level);
+
+        _gameHud = new GameHud(_level, _cam);
+
+        DebugDrawBoundBox.level = _level;
+
+        foreach (var sprite in _level.GetChildren().Where(s => s is Sprite))
+        {
+            DebugDrawBoundBox.AddSprite((Sprite) sprite);
+        }
+        
+        foreach (var sprite in _gameHud.GetChildrenRecursive().Where(s => s is Sprite))
+        {
+            DebugDrawBoundBox.AddSprite((Sprite) sprite);
+        }
+    }
+
+    private void ResetLevel()
+    {
+        _cam.parent = null;
+        _caveLevelMap.parent = null;
+
+        _gameHud.Destroy();
+        _level.Destroy();
+        
+        LoadLevel(_caveLevelMap);
+    }
+    
     void Update()
     {
         CoroutineManager.Tick(Time.deltaTime);
 
-        var isWalkable = _caveLevelMap.IsWalkablePosition(_player.Position);
-
-        if (!isWalkable)
+        if (Input.GetKeyDown(Key.R))
         {
-            var nextPos = _caveLevelMap.GetCollisionPOI(_player.Position, _player.lastPos);
-
-            var normalCollision = _caveLevelMap.GetCollisionNormal(nextPos);
-
-            Console.WriteLine($"nextpos: {nextPos} | normal: {normalCollision}");
-
-            _debugPOI?.SetXY(nextPos.x, nextPos.y);
-            _debugColl?.SetXY(_player.x, _player.y);
-
-            if (_debugNormalPOI != null)
-            {
-                _debugNormalPOI.startPoint = nextPos - _cam.Position + new Vector2(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT);
-                _debugNormalPOI.vector = normalCollision;
-            }
-
-            _player.SetXY(_player.lastPos.x, _player.lastPos.y);
+            ResetLevel();
         }
 
+        if (Input.GetKeyDown(Key.O))
+        {
+            this._glContext.Close();
+        }
+        
         /*
          * DEBUG
          */
 
         var mousePos = new Vector2Int(Input.mouseX, Input.mouseY);
-        var worldMousePos = _cam.TransformPoint(mousePos.x, mousePos.y) - Vector2.right * (width / 2) * _cam.scaleX -
-                            Vector2.up * (height / 2) * _cam.scaleY;
+        WorldMousePosition = _cam.TransformPoint(mousePos.x, mousePos.y) - Vector2.right * (width / 2) * _cam.scaleX -
+                             Vector2.up * (height / 2) * _cam.scaleY;
 
-        _debugText.TextValue = _player.Position.ToString();
-            //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
+        _debugText.TextValue =
+            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}";
+        //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
+        _level?.Player?.EnableRun(Input.GetKey(Key.LEFT_SHIFT));
+        
         if (Input.GetKeyDown(Key.U))
         {
-            ToogleDebug(worldMousePos);
+            ToogleDebug(WorldMousePosition);
         }
 
+        if (Input.GetMouseButtonDown(0))
+        {
+            ParticleManager.Instance.PlayCoinsExplosion(_level.Player);
+        }
+        
+        DebugDrawBoundBox.DrawBounds();
     }
 
     private void ToogleDebug(Vector2 worldMousePos)
     {
         Debug = !Debug;
 
-        int playerIndex = _player.Index;
-        
+        _debugText.SetActive(Debug);
+
+        int playerIndex = _caveLevelMap.Index + 1;
+
         //Draw walkable image layers
-        var debugWalkable = this.GetChildren().FirstOrDefault(g => g.name == "Debug_Walkable");
+        var debugWalkable = _level.GetChildren().FirstOrDefault(g => g.name == "Debug_Walkable");
         if (Debug && debugWalkable == null)
         {
             var bitmapData = _caveLevelMap._walkableImageLayer.GetBitmapDataFromWorldPos(worldMousePos);
             if (bitmapData.bitMap != null)
             {
-                debugWalkable = new Canvas(bitmapData.bitMap)
+                debugWalkable = new Canvas(bitmapData.bitMap, false)
                 {
                     name = "Debug_Walkable"
                 };
 
-                AddChildAt(debugWalkable, playerIndex);
+                _level.AddChildAt(debugWalkable, playerIndex);
                 debugWalkable.SetXY(bitmapData.offSetX, bitmapData.offSetY);
             }
         }
@@ -154,51 +183,8 @@ public class MyGame : Game
         {
             debugWalkable?.Destroy();
         }
-        _debugColl = this.GetChildren().FirstOrDefault(g => g.name == "Debug_Coll") as EasyDraw;
-        if (_debugColl == null)
-        {
-            _debugColl = new EasyDraw(2, 2, false)
-            {
-                name = "Debug_Coll"
-            };
-            _debugColl.CentralizeOrigin();
-            _debugColl.Clear(Color.GreenYellow);
-            AddChild(_debugColl);
-        }
-        else
-        {
-            _debugColl?.Destroy();
-        }
-        
-        _debugPOI = this.GetChildren().FirstOrDefault(g => g.name == "Debug_POI") as EasyDraw;
-        if (_debugPOI == null)
-        {
-            _debugPOI = new EasyDraw(9, 9, false)
-            {
-                name = "Debug_POI"
-            };
-            _debugPOI.CentralizeOrigin();
-            _debugPOI.Clear(Color.FromArgb(50, Color.Red));
-            AddChild(_debugPOI);
-        }
-        else
-        {
-            _debugPOI?.Destroy();
-        }
-        
-        _debugNormalPOI = this.GetChildren().FirstOrDefault(g => g.name == "Debug_Normal_POI") as Arrow;
-        if (_debugNormalPOI == null)
-        {
-            _debugNormalPOI = new Arrow(Vector2.zero, Vector2.one, 100, (uint)Color.HotPink.ToArgb())
-            {
-                name = "Debug_Normal_POI"
-            };
-            AddChild(_debugNormalPOI);
-        }
-        else
-        {
-            _debugNormalPOI?.Destroy();
-        }
+
+        _level.PlayerCollision?.ToogleDebug();
     }
 
     static void Main() // Main() is the first method that's called when the program is run

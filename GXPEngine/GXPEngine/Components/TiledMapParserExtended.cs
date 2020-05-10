@@ -460,8 +460,8 @@ namespace TiledMapParserExtended
     {
         [XmlAttribute("id")] public int ID;
         [XmlAttribute("gid")] public int GID = -1;
-        [XmlAttribute("name")] public string Name;
-        [XmlAttribute("type")] public string Type;
+        [XmlAttribute("name")] public string Name = "";
+        [XmlAttribute("type")] public string Type = "";
 
         [XmlAttribute("width")] // width in pixels
         public float Width;

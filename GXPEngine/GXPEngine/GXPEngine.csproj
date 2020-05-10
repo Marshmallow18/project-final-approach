@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseLevel.cs" />
     <Compile Include="CaveLevelMapGameObject.cs" />
     <Compile Include="Components\Arrow.cs" />
     <Compile Include="Components\CircleGameObject.cs" />
@@ -49,6 +50,8 @@
     <Compile Include="Components\FpsCounter.cs" />
     <Compile Include="Components\LineSegment.cs" />
     <Compile Include="Components\MapGameObject.cs" />
+    <Compile Include="Components\MCamera.cs" />
+    <Compile Include="Components\MMouseHandler.cs" />
     <Compile Include="Components\MVector2.cs" />
     <Compile Include="Components\NLineSegment.cs" />
     <Compile Include="Components\TextBox.cs" />
@@ -56,6 +59,9 @@
     <Compile Include="Components\TmxFilesLoader.cs" />
     <Compile Include="Components\Vector2Int.cs" />
     <Compile Include="CoroutineManager.cs" />
+    <Compile Include="Door.cs" />
+    <Compile Include="DoorsManager.cs" />
+    <Compile Include="DoorTrigger.cs" />
     <Compile Include="Extensions\MathfExtensions.cs" />
     <Compile Include="Extensions\SpriteExtensions.cs" />
     <Compile Include="FollowCamera.cs" />
@@ -63,7 +69,14 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
+    <Compile Include="HUD\HistoricImageHud.cs" />
+    <Compile Include="HUD\GameHud.cs" />
+    <Compile Include="HUD\HudPanel.cs" />
+    <Compile Include="HUD\MemoriesHudPanel.cs" />
+    <Compile Include="HUD\MemoryIndicatorPanel.cs" />
     <Compile Include="IHasSpeed.cs" />
+    <Compile Include="HistoryPickupsManager.cs" />
+    <Compile Include="HistoryPickUp.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -98,12 +111,17 @@
     <Compile Include="GXPEngine\AddOns\Window.cs" />
     <Compile Include="GXPEngine\AddOns\EasyDraw.cs" />
     <Compile Include="GXPEngine\Core\Collision.cs" />
+    <Compile Include="ParticleManager.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayerCollision.cs" />
+    <Compile Include="Tools\DebugDrawBoundBox.cs" />
+    <Compile Include="Tools\DrawableTweener.cs" />
     <Compile Include="Tools\MMathf.cs" />
     <Compile Include="Tools\MRandom.cs" />
     <Compile Include="Tools\StopWatchTool.cs" />
+    <Compile Include="TriggerBehavior.cs" />
     <Compile Include="WalkableImageLayer.cs" />
   </ItemGroup>
 </Project>

@@ -185,6 +185,11 @@ namespace GXPEngine
 				frameRight, frameBottom, frameLeft, frameBottom };
 		}
 
+		public override void SetOriginToCenter()
+		{
+			SetOrigin(_texture.width * _frameWidth / 2f, _texture.height * _frameHeight / 2f);
+		}
+		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														NextFrame()
 		//------------------------------------------------------------------------------------------------------------------------

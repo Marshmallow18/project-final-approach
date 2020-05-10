@@ -14,7 +14,7 @@ namespace GXPEngine.Core
 		}
 		
 		override public string ToString() {
-			return "[Vector2 " + x + ", " + y + "]";
+			return $"[Vector2 {x:0.00} | {y:0.00}]";
 		}
 	}
 }

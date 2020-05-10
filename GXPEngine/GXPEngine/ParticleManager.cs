@@ -1,7 +1,6 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using GXPEngine.Core;
-using GXPEngine.GameLocalEvents;
 
 namespace GXPEngine
 {
@@ -14,10 +13,10 @@ namespace GXPEngine
 
         private AnimationSprite _cartoonCoinsExplosion;
         private IEnumerator _cartoonCoinsExplosionRoutine;
-        
+
         private SmallSnowFlakeParticle[] _smallSnowFlakes;
         private IEnumerator _smallSnowFlakesRoutine;
-        
+
         private SmallSnowFlakeParticle[] _smallSnowFlakes2;
         private IEnumerator _smallSnowFlakesRoutine2;
 
@@ -26,109 +25,29 @@ namespace GXPEngine
             Instance = this;
 
             _smoke00 = new AnimationSprite("data/Smoke Particle 00.png", 4, 2, 7, true, false);
-            _smoke00.SetOrigin(_smoke00.width / 2f, _smoke00.height / 2f);
+            _smoke00.SetOriginToCenter();
 
             _smallBlackSmoke00 = new AnimationSprite("data/Small Black Smokes00.png", 5, 5, 10, true, false);
-            _smallBlackSmoke00.SetOrigin(_smallBlackSmoke00.width / 2f, _smallBlackSmoke00.height / 2f);
+            _smallBlackSmoke00.SetOriginToCenter();
 
-            _cartoonCoinsExplosion = new AnimationSprite("data/cartoon coin explosion_image.png", 8, 4, -1, false, false);
-            _cartoonCoinsExplosion.SetOrigin(_cartoonCoinsExplosion.width / 2f, _cartoonCoinsExplosion.height / 2f);
+            _cartoonCoinsExplosion =
+                new AnimationSprite("data/cartoon coin explosion_image.png", 8, 4, -1, false, false);
+            _cartoonCoinsExplosion.SetOriginToCenter();
             _cartoonCoinsExplosion.SetActive(false);
-            
-            _smallSnowFlakes= new SmallSnowFlakeParticle[20];
+
+            _smallSnowFlakes = new SmallSnowFlakeParticle[20];
             for (int i = 0; i < _smallSnowFlakes.Length; i++)
             {
                 var snow = new SmallSnowFlakeParticle();
                 _smallSnowFlakes[i] = snow;
             }
-            
-            _smallSnowFlakes2= new SmallSnowFlakeParticle[20];
+
+            _smallSnowFlakes2 = new SmallSnowFlakeParticle[20];
             for (int i = 0; i < _smallSnowFlakes2.Length; i++)
             {
                 var snow = new SmallSnowFlakeParticle();
                 _smallSnowFlakes2[i] = snow;
             }
-            
-            LocalEvents.Instance.AddListener<StorkLocalEvent>(StorkLocalEventHandler);
-            LocalEvents.Instance.AddListener<LevelLocalEvent>(LevelLocalEventHandler);
-        }
-
-        private void LevelLocalEventHandler(LevelLocalEvent e)
-        {
-            switch (e.evt)
-            {
-                case LevelLocalEvent.EventType.STORK_GET_POINTS_EVADE_DRONE:
-                    PlayCoinsExplosion(e.stork);
-                    break;
-                case LevelLocalEvent.EventType.STORK_GET_POINTS_EVADE_HUNTER:
-                    PlayCoinsExplosion(e.stork);
-                    break;
-                case LevelLocalEvent.EventType.PIZZA_DELIVERED:
-                    PlayCoinsExplosion(e.level.Stork);
-                    break;
-                default:
-                   break;
-            }
-        }
-
-        private void StorkLocalEventHandler(StorkLocalEvent e)
-        {
-            switch (e.evt)
-            {
-                case StorkLocalEvent.Event.STORK_HIT_BY_PLANE:
-                    //Show smoke
-                    CoroutineManager.StartCoroutine(ShowSmokeOnStork00Routine(e.stork), this);
-
-                    break;
-                case StorkLocalEvent.Event.STORK_AFTER_HIT_BY_PLANE:
-                    break;
-                case StorkLocalEvent.Event.STORK_LOSE_PIZZA:
-                    break;
-                case StorkLocalEvent.Event.STORK_AFTER_HIT_BY_DRONE:
-                    break;
-                case StorkLocalEvent.Event.STORK_HIT_BY_DRONE:
-                    //Show smoke
-                    CoroutineManager.StartCoroutine(ShowSmokeOnStork00Routine(e.stork), this);
-                    break;
-                case StorkLocalEvent.Event.STORK_HIT_BY_HUNTER:
-                    //Show smoke
-                    CoroutineManager.StartCoroutine(ShowSmokeOnStork00Routine(e.stork), this);
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        private IEnumerator ShowSmokeOnStork00Routine(Stork stork)
-        {
-            int time = 0;
-            int duration = 1500;
-
-            yield return null;
-
-            _smoke00.visible = true;
-            stork.AddChild(_smoke00);
-            _smoke00.SetXY(0, 0);
-            _smoke00.alpha = 1f;
-
-            SpriteTweener.TweenAlpha(_smoke00, 1, 0, duration - 500, null, 500);
-
-            while (time < duration)
-            {
-                float fFrame = Mathf.Map(time, 0, duration, 0, _smoke00.frameCount - 1);
-                int frame = Mathf.Round(fFrame) % _smoke00.frameCount;
-
-                _smoke00.SetFrame(frame);
-
-                time += Time.deltaTime;
-
-                yield return null;
-            }
-
-            yield return new WaitForMilliSeconds(200);
-
-            stork.RemoveChild(_smoke00);
-            _smoke00.visible = false;
         }
 
         public void PlaySmallSmoke(GameObject parentObj, float px = 0, float py = 0, int duration = 500,
@@ -172,14 +91,23 @@ namespace GXPEngine
             parentObj?.RemoveChild(_smallBlackSmoke00);
         }
 
-        public void PlayCoinsExplosion(Stork stork)
+        public void PlayCoinsExplosion(GameObject target)
         {
             CoroutineManager.StopCoroutine(_cartoonCoinsExplosionRoutine);
-            
-            _cartoonCoinsExplosionRoutine = CoroutineManager.StartCoroutine(PlayCoinsExplosionRoutine(stork), this);
+
+            _cartoonCoinsExplosionRoutine =
+                CoroutineManager.StartCoroutine(PlayCoinsExplosionRoutine(target, 0, 0), this);
         }
 
-        private IEnumerator PlayCoinsExplosionRoutine(Stork stork)
+        public void PlayCoinsExplosion(GameObject target, float offSetX, float offSetY)
+        {
+            CoroutineManager.StopCoroutine(_cartoonCoinsExplosionRoutine);
+
+            _cartoonCoinsExplosionRoutine =
+                CoroutineManager.StartCoroutine(PlayCoinsExplosionRoutine(target, offSetX, offSetY), this);
+        }
+
+        private IEnumerator PlayCoinsExplosionRoutine(GameObject target, float offSetX, float offSetY)
         {
             int time = 0;
             int duration = 1200;
@@ -187,11 +115,12 @@ namespace GXPEngine
             yield return null;
 
             _cartoonCoinsExplosion.SetActive(true);
-            stork.AddChild(_cartoonCoinsExplosion);
-            _cartoonCoinsExplosion.SetXY(0, 0);
+            target.AddChild(_cartoonCoinsExplosion);
+            _cartoonCoinsExplosion.SetXY(0 + offSetX, 0 + offSetY);
             _cartoonCoinsExplosion.alpha = 1f;
 
-            SpriteTweener.TweenAlpha(_cartoonCoinsExplosion, 1, 0, duration - 500, null, 500);
+            DrawableTweener.TweenSpriteAlpha(_cartoonCoinsExplosion, 1, 0, duration - 500, Easing.Equation.QuadEaseOut,
+                500);
 
             while (time < duration)
             {
@@ -207,13 +136,14 @@ namespace GXPEngine
 
             yield return new WaitForMilliSeconds(200);
 
-            stork.RemoveChild(_cartoonCoinsExplosion);
+            target.RemoveChild(_cartoonCoinsExplosion);
             _cartoonCoinsExplosion.SetActive(false);
         }
 
         public void SmallSnowFlakesParticles(GameObject target, float range = 30, int duration = 1000)
         {
-            _smallSnowFlakesRoutine = CoroutineManager.StartCoroutine(SmallSnowFlakesParticlesRoutine(target, range, duration), this);
+            _smallSnowFlakesRoutine =
+                CoroutineManager.StartCoroutine(SmallSnowFlakesParticlesRoutine(target, range, duration), this);
         }
 
         IEnumerator SmallSnowFlakesParticlesRoutine(GameObject target, float range, int duration)
@@ -237,10 +167,12 @@ namespace GXPEngine
         {
             CoroutineManager.StopCoroutine(_smallSnowFlakesRoutine);
         }
-        
+
         public void SmallSnowFlakesParticles2(GameObject target, Vector2 offset, float range = 30, int duration = 1000)
         {
-            _smallSnowFlakesRoutine2 = CoroutineManager.StartCoroutine(SmallSnowFlakesParticlesRoutine2(target, offset, range, duration), this);
+            _smallSnowFlakesRoutine2 =
+                CoroutineManager.StartCoroutine(SmallSnowFlakesParticlesRoutine2(target, offset, range, duration),
+                    this);
         }
 
         IEnumerator SmallSnowFlakesParticlesRoutine2(GameObject target, Vector2 offset, float range, int duration)
@@ -270,6 +202,40 @@ namespace GXPEngine
             _smoke00.parent?.RemoveChild(_smoke00);
             _smallBlackSmoke00.parent?.RemoveChild(_smallBlackSmoke00);
             _cartoonCoinsExplosion.parent?.RemoveChild(_cartoonCoinsExplosion);
+        }
+    }
+
+    public class SmallSnowFlakeParticle : Sprite
+    {
+        private GameObject _target;
+        private Vector2 _offset;
+        private Vector2 _offset2;
+
+        public SmallSnowFlakeParticle() : base("data/small snowflakee.png", true, false)
+        {
+            SetOriginToCenter();
+        }
+
+        public void Show(GameObject target, Vector2 pos, Vector2 offset2)
+        {
+            _target = target;
+            _offset = pos;
+            _offset2 = offset2;
+
+            this.SetScaleXY(1f, 1f);
+            this.alpha = 1;
+            DrawableTweener.TweenScale(this, Vector2.one, Vector2.one * 2, 400, () =>
+            {
+                parent?.RemoveChild(this);
+                _target = null;
+            });
+        }
+
+        void Update()
+        {
+            if (!Enabled || _target == null) return;
+
+            SetXY(_target.x + _offset.x + _offset2.x, _target.y + _offset.y + _offset2.y);
         }
     }
 }

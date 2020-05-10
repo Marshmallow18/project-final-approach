@@ -24,7 +24,7 @@ namespace GXPEngine
 		{
 		}
 
-		public LineSegment (Vec2 pStart, Vec2 pEnd, uint pColor = 0xffffffff, uint pLineWidth = 1, bool pGlobalCoords = false)
+		public LineSegment (Vec2 pStart, Vec2 pEnd, uint pColor = 0xffffffff, uint pLineWidth = 1, bool pGlobalCoords = false) : base(false)
 		{
 			start = pStart;
 			end = pEnd;

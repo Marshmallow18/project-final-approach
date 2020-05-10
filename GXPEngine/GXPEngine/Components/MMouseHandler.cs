@@ -77,17 +77,19 @@ namespace GXPEngine
 		void HandleOnStep ()
 		{
 			//mouse can enter/leave target without moving (the target may move!)
-			bool isOnTarget = _target.HitTestPoint (Input.mouseX, Input.mouseY);
-			if (isOnTarget  && !_wasOnTarget) {
-				if (OnMouseOverTarget != null) OnMouseOverTarget (_target, MouseEventType.MouseOverTarget);
-			} else if (!isOnTarget  && _wasOnTarget) {
-				if (OnMouseOffTarget != null) OnMouseOffTarget (_target, MouseEventType.MouseOffTarget);
+			bool isOnTarget = _target.HitTestPoint (MyGame.WorldMousePosition.x, MyGame.WorldMousePosition.y);
+			if (isOnTarget  && !_wasOnTarget)
+			{
+				OnMouseOverTarget?.Invoke (_target, MouseEventType.MouseOverTarget);
+			} else if (!isOnTarget  && _wasOnTarget)
+			{
+				OnMouseOffTarget?.Invoke (_target, MouseEventType.MouseOffTarget);
 			}
 
 			//did we just press the mouse down?
 			if (!_wasMouseDown && Input.GetMouseButton (0)) {
-				if (OnMouseDown != null) OnMouseDown(_target, MouseEventType.MouseDown);
-				if (isOnTarget  && OnMouseDownOnTarget != null) OnMouseDownOnTarget(_target, MouseEventType.MouseDownOnTarget);
+				OnMouseDown?.Invoke(_target, MouseEventType.MouseDown);
+				if (isOnTarget) OnMouseDownOnTarget?.Invoke(_target, MouseEventType.MouseDownOnTarget);
 				_wasMouseDown = true;
 				_wasMouseDownOnTarget = isOnTarget;
 
@@ -96,9 +98,9 @@ namespace GXPEngine
 				_offset.y = _offset.y - Input.mouseY;
 
 			} else if (_wasMouseDown && !Input.GetMouseButton (0)) {
-				if (OnMouseUp != null) OnMouseUp(_target, MouseEventType.MouseUp);
-				if (isOnTarget && OnMouseUpOnTarget != null) OnMouseUpOnTarget(_target, MouseEventType.MouseUpOnTarget);
-				if (isOnTarget && _wasMouseDownOnTarget && OnMouseClick != null) OnMouseClick (_target, MouseEventType.MouseClick);
+				OnMouseUp?.Invoke(_target, MouseEventType.MouseUp);
+				if (isOnTarget) OnMouseUpOnTarget?.Invoke(_target, MouseEventType.MouseUpOnTarget);
+				if (isOnTarget && _wasMouseDownOnTarget) OnMouseClick?.Invoke (_target, MouseEventType.MouseClick);
 
 				_wasMouseDown = false;
 				_wasMouseDownOnTarget = false;
@@ -109,7 +111,7 @@ namespace GXPEngine
 				_lastX = Input.mouseX;
 				_lastY = Input.mouseY;
 				if (OnMouseMove != null) OnMouseMove (_target, MouseEventType.MouseMove);
-				if (isOnTarget && OnMouseMoveOnTarget != null) OnMouseMoveOnTarget(_target, MouseEventType.MouseMoveOnTarget);
+				if (isOnTarget) OnMouseMoveOnTarget?.Invoke(_target, MouseEventType.MouseMoveOnTarget);
 			}
 
 			_wasOnTarget = isOnTarget;

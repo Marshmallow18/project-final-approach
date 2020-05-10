@@ -1,29 +1,33 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Runtime.CompilerServices;
+using GXPEngine.Core;
 
 namespace GXPEngine
 {
     public static class DrawableTweener
     {
-        public static void TweenColorAlpha(IHasColor hasColor, float from, float to, int duration, ITweener tweener)
+        public delegate void OnFinished();
+
+        public static void TweenColorAlpha(IHasColor hasColor, float from, float to, int duration,
+            OnFinished onFinished)
         {
-            TweenColorAlpha(hasColor, from, to, duration, Easing.Equation.Linear, 0, tweener);
+            TweenColorAlpha(hasColor, from, to, duration, Easing.Equation.Linear, 0, onFinished);
         }
 
         public static void TweenColorAlpha(IHasColor hasColor, float from, float to, int duration,
             Easing.Equation easing,
-            int delay = 0, ITweener tweener = null)
+            int delay = 0, OnFinished onFinished = null)
         {
             CoroutineManager.StartCoroutine(
-                TweenColorAlphaRoutine(hasColor, from, to, duration, easing, delay, tweener), null);
+                TweenColorAlphaRoutine(hasColor, from, to, duration, easing, delay, onFinished), null);
         }
 
         static IEnumerator TweenColorAlphaRoutine(IHasColor hasColor, float from, float to, int duration,
             Easing.Equation easing,
-            int delay = 0, ITweener tweener = null)
+            int delay = 0, OnFinished onFinished = null)
         {
             if (delay > 0)
             {
@@ -68,25 +72,23 @@ namespace GXPEngine
                 }
             }
 
-            if (tweener != null)
-            {
-                tweener.OnTweenEnd(hasColor);
-            }
+            onFinished?.Invoke();
         }
 
-        public static void TweenSpriteAlpha(Sprite s, float from, float to, int duration, ITweener tweener)
+        public static void TweenSpriteAlpha(Sprite s, float from, float to, int duration, OnFinished onFinished)
         {
-            TweenSpriteAlpha(s, from, to, duration, Easing.Equation.Linear, 0, tweener);
+            TweenSpriteAlpha(s, from, to, duration, Easing.Equation.Linear, 0, onFinished);
         }
 
         public static void TweenSpriteAlpha(Sprite s, float from, float to, int duration, Easing.Equation easing,
-            int delay = 0, ITweener tweener = null)
+            int delay = 0, OnFinished onFinished = null)
         {
-            CoroutineManager.StartCoroutine(TweenSpriteAlphaRoutine(s, from, to, duration, easing, delay, tweener), null);
+            CoroutineManager.StartCoroutine(TweenSpriteAlphaRoutine(s, from, to, duration, easing, delay, onFinished),
+                null);
         }
 
         static IEnumerator TweenSpriteAlphaRoutine(Sprite s, float from, float to, int duration, Easing.Equation easing,
-            int delay = 0, ITweener tweener = null)
+            int delay = 0, OnFinished onFinished = null)
         {
             if (delay > 0)
             {
@@ -97,6 +99,7 @@ namespace GXPEngine
             float time = 0;
             s.alpha = from;
             var childs = s.GetChildren();
+
             for (int i = 0; i < childs.Count; i++)
             {
                 if (childs[i] is Sprite)
@@ -107,26 +110,85 @@ namespace GXPEngine
 
             while (time < durationF)
             {
-                s.alpha = Easing.Ease(easing, time, from, to,  durationF);
-                //Console.WriteLine($"{s.name} - alpha: {s.alpha}");
+                float easeVal = Easing.Ease(easing, time, 0, 1, durationF);
+                float easeValMap = Mathf.Map(easeVal, 0, 1, from, to);
+                s.alpha = easeValMap;
+                //Console.WriteLine($"{s.name} - alpha: {s.alpha:0.00} | from: {from} | to: {to} | {easeVal:0.00}");
 
                 for (int i = 0; i < childs.Count; i++)
                 {
                     if (childs[i] is Sprite)
                     {
-                        ((Sprite) childs[i]).alpha = Easing.Ease(easing, time, from, to, durationF);
+                        ((Sprite) childs[i]).alpha = easeValMap;
                     }
                 }
 
-                time += Time.deltaTime * 0.001f;
+                time += Time.delta;
 
                 yield return null;
             }
 
-            if (tweener != null)
+            onFinished?.Invoke();
+        }
+
+        public static void Blink(Sprite s, float from, float to, int duration)
+        {
+            BlinkOut(s, from, to, duration);
+        }
+        
+        static void BlinkIn(Sprite s, float from, float to, int duration)
+        {
+            DrawableTweener.TweenSpriteAlpha(s, from, to, duration, Easing.Equation.QuadEaseIn, 0, () => { BlinkOut(s, to, from, duration); });
+        }
+
+        static void BlinkOut(Sprite s, float from, float to, int duration)
+        {
+            DrawableTweener.TweenSpriteAlpha(s, from, to, duration, Easing.Equation.QuadEaseIn, 0, () => { BlinkIn(s, to, from, duration); });
+        }
+        
+        public static void TweenScale(GameObject g, Vector2 from, Vector2 to, int duration, OnFinished onFinished)
+        {
+            TweenScale(g, from, to, duration, Easing.Equation.Linear, 0, onFinished);
+        }
+
+        public static void TweenScale(GameObject g, Vector2 from, Vector2 to, int duration, Easing.Equation easing,
+            int delay = 0, OnFinished onFinished = null)
+        {
+            CoroutineManager.StartCoroutine(TweenSpriteScaleRoutine(g, from, to, duration, easing, delay, onFinished),
+                null);
+        }
+
+        static IEnumerator TweenSpriteScaleRoutine(GameObject g, Vector2 from, Vector2 to, int duration,
+            Easing.Equation easing,
+            int delay = 0, OnFinished onFinished = null)
+        {
+            if (delay > 0)
             {
-                tweener.OnTweenEnd(s);
+                yield return new WaitForMilliSeconds(delay);
             }
+
+            float durationF = duration * 0.001f;
+            float time = 0;
+            g.SetScaleXY(from.x, from.y);
+
+            while (time < durationF)
+            {
+                float easeVal = Easing.Ease(easing, time, 0, 1, durationF);
+
+                float easeValMapX = Mathf.Map(easeVal, 0, 1, from.x, to.x);
+                float easeValMapY = Mathf.Map(easeVal, 0, 1, from.y, to.y);
+                
+                float scaleX = easeValMapX;
+                float scaleY = easeValMapY;
+
+                g.SetScaleXY(scaleX, scaleY);
+                
+                time += Time.delta;
+
+                yield return null;
+            }
+
+            onFinished?.Invoke();
         }
     }
 

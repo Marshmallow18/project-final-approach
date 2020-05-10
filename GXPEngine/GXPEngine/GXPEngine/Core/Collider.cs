@@ -4,10 +4,18 @@ namespace GXPEngine.Core
 {
 	public class Collider
 	{
+		protected bool _enabled = true;
+		
 		public Collider ()
 		{
 		}
-		
+
+		public bool Enabled
+		{
+			get => _enabled;
+			set => _enabled = value;
+		}
+
 		//------------------------------------------------------------------------------------------------------------------------
 		//														HitTest()
 		//------------------------------------------------------------------------------------------------------------------------		

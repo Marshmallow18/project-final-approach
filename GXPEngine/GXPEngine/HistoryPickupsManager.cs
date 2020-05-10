@@ -4,25 +4,27 @@ using System.Linq;
 
 namespace GXPEngine
 {
-    public class MemoriesManager : GameObject
+    public class HistoryPickupsManager : GameObject
     {
-        private Dictionary<string, HistoryPickUp> _memoriesMap;
+        private Dictionary<string, HistoryPickUp> _pickupsMap;
 
         private MapGameObject _map;
         private BaseLevel _level;
         
-        public MemoriesManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
+        public HistoryPickupsManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
         {
-            _memoriesMap = new Dictionary<string, HistoryPickUp>();
+            _pickupsMap = new Dictionary<string, HistoryPickUp>();
             _level = pLevel;
             _map = pMap;
 
-            var memoriesData = _map.ObjectGroups.SelectMany(og => og.Objects)
-                .Where(tileObj => !string.IsNullOrWhiteSpace(tileObj?.Name) && !string.IsNullOrWhiteSpace(tileObj?.Type) && tileObj?.Type.ToLower() == "memory");
+            var historicData = _map.ObjectGroups.SelectMany(og => og.Objects)
+                .Where(tileObj => tileObj?.Type.ToLower() == "history");
 
-            foreach (var memData in memoriesData)
+            foreach (var memData in historicData)
             {
-                AddMemoryToLevel(memData.Name, memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
+                string historyImageFileName = memData.GetStringProperty("history_image", "data/history images/No Image.png");
+                
+                AddHistoryPickupToLevel(memData.Name, historyImageFileName, memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
             }
             CoroutineManager.StartCoroutine(Start(), this);
         }
@@ -34,24 +36,33 @@ namespace GXPEngine
             {
                 yield return null;
             }
-
-            //_level.Player.objectsToCheck = _level.Player.objectsToCheck.Concat(_memoriesMap.Values).ToArray();
         }
 
-        void AddMemoryToLevel(string pName, float pX, float pY, float pRotation, float pWidth, float pHeight)
+        void AddHistoryPickupToLevel(string pName, string historyImageFileName, float pX, float pY, float pRotation, float pWidth, float pHeight)
         {
-            var memory = new HistoryPickUp("data/Memory Pickup.png", 1, 1)
+            string objUniqueName = pName.Trim();
+
+            int counter = 0;
+            while (_pickupsMap.ContainsKey(objUniqueName.ToLower()))
             {
-                name = pName.Trim()
-            };
-            _memoriesMap.Add(pName.Trim().ToLower(), memory);
+                objUniqueName = pName.Trim() + "_" + counter;
+                counter++;
+            }
             
-            _level.AddChild(memory);
-            memory.width = Mathf.Round(pWidth);
-            memory.height = Mathf.Round(pHeight);
-            memory.SetOrigin(0, memory.texture.height);
-            memory.rotation = pRotation;
-            memory.SetXY(pX, pY);
+            var history = new HistoryPickUp(historyImageFileName, "data/History Pickup.png", 1, 1)
+            {
+                name = objUniqueName
+            };
+            
+            
+            _pickupsMap.Add(objUniqueName.ToLower(), history);
+            
+            _level.AddChild(history);
+            history.width = Mathf.Round(pWidth);
+            history.height = Mathf.Round(pHeight);
+            history.SetOrigin(0, history.texture.height);
+            history.rotation = pRotation;
+            history.SetXY(pX, pY);
         }
     }
 }
