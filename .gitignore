@@ -1,8 +1,3 @@
-/GXPEngine/GXPEngine/bin/*
-!/GXPEngine/GXPEngine/bin/Debug
-/GXPEngine/GXPEngine/bin/Debug/*
-!/GXPEngine/GXPEngine/bin/Debug/data/
-!/GXPEngine/GXPEngine/bin/Debug/*.tmx
 
 GXPEngine/docs
 
