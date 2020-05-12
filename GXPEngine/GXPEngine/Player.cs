@@ -10,21 +10,21 @@ public class Player : Sprite
 {
     private Sprite _fog1;
     private AnimationSprite _animation, _fog2;
-    private int _timer, _timer2, _timer3, _frameUp = 0, _frameLeft = 4, _frameDown = 8, _frameRight = 12, _state;
-    private float _vSpeed, _hSpeed, _deceleration, _scale = 1.0f;
-    private Random _rand = new Random();
-    private bool _check_walk = false;
+    private int _timer, _timer2, _frameUp , _frameLeft, _frameDown, _frameRight, _state;
+    private float _vSpeed, _hSpeed, _deceleration;
+    private Random _rand;
     private float _currentSpeed;
     private float _walkSpeed = 2f;
     private float _runSpeed = 10f;
-    private bool _isRunning = false;
+    private bool _isRunning = false, _lampOpen = true;
     private bool _inputEnabled;
     public Vector2 lastPos;
+    public float oil = 100;
     
     public GameObject[] objectsToCheck;
 
     
-    public Player(bool pInputEnabled = true) : base("player base sprite.png")
+    public Player(bool pInputEnabled = true) : base("player_base_sprite.png")
     {
         objectsToCheck = new GameObject[0];
         _inputEnabled = pInputEnabled;
@@ -53,16 +53,19 @@ public class Player : Sprite
             return;
         
         lastPos = Position;
+
         Movement();
         Animation();
-        //LampFlicker();
+        LampFlicker();
         LampReduceLight();
 
         _fog2.x = -_fog2.width / 2 - 10;
         _fog2.y = -_fog2.height / 2 + 10;
+
+        oil = ((MyGame)game).GetOil();
     }
 
-    void Movement()
+    public void Movement()
     {
         if (_inputEnabled)
         {
@@ -112,7 +115,7 @@ public class Player : Sprite
         MoveUntilCollision(_hSpeed, _vSpeed, objectsToCheck);
     }
 
-    void Animation()
+    public void Animation()
     {
         if (_state == 0)
         {
@@ -205,39 +208,40 @@ public class Player : Sprite
 
         
     }
-    void LampFlicker()
+    public void LampFlicker()
     {
-        _timer2++;
-        if (_timer2 > 60)
+        if (_lampOpen)
         {
-            if (_rand.Next(10) == 1)
+            _timer2++;
+            if (_timer2 > 60)
             {
-                _fog2.SetFrame(1);
+                if (_rand.Next(10) == 1)
+                {
+                    _fog2.SetFrame(1);
+                }
+                else
+                {
+                    _fog2.SetFrame(0);
+                }
+                _timer2 = 0;
             }
-            if (_rand.Next(2) == 1)
-            {
-                _fog2.SetFrame(0);
-            }
-            _timer2 = 0;
         }
     }
 
-    void LampReduceLight()
+    public void LampReduceLight()
     {
-        _timer3++;
-        if(_timer3 > 120)
-        {
-            _scale -= 0.05f;
-            if (_scale > 0.5f)
+
+            if (oil > 30)
             {
-                _fog2.SetScaleXY(_scale, _scale);
+                _fog2.SetScaleXY(oil/100, oil/100);
+                _lampOpen = true;
             }
             else
             {
-                _fog2.NextFrame();
+                _fog2.SetFrame(1);
+                _lampOpen = false;
             }
-            _timer3 = 0;
-        }
+            
     }
 
     public void EnableRun(bool active)

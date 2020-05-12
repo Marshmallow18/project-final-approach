@@ -23,6 +23,9 @@ namespace GXPEngine
             
             var memoriesManager = new HistoryPickupsManager(_caveLevelMap, this);
             AddChild(memoriesManager);
+
+            var oilPickUpManager = new OilPickUpsManager(_caveLevelMap, this);
+            AddChild(oilPickUpManager);
             
             var particlesManager = new ParticleManager();
 

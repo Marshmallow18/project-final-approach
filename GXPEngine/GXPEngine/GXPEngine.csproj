@@ -111,6 +111,8 @@
     <Compile Include="GXPEngine\AddOns\Window.cs" />
     <Compile Include="GXPEngine\AddOns\EasyDraw.cs" />
     <Compile Include="GXPEngine\Core\Collision.cs" />
+    <Compile Include="OilPickUp.cs" />
+    <Compile Include="OilPickUpsManager.cs" />
     <Compile Include="ParticleManager.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>

@@ -50,6 +50,10 @@ public class MyGame : Game
 
     private GameHud _gameHud;
 
+    public float oil = 100f;
+
+    private int _timer;
+
     public MyGame() : base(SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN) // Create a window that's 800x600 and NOT fullscreen
     {
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
@@ -137,7 +141,7 @@ public class MyGame : Game
                              Vector2.up * (height / 2) * _cam.scaleY;
 
         _debugText.TextValue =
-            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}";
+            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
         _level?.Player?.EnableRun(Input.GetKey(Key.LEFT_SHIFT));
@@ -153,6 +157,8 @@ public class MyGame : Game
         }
         
         DebugDrawBoundBox.DrawBounds();
+
+        LampReduceLight();
     }
 
     private void ToogleDebug(Vector2 worldMousePos)
@@ -190,5 +196,25 @@ public class MyGame : Game
     static void Main() // Main() is the first method that's called when the program is run
     {
         new MyGame().Start(); // Create a "MyGame" and start it
+    }
+
+    public void SetOil(float value)
+    {
+        oil = value;
+    }
+
+    public float GetOil()
+    {
+        return oil;
+    }
+
+    public void LampReduceLight()
+    {
+        _timer++;
+        if(_timer>60)
+        {
+            oil--;
+            _timer = 0;
+        }
     }
 }
