@@ -36,7 +36,9 @@ public class Player : Sprite
         _inputEnabled = pInputEnabled;
         alpha = 0.0f;
 
-        _customColliderBounds = new Rectangle(-42, -15, 217 * _scale, 111 * _scale);
+        //Adjust a collider, based on a original image of 256x256
+        _customColliderBounds = new Rectangle(-217 * 0.5f * _scale, (-111 * 0.5f * _scale) + 20 * _scale, 217 * _scale,
+            111 * _scale);
 
         _animation = new AnimationSprite("walking_animation.png", 8, 3, -1, false, false);
         AddChild(_animation);
