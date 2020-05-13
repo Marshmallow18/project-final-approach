@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using GXPEngine;
 using GXPEngine.Core;
+using Rectangle = GXPEngine.Core.Rectangle;
 
 public class Player : Sprite
 {
@@ -20,23 +21,27 @@ public class Player : Sprite
     private bool _inputEnabled;
     public Vector2 lastPos;
     public float oil = 100;
-    
+
     public GameObject[] objectsToCheck;
 
+    private Rectangle _customColliderBounds;
 
-    public Player(bool pInputEnabled = true) : base("player base sprite.png")
-    
     public Player(bool pInputEnabled = true) : base("player_base_sprite.png")
     {
+        SetOriginToCenter();
+
         objectsToCheck = new GameObject[0];
         _inputEnabled = pInputEnabled;
 
-        _inputEnabled = pInputEnabled;       
+        _inputEnabled = pInputEnabled;
         alpha = 0.0f;
+
+        _customColliderBounds = new Rectangle(-42, -15, 217 * _scale, 111 * _scale);
 
         _animation = new AnimationSprite("walking_animation.png", 8, 3, -1, false, false);
         AddChild(_animation);
         _animation.SetScaleXY(_scale, _scale);
+        _animation.SetOriginToCenter();
 
         _fog1 = new Sprite("fog.png");
         AddChild(_fog1);
@@ -44,7 +49,6 @@ public class Player : Sprite
         _fog1.y = -_fog1.height / 2;
         _fog2 = new AnimationSprite("anim_fog.png", 2, 1);
         AddChild(_fog2);
-        _animation.SetOrigin(_animation.width / 2, 78);
 
         _deceleration = 0.9f;
         _currentSpeed = _walkSpeed;
@@ -67,7 +71,7 @@ public class Player : Sprite
         _fog2.x = -_fog2.width / 2 - 10;
         _fog2.y = -_fog2.height / 2 + 10;
 
-        oil = ((MyGame)game).GetOil();
+        oil = ((MyGame) game).GetOil();
     }
 
     public void Movement()
@@ -79,7 +83,6 @@ public class Player : Sprite
                 rotation = 0;
                 _vSpeed = -_currentSpeed;
                 _state = 1;
-
             }
 
 
@@ -95,7 +98,7 @@ public class Player : Sprite
                 rotation = 180;
                 _vSpeed = _currentSpeed;
                 _state = 1;
-            }        
+            }
 
             if (Input.GetKey(Key.D))
             {
@@ -104,7 +107,7 @@ public class Player : Sprite
                 _state = 1;
             }
 
-            if(Input.GetKey(Key.W) && Input.GetKey(Key.A))
+            if (Input.GetKey(Key.W) && Input.GetKey(Key.A))
             {
                 rotation = 315;
             }
@@ -153,10 +156,10 @@ public class Player : Sprite
             _timer++;
             if (_timer > 2)
             {
-
                 _frame++;
                 _timer = 0;
             }
+
             if (_frame > 18)
             {
                 _frame = 1;
@@ -165,6 +168,7 @@ public class Player : Sprite
 
         if (_state == 0) _animation.SetFrame(0);
     }
+
     public void LampFlicker()
     {
         if (_lampOpen)
@@ -180,6 +184,7 @@ public class Player : Sprite
                 {
                     _fog2.SetFrame(0);
                 }
+
                 _timer2 = 0;
             }
         }
@@ -187,23 +192,31 @@ public class Player : Sprite
 
     public void LampReduceLight()
     {
-
-            if (oil > 30)
-            {
-                _fog2.SetScaleXY(oil/100, oil/100);
-                _lampOpen = true;
-            }
-            else
-            {
-                _fog2.SetFrame(1);
-                _lampOpen = false;
-            }
-            
+        if (oil > 30)
+        {
+            _fog2.SetScaleXY(oil / 100, oil / 100);
+            _lampOpen = true;
+        }
+        else
+        {
+            _fog2.SetFrame(1);
+            _lampOpen = false;
+        }
     }
 
     public void EnableRun(bool active)
     {
         _currentSpeed = active ? _runSpeed : _walkSpeed;
+    }
+
+    public override Vector2[] GetExtents()
+    {
+        Vector2[] ret = new Vector2[4];
+        ret[0] = TransformPoint(_customColliderBounds.left, _customColliderBounds.top);
+        ret[1] = TransformPoint(_customColliderBounds.right, _customColliderBounds.top);
+        ret[2] = TransformPoint(_customColliderBounds.right, _customColliderBounds.bottom);
+        ret[3] = TransformPoint(_customColliderBounds.left, _customColliderBounds.bottom);
+        return ret;
     }
 
     public bool InputEnabled

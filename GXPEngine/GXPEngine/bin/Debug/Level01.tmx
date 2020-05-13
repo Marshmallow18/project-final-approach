@@ -191,6 +191,51 @@
  <objectgroup id="30" name="Misc Objects">
   <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="3637.33" y="2180.36" width="128" height="128"/>
  </objectgroup>
+ <objectgroup id="33" name="Oil Objects">
+  <object id="53" name="Oil Fixed" type="Oil" gid="73" x="320.848" y="3264" width="128" height="128"/>
+  <object id="54" name="Oil Fixed" type="Oil" gid="73" x="5560.24" y="1733.7" width="128" height="128"/>
+  <object id="55" name="Oil Fixed" type="Oil" gid="73" x="2805.7" y="421.576" width="128" height="128"/>
+  <object id="56" name="Oil Random 3" type="Oil" gid="72" x="1045.09" y="4694.3" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="58" name="Oil Random 3" type="Oil" gid="72" x="3123.88" y="3412.48" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="59" name="Oil Random 3" type="Oil" gid="72" x="4023.88" y="4045.82" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="60" name="Oil Random 3" type="Oil" gid="72" x="4917.82" y="3624.61" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="3"/>
+   </properties>
+  </object>
+  <object id="61" name="Oil Random 2" type="Oil" gid="72" x="5020.85" y="2024.61" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="62" name="Oil Random 2" type="Oil" gid="72" x="3899.64" y="1300.36" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="2"/>
+   </properties>
+  </object>
+  <object id="63" name="Oil Random 1" type="Oil" gid="72" x="2342.06" y="1836.73" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="1"/>
+   </properties>
+  </object>
+  <object id="66" name="Oil Random 1" type="Oil" gid="72" x="1405.7" y="3051.88" width="128" height="128">
+   <properties>
+    <property name="Spawn related to 1/2/3 :" type="int" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="31" name="FlashBack Triggers Objects">
   <object id="34" name="Flashback 1" type="Flashback" gid="74" x="3794" y="2228" width="522" height="414">
    <properties>
@@ -224,7 +269,7 @@ Donec orci massa, vestibulum sed ligula nec, tempor volutpat nulla. Integer cond
   </object>
   <object id="38" name="Flashback 5" type="Flashback" gid="74" x="1391.73" y="2264.03" width="580.182" height="506.485"/>
  </objectgroup>
- <objectgroup id="33" name="Flashback Pickups">
+ <objectgroup id="34" name="Flashback Pickups">
   <object id="44" name="Flashback Pickup 1" type="FlashbackPickup" gid="86" x="3984.48" y="2060.97" width="128" height="128"/>
   <object id="45" name="Flashback Pickup 2" type="FlashbackPickup" gid="86" x="4166.3" y="3136" width="128" height="128"/>
   <object id="46" name="Flashback Pickup 3" type="FlashbackPickup" gid="86" x="2617.82" y="2566.3" width="128" height="128"/>

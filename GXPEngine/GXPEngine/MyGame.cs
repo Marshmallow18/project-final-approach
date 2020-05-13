@@ -54,12 +54,11 @@ public class MyGame : Game
 
     private GameHud _gameHud;
 
-    public MyGame() :
-        base(SCREEN_WIDTH, SCREEN_HEIGHT,
-            Settings.FullScreen) // Create a window that's 800x600 and NOT fullscreen
     public float oil = 100f;
 
     private int _timer;
+
+    public MyGame() : base(SCREEN_WIDTH, SCREEN_HEIGHT, Settings.FullScreen) // Create a window that's 800x600 and NOT fullscreen
     {
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
@@ -119,6 +118,10 @@ public class MyGame : Game
 
         _gameHud.Destroy();
         _level.Destroy();
+
+        GameHud.Instance = null;
+        FlashbackPickupsManager.Instance = null;
+        FlashbackManager.Instance = null;
 
         LoadLevel(_caveLevelMap);
     }
@@ -226,7 +229,7 @@ public class MyGame : Game
     public void LampReduceLight()
     {
         _timer++;
-        if(_timer>60)
+        if (_timer > 60)
         {
             oil--;
             _timer = 0;

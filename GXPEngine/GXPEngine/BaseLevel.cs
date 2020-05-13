@@ -39,7 +39,7 @@ namespace GXPEngine
             var particlesManager = new ParticleManager();
 
             _player = new Player();
-            _player.SetOrigin(_player.width / 2, 78);
+            //_player.SetOrigin(_player.width / 2, 78);
             AddChild(_player);
 
             var spawnPoint = GetPlayerSpawnPoint();

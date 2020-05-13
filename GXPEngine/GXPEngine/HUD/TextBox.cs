@@ -26,11 +26,12 @@ namespace GXPEngine.HUD
 
         private bool _showPressAnyKeyToNext = true;
         private EasyDraw _pressAnyKeyMsg;
-        
+
         public delegate void OnFinished();
 
         public TextBox(string pText, int pWidth, int pHeight, uint pTextColor = 0xffffffff, uint pBgColor = 0xff050505,
-            uint pBorderColor = 0xffffffff, float pBorderWeight = 1, bool addCollider = false) : base(pWidth, pHeight, addCollider)
+            uint pBorderColor = 0xffffffff, float pBorderWeight = 1, bool addCollider = false) : base(pWidth, pHeight,
+            addCollider)
         {
             _bgColor = Color.FromArgb((int) pBgColor);
             _textColor = Color.FromArgb((int) pTextColor);
@@ -58,7 +59,8 @@ namespace GXPEngine.HUD
             _easy.TextAlign(CenterMode.Min, CenterMode.Min);
             _easy.Text(_textToShow, _paddingX, _paddingY);
 
-            _pressAnyKeyMsg.visible = _showPressAnyKeyToNext;
+            if (_pressAnyKeyMsg != null)
+                _pressAnyKeyMsg.visible = _showPressAnyKeyToNext;
         }
 
         string WrappedText(out int numOfLines)
@@ -95,7 +97,7 @@ namespace GXPEngine.HUD
 
         public void CentralizeHorizontal()
         {
-            this.x = game.width / 2f- this.Width / 2f;
+            this.x = game.width / 2f - this.Width / 2f;
         }
 
         public void CenterOnBottom()
@@ -178,7 +180,7 @@ namespace GXPEngine.HUD
 
             _text = text;
             _textToShow = _text;
-            
+
             yield return null;
 
             while (waitAnyKetToClose && !Input.GetAnyKeyDown())
@@ -197,7 +199,7 @@ namespace GXPEngine.HUD
             _pressAnyKeyMsg.Text("Press any key to next", 0, 15);
             _pressAnyKeyMsg.SetXY(Width - _pressAnyKeyMsg.width, Height - _pressAnyKeyMsg.height - _paddingY);
         }
-        
+
         public int Height => _easy.height;
         public float Width => _easy.width;
 
