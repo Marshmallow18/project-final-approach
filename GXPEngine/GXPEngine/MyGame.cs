@@ -16,19 +16,12 @@ public class MyGame : Game
 {
     public static bool Debug;
 
-#if true
-    public const int SCREEN_WIDTH = 1280; //1920
-    public const int SCREEN_HEIGHT = 720; //1080
-    public const bool FULLSCREEN = false;
+    //Defined in void Main()
+    public static int SCREEN_WIDTH;
+    public static int SCREEN_HEIGHT;
 
-#else
-    public const int SCREEN_WIDTH = 1920;
-    public const int SCREEN_HEIGHT = 1080;
-    public const bool FULLSCREEN = true;
-#endif
-
-    public static int HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
-    public static int HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
+    public static int HALF_SCREEN_WIDTH;
+    public static int HALF_SCREEN_HEIGHT;
 
     private CaveLevelMapGameObject _caveLevelMap;
 
@@ -38,27 +31,43 @@ public class MyGame : Game
     public static FollowCamera Cam;
 
     public static Vector2 WorldMousePosition;
-    
+
     private FpsCounter _fpsCounter;
+
+    public static int[] Keys_Used = new int[]
+    {
+        Key.O,
+        Key.R,
+        Key.E,
+        Key.C,
+        Key.U
+    };
+
+    public static int AlphaTweenDuration;
 
     /// <summary>
     /// Debug GameObjects
     /// </summary>
-    private TextBox _debugText;
+    private DebugTextBox _debugText;
 
     private CircleGameObject _circleGo;
 
     private GameHud _gameHud;
 
-    public MyGame() : base(SCREEN_WIDTH, SCREEN_HEIGHT, FULLSCREEN) // Create a window that's 800x600 and NOT fullscreen
+    public MyGame() :
+        base(SCREEN_WIDTH, SCREEN_HEIGHT,
+            Settings.FullScreen) // Create a window that's 800x600 and NOT fullscreen
+    public float oil = 100f;
+
+    private int _timer;
     {
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
         var caveLevelMap = new CaveLevelMapGameObject(mapData);
-        
+
         _cam = new FollowCamera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         Cam = _cam;
-        
+
         LoadLevel(caveLevelMap);
 
         //Debug
@@ -71,7 +80,7 @@ public class MyGame : Game
         _fpsCounter = new FpsCounter();
         AddChild(_fpsCounter);
 
-        _debugText = new TextBox("Hello World", width, 50);
+        _debugText = new DebugTextBox("Hello World", width, 50);
         _cam.AddChild(_debugText);
         _debugText.x = -SCREEN_WIDTH / 2;
         _debugText.y = -SCREEN_HEIGHT / 2;
@@ -96,7 +105,7 @@ public class MyGame : Game
         {
             DebugDrawBoundBox.AddSprite((Sprite) sprite);
         }
-        
+
         foreach (var sprite in _gameHud.GetChildrenRecursive().Where(s => s is Sprite))
         {
             DebugDrawBoundBox.AddSprite((Sprite) sprite);
@@ -110,10 +119,10 @@ public class MyGame : Game
 
         _gameHud.Destroy();
         _level.Destroy();
-        
+
         LoadLevel(_caveLevelMap);
     }
-    
+
     void Update()
     {
         CoroutineManager.Tick(Time.deltaTime);
@@ -127,7 +136,7 @@ public class MyGame : Game
         {
             this._glContext.Close();
         }
-        
+
         /*
          * DEBUG
          */
@@ -137,11 +146,11 @@ public class MyGame : Game
                              Vector2.up * (height / 2) * _cam.scaleY;
 
         _debugText.TextValue =
-            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}";
+            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
         _level?.Player?.EnableRun(Input.GetKey(Key.LEFT_SHIFT));
-        
+
         if (Input.GetKeyDown(Key.U))
         {
             ToogleDebug(WorldMousePosition);
@@ -151,8 +160,10 @@ public class MyGame : Game
         {
             ParticleManager.Instance.PlayCoinsExplosion(_level.Player);
         }
-        
+
         DebugDrawBoundBox.DrawBounds();
+
+        LampReduceLight();
     }
 
     private void ToogleDebug(Vector2 worldMousePos)
@@ -189,6 +200,36 @@ public class MyGame : Game
 
     static void Main() // Main() is the first method that's called when the program is run
     {
+        Settings.Load();
+
+        SCREEN_WIDTH = Settings.ScreenResolutionX;
+        SCREEN_HEIGHT = Settings.ScreenResolutionY;
+
+        HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
+        HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
+
+        AlphaTweenDuration = Settings.Default_AlphaTween_Duration;
+
         new MyGame().Start(); // Create a "MyGame" and start it
+    }
+
+    public void SetOil(float value)
+    {
+        oil = value;
+    }
+
+    public float GetOil()
+    {
+        return oil;
+    }
+
+    public void LampReduceLight()
+    {
+        _timer++;
+        if(_timer>60)
+        {
+            oil--;
+            _timer = 0;
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace GXPEngine
         {
             _map = pMap;
 
-            CoroutineManager.StartCoroutine(WaitForMapAssign(), this);
+            CoroutineManager.StartCoroutine(WaitForMapAssign(), game);
 
             Enabled = false;
         }

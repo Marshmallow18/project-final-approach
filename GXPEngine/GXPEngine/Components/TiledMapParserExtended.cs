@@ -405,10 +405,19 @@ namespace TiledMapParserExtended
     [XmlRootAttribute("property")]
     public class Property
     {
-        [XmlAttribute("name")] public string Name;
+        [XmlAttribute("name")] public string Name = "";
         [XmlAttribute("type")] public string Type = "string";
-        [XmlAttribute("value")] public string Value;
+        [XmlText] public string innerXML = "";
 
+        private string _value;
+        
+        [XmlAttribute("value")]
+        public string Value
+        {
+            get { return _value == null && !string.IsNullOrEmpty( innerXML) ? innerXML : _value; }
+            set { _value = value; }
+        }
+        
         public override string ToString()
         {
             return "Property: Name: " + Name + " Type: " + Type + " Value: " + Value + "\n";

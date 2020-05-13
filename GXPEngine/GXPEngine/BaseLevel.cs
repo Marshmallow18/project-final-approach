@@ -23,6 +23,18 @@ namespace GXPEngine
             
             var memoriesManager = new HistoryPickupsManager(_caveLevelMap, this);
             AddChild(memoriesManager);
+
+            var oilPickUpManager = new OilPickUpsManager(_caveLevelMap, this);
+            AddChild(oilPickUpManager);
+            
+            var flashbacksTriggerManager = new FlashBackTriggersManager(_caveLevelMap, this);
+            AddChild(flashbacksTriggerManager);
+
+            var flashbackPickupsManager = new FlashbackPickupsManager(_caveLevelMap, this);
+            AddChild(flashbackPickupsManager);
+            
+            var flashbacksManager = new FlashbackManager(this, flashbacksTriggerManager.FlashTriggersMap.Count);
+            AddChild(flashbacksManager);
             
             var particlesManager = new ParticleManager();
 
@@ -41,6 +53,9 @@ namespace GXPEngine
             
             _playerCollision = new PlayerCollision(_player, _caveLevelMap, _cam);
             AddChild(_playerCollision);
+            
+            // var fogsystem = new FogSystemManager(_cam, _player);
+            // AddChild(fogsystem);
         }
 
         private Vector2 GetPlayerSpawnPoint()
@@ -66,6 +81,12 @@ namespace GXPEngine
         {
             get => _playerCollision;
             set => _playerCollision = value;
+        }
+
+        public CaveLevelMapGameObject LevelMap
+        {
+            get => _caveLevelMap;
+            set => _caveLevelMap = value;
         }
 
         void Update()

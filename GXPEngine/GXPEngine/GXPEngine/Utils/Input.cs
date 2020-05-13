@@ -1,5 +1,6 @@
 using System;
 using GXPEngine.Core;
+using GXPEngine.OpenGL;
 
 namespace GXPEngine
 {
@@ -26,6 +27,11 @@ namespace GXPEngine
 		/// </param>
 		public static bool GetKeyDown(int key) {
 			return GLContext.GetKeyDown(key);
+		}
+		
+		public static bool GetAnyKeyDown(params int[] except)
+		{
+			return GLContext.KeyDown > -1 && Array.IndexOf(except, GLContext.KeyDown) == -1;
 		}
 		
 		/// <summary>

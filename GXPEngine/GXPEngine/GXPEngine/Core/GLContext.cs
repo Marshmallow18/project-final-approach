@@ -38,6 +38,9 @@ namespace GXPEngine.Core {
 		private static double _realToLogicWidthRatio;
 		private static double _realToLogicHeightRatio;
 
+		public static int KeyDown;
+		public static int FrameCount;
+
 		//------------------------------------------------------------------------------------------------------------------------
 		//														RenderWindow()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -95,7 +98,11 @@ namespace GXPEngine.Core {
 			GL.glfwSetKeyCallback(
 				(int _key, int _mode) => {
 				bool press = (_mode == 1);
-				if (press) keydown[_key] = true;
+				if (press)
+				{
+					keydown[_key] = true;
+					KeyDown = _key;
+				}
 				else keyup[_key] = true;
 				keys[_key] = press;
 			});
@@ -197,17 +204,19 @@ namespace GXPEngine.Core {
 					
 					//actual fps count tracker
 					_frameCount++;
+					FrameCount = _frameCount;
 					if (Time.time - _lastFPSTime > 1000) {
 						_lastFPS = (int)(_frameCount / ((Time.time -_lastFPSTime) / 1000.0f));
 						_lastFPSTime = Time.time;
 						_frameCount = 0;
+						FrameCount = _frameCount;
 					}
-					
+
 					UpdateMouseInput();
 					_owner.Step();
                     _soundSystem.Step();
-					
-					ResetHitCounters();
+                    
+                    ResetHitCounters();
 					Display();
 					
 					Time.newFrame ();
@@ -319,6 +328,8 @@ namespace GXPEngine.Core {
 			Array.Clear (keyup, 0, MAXKEYS);
 			Array.Clear (mousehits, 0, MAXBUTTONS);
 			Array.Clear (mouseup, 0, MAXBUTTONS);
+			
+			KeyDown = -1;
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
@@ -344,7 +355,6 @@ namespace GXPEngine.Core {
 				}
 			}
 		}
-		
 	}	
 	
 }

@@ -33,13 +33,13 @@ namespace GXPEngine.HUD
         public void EnableIndicator()
         {
             _onIndicatorSprite.visible = true;
-            DrawableTweener.TweenSpriteAlpha(_onIndicatorSprite, 0, 1, 1000, Easing.Equation.ElasticEaseOut, 0,
+            DrawableTweener.TweenSpriteAlpha(_onIndicatorSprite, 0, 1, MyGame.AlphaTweenDuration, Easing.Equation.ElasticEaseOut, 0,
                 () => { });
         }
 
         public void DisableIndicator()
         {
-            DrawableTweener.TweenSpriteAlpha(_onIndicatorSprite, 1, 0, 500, Easing.Equation.QuadEaseOut, 0,
+            DrawableTweener.TweenSpriteAlpha(_onIndicatorSprite, 1, 0, MyGame.AlphaTweenDuration, Easing.Equation.QuadEaseOut, 0,
                 () => { _onIndicatorSprite.visible = false; });
         }
     }

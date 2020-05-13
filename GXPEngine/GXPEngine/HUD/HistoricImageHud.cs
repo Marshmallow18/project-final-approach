@@ -17,7 +17,7 @@ namespace GXPEngine.HUD
             _mainImage = new Sprite(historyFileName, true, false);
             AddChild(_mainImage);
 
-            _mainImage.scale = 0.5f;
+            //_mainImage.scale = 0.5f;
             _mainImage.SetOriginToCenter();
             _mainImage.SetXY(MyGame.HALF_SCREEN_WIDTH, MyGame.HALF_SCREEN_HEIGHT);
             
@@ -28,7 +28,7 @@ namespace GXPEngine.HUD
             AddChild(textBg);
             textBg.SetXY(0, game.height - 30);
             
-            var pressToContinueText = new TextBox("Press Esc to continue", game.width, 30, 0xffffff, 0x00010101,
+            var pressToContinueText = new DebugTextBox("Press Esc to continue", game.width, 30, 0xffffff, 0x00010101,
                 CenterMode.Center, CenterMode.Center);
             AddChild(pressToContinueText);
             pressToContinueText.SetXY(0, game.height - 30);

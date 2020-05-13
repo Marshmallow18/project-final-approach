@@ -26,26 +26,26 @@ public static class CoroutineManager
 
     public static IEnumerator StartCoroutine(IEnumerator ie, GameObject invoker)
     {
+        if (invoker != null)
+        {
+            routinesInvokerMap.Add(ie, invoker);
+
+            if (invokersMap.ContainsKey(invoker))
+            {
+                invokersMap[invoker].Add(ie);
+            }
+            else
+            {
+                var ieList = new HashSet<IEnumerator>(5)
+                {
+                    ie
+                };
+                invokersMap.Add(invoker, ieList);
+            }
+        }
+        
         if (_isIterating)
         {
-            if (invoker != null)
-            {
-                routinesInvokerMap.Add(ie, invoker);
-
-                if (invokersMap.ContainsKey(invoker))
-                {
-                    invokersMap[invoker].Add(ie);
-                }
-                else
-                {
-                    var ieList = new HashSet<IEnumerator>(5)
-                    {
-                        ie
-                    };
-                    invokersMap.Add(invoker, ieList);
-                }
-            }
-
             ie.MoveNext();
             routinesToAdd.Add(ie);
         }

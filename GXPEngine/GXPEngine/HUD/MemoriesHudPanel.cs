@@ -6,7 +6,7 @@
 
         public MemoriesHudPanel() : base("data/Hud Memories Panel.png", true, false)
         {
-            _indicatorPanels = new MemoryIndicatorPanel[6];
+            _indicatorPanels = new MemoryIndicatorPanel[5];
 
             for (int i = 0; i < _indicatorPanels.Length; i++)
             {

@@ -22,7 +22,7 @@ namespace GXPEngine
 
             foreach (var memData in historicData)
             {
-                string historyImageFileName = memData.GetStringProperty("history_image", "data/history images/No Image.png");
+                string historyImageFileName = memData.GetStringProperty("history_image", "data/No Image.png");
                 
                 AddHistoryPickupToLevel(memData.Name, historyImageFileName, memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
             }

@@ -396,6 +396,11 @@ namespace GXPEngine
 			}
 		}
 		
+		/// <summary>
+		/// Expensive, do not use in Update methods
+		/// </summary>
+		/// <param name="safe"></param>
+		/// <returns></returns>
 		public List<GameObject> GetChildrenRecursive(bool safe=true) {
 			
 			var childs = GetChildren();

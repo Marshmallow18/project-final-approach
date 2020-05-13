@@ -4,6 +4,9 @@ using GXPEngine.Core;
 
 namespace GXPEngine
 {
+    /// <summary>
+    /// Imported from previous project Team 23 - Storks - 2020 (Leao Victor - CMGT ECM1V.ec)
+    /// </summary>
     public class ParticleManager : GameObject
     {
         public static ParticleManager Instance;
@@ -93,9 +96,9 @@ namespace GXPEngine
 
         public void PlayCoinsExplosion(GameObject target)
         {
-            CoroutineManager.StopCoroutine(_cartoonCoinsExplosionRoutine);
+            //CoroutineManager.StopCoroutine(_cartoonCoinsExplosionRoutine);
 
-            _cartoonCoinsExplosionRoutine =
+            //_cartoonCoinsExplosionRoutine =
                 CoroutineManager.StartCoroutine(PlayCoinsExplosionRoutine(target, 0, 0), this);
         }
 

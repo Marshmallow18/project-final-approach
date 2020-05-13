@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace GXPEngine.Components
 {
-    public class TextBox : EasyDraw
+    public class DebugTextBox : EasyDraw
     {
         private string _textValue;
         private Color _bgColor;
@@ -14,7 +14,7 @@ namespace GXPEngine.Components
 
         private float _textSize;
         
-        public TextBox(string pText, int pWidth, int pHeight, uint textColor = 0xffffffff, uint bgColor = 0xff000000, CenterMode hor = CenterMode.Min, CenterMode ver = CenterMode.Center, bool addCollider = false) : base(pWidth, pHeight, addCollider)
+        public DebugTextBox(string pText, int pWidth, int pHeight, uint textColor = 0xffffffff, uint bgColor = 0xff000000, CenterMode hor = CenterMode.Min, CenterMode ver = CenterMode.Center, bool addCollider = false) : base(pWidth, pHeight, addCollider)
         {
             _bgColor = Color.FromArgb((int)bgColor);
             _color = Color.FromArgb((int)textColor);

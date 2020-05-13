@@ -41,7 +41,7 @@ namespace GXPEngine
 
             var c = _walkableImageLayer.GetPixelFromWorldPos(pos);
 
-            return c.ToArgb() == Color.White.ToArgb();
+            return c.ToArgb() != Color.Black.ToArgb();
         }
 
         public Vector2 GetCollisionPOI(Vector2 pos, Vector2 lastPos)

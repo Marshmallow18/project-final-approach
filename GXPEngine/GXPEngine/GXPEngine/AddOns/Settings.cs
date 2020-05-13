@@ -24,7 +24,7 @@ namespace GXPEngine {
 	{
 		// Settings that are related to this class and the parsing process:
 		public static string SettingsFileName = "settings.txt"; // should be in bin/Debug or bin/Release. Use "MySubFolder/settings.txt" for subfolders.
-		public static bool ShowSettingsParsing = false;  // If true, settings parsing progress is printed to console
+		public static bool ShowSettingsParsing = true;  // If true, settings parsing progress is printed to console
 		public static bool ThrowExceptionOnMissingSetting = true; 
 
 		// Resolution values - use these when creating a new MyGame instance:
@@ -71,6 +71,19 @@ namespace GXPEngine {
 		public static int Start2P=50;
 		// enter:
 		public static int Menu=294;
+		
+		//TextBox
+		public static int Flashbacks_TextBoxTweenSpeed = 80;
+
+		public static int Default_AlphaTween_Duration = 600;
+
+		public static string Textbox_Font = "Roboto";
+
+		public static string Message_To_Player_After_Collect_Flashbacks = "Message to player...";
+		public static float Textbox_Margin_Bottom = 30;
+
+		public static string Flashback_Triggers_Collected = "0";
+		public static string Flashback_Pickups_Collected = "0";
 
 		/// <summary>
 		/// Load new values from the file settings.txt
@@ -101,6 +114,12 @@ namespace GXPEngine {
 			string line = reader.ReadLine();
 			while (line != null)
 			{
+				if (string.IsNullOrWhiteSpace(line))
+				{
+					line = reader.ReadLine();
+					continue;
+				}
+
 				if (line.Length < 2 || line.Substring(0, 2) != "//")
 				{
 					if (ShowSettingsParsing) Console.WriteLine("Read a non-comment line: " + line);

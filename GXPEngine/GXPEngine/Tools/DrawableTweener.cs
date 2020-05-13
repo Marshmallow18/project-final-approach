@@ -75,6 +75,11 @@ namespace GXPEngine
             onFinished?.Invoke();
         }
 
+        public static void TweenSpriteAlpha(Sprite s, float from, float to, int duration, Easing.Equation easing = Easing.Equation.QuadEaseOut)
+        {
+            TweenSpriteAlpha(s, from, to, duration, easing, 0, null);
+        }
+        
         public static void TweenSpriteAlpha(Sprite s, float from, float to, int duration, OnFinished onFinished)
         {
             TweenSpriteAlpha(s, from, to, duration, Easing.Equation.Linear, 0, onFinished);
@@ -84,7 +89,7 @@ namespace GXPEngine
             int delay = 0, OnFinished onFinished = null)
         {
             CoroutineManager.StartCoroutine(TweenSpriteAlphaRoutine(s, from, to, duration, easing, delay, onFinished),
-                null);
+                s);
         }
 
         static IEnumerator TweenSpriteAlphaRoutine(Sprite s, float from, float to, int duration, Easing.Equation easing,
@@ -98,7 +103,7 @@ namespace GXPEngine
             float durationF = duration * 0.001f;
             float time = 0;
             s.alpha = from;
-            var childs = s.GetChildren();
+            var childs = s.GetChildrenRecursive();
 
             for (int i = 0; i < childs.Count; i++)
             {
@@ -113,7 +118,6 @@ namespace GXPEngine
                 float easeVal = Easing.Ease(easing, time, 0, 1, durationF);
                 float easeValMap = Mathf.Map(easeVal, 0, 1, from, to);
                 s.alpha = easeValMap;
-                //Console.WriteLine($"{s.name} - alpha: {s.alpha:0.00} | from: {from} | to: {to} | {easeVal:0.00}");
 
                 for (int i = 0; i < childs.Count; i++)
                 {
@@ -148,14 +152,14 @@ namespace GXPEngine
         
         public static void TweenScale(GameObject g, Vector2 from, Vector2 to, int duration, OnFinished onFinished)
         {
-            TweenScale(g, from, to, duration, Easing.Equation.Linear, 0, onFinished);
+            TweenScale(g, from, to, duration, Easing.Equation.QuadEaseOut, 0, onFinished);
         }
 
         public static void TweenScale(GameObject g, Vector2 from, Vector2 to, int duration, Easing.Equation easing,
             int delay = 0, OnFinished onFinished = null)
         {
             CoroutineManager.StartCoroutine(TweenSpriteScaleRoutine(g, from, to, duration, easing, delay, onFinished),
-                null);
+                g);
         }
 
         static IEnumerator TweenSpriteScaleRoutine(GameObject g, Vector2 from, Vector2 to, int duration,

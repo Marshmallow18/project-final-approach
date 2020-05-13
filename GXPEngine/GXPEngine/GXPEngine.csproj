@@ -54,7 +54,7 @@
     <Compile Include="Components\MMouseHandler.cs" />
     <Compile Include="Components\MVector2.cs" />
     <Compile Include="Components\NLineSegment.cs" />
-    <Compile Include="Components\TextBox.cs" />
+    <Compile Include="Components\DebugTextBox.cs" />
     <Compile Include="Components\TiledMapParserExtended.cs" />
     <Compile Include="Components\TmxFilesLoader.cs" />
     <Compile Include="Components\Vector2Int.cs" />
@@ -64,16 +64,26 @@
     <Compile Include="DoorTrigger.cs" />
     <Compile Include="Extensions\MathfExtensions.cs" />
     <Compile Include="Extensions\SpriteExtensions.cs" />
+    <Compile Include="FlashbackManager.cs" />
+    <Compile Include="FlashbackPickup.cs" />
+    <Compile Include="FlashbackPickupsManager.cs" />
+    <Compile Include="FlashBackTrigger.cs" />
+    <Compile Include="FlashBackTriggersManager.cs" />
+    <Compile Include="FogSystemManager.cs" />
     <Compile Include="FollowCamera.cs" />
     <Compile Include="GXPEngine\Core\SoundSystem.cs" />
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
+    <Compile Include="HUD\FlashBack Huds\FlashBackHud01.cs" />
+    <Compile Include="HUD\FlashbackCounterHudPanel.cs" />
+    <Compile Include="HUD\FlashBackHud.cs" />
     <Compile Include="HUD\HistoricImageHud.cs" />
     <Compile Include="HUD\GameHud.cs" />
     <Compile Include="HUD\HudPanel.cs" />
     <Compile Include="HUD\MemoriesHudPanel.cs" />
     <Compile Include="HUD\MemoryIndicatorPanel.cs" />
+    <Compile Include="HUD\TextBox.cs" />
     <Compile Include="IHasSpeed.cs" />
     <Compile Include="HistoryPickupsManager.cs" />
     <Compile Include="HistoryPickUp.cs" />
@@ -111,13 +121,17 @@
     <Compile Include="GXPEngine\AddOns\Window.cs" />
     <Compile Include="GXPEngine\AddOns\EasyDraw.cs" />
     <Compile Include="GXPEngine\Core\Collision.cs" />
+    <Compile Include="OilPickUp.cs" />
+    <Compile Include="OilPickUpsManager.cs" />
     <Compile Include="ParticleManager.cs" />
     <Compile Include="Player.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayerCollision.cs" />
+    <Compile Include="Test\Test1.cs" />
     <Compile Include="Tools\DebugDrawBoundBox.cs" />
     <Compile Include="Tools\DrawableTweener.cs" />
+    <Compile Include="Tools\GeneralTools.cs" />
     <Compile Include="Tools\MMathf.cs" />
     <Compile Include="Tools\MRandom.cs" />
     <Compile Include="Tools\StopWatchTool.cs" />
