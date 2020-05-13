@@ -13,15 +13,14 @@ namespace GXPEngine
 
         private string _oilImageFileName = "";
 
-        private int _oilType;
-
-        private int _numType;
+        public int _oilType;
 
         private bool _working = false;
 
         private Random _rand = new Random();
 
-        public OilPickUp(int newNumType, int newOilType, string poilImageFileName, string filename, int cols, int rows, int frames = -1, bool keepInCache = false,
+        
+        public OilPickUp( int newOilType, string poilImageFileName, string filename, int cols, int rows, int frames = -1, bool keepInCache = false,
             bool addCollider = true) : base(filename, cols, rows, frames, keepInCache, addCollider)
         {
             _oilImageFileName = poilImageFileName;
@@ -32,7 +31,6 @@ namespace GXPEngine
 
             _oilType = newOilType;
 
-            _numType = newNumType;
 
             //RandomizeSpawn(_oilType);
         }
@@ -49,38 +47,12 @@ namespace GXPEngine
           //  }
         }
 
-        public void RandomizeSpawn(int value)
-        {
-            if(value == 1)
-            {
-                if(_rand.Next(1, 2) == _numType)
-                {
-                    _working = true;
-                }
-            }
-
-            if(value == 2)
-            {
-                if (_rand.Next(1, 2) == _numType)
-                {
-                    _working = true;
-                }
-            }
-
-            if (value == 3)
-            {
-                if (_rand.Next(1, 4) == _numType)
-                {
-                    _working = true;
-                }
-            }
-        }
-
         public void OnCollision(GameObject any)
         {
             if(any is Player)
             {
                 ((MyGame)game).SetOil(max);
+                LateDestroy();
                 //_working = false;
             }
         }

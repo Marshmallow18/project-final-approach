@@ -11,9 +11,11 @@ namespace GXPEngine
         private MapGameObject _map;
         private BaseLevel _level;
 
+        
         public OilPickUpsManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
         {
             _pickupsMap = new Dictionary<string, OilPickUp>();
+
             _level = pLevel;
             _map = pMap;
 
@@ -23,8 +25,7 @@ namespace GXPEngine
             foreach (var memData in oilData)
             {
                 int oilType = memData.GetIntProperty("Spawn related to 1/2/3 :", 0);
-
-                int numType = memData.GetIntProperty("Number of type", 0);
+                int numType = memData.GetIntProperty("Number of type");
 
                 AddOilPickupToLevel(numType, oilType, memData.Name,"", memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
             }
@@ -51,13 +52,13 @@ namespace GXPEngine
                 counter++;
             }
 
-            var oil = new OilPickUp(numType, oilType, oilImageFileName, "data/Oil Pickup.png", 1, 1)
+            var oil = new OilPickUp( oilType, oilImageFileName, "data/Oil Pickup.png", 1, 1)
             {
                 name = objUniqueName
             };
 
 
-
+            //spawnOilPickup(oilType);
             _pickupsMap.Add(objUniqueName.ToLower(), oil);
 
             _level.AddChild(oil);
@@ -67,5 +68,18 @@ namespace GXPEngine
             oil.rotation = pRotation;
             oil.SetXY(pX, pY);
         }
+
+        private OilPickUp spawnOilPickup (int type)
+        {
+            List<OilPickUp> candidates = new List<OilPickUp>();
+            foreach (OilPickUp oilpickup in _pickupsMap.Values.ToList())
+            {
+                if (oilpickup._oilType == type) candidates.Add(oilpickup);
+            }
+
+            return candidates[Utils.Random(0, candidates.Count)];
+        }
+
+
     }
 }
