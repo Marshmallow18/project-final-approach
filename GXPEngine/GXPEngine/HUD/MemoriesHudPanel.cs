@@ -28,5 +28,21 @@
             _indicatorPanels[index].EnableIndicator();
             ParticleManager.Instance.PlayCoinsExplosion(_indicatorPanels[index], _indicatorPanels[index].height / 2f, _indicatorPanels[index].height / 2f);
         }
+
+        public void DisableIndicator(int index)
+        {
+            if (index < 0 || index >= _indicatorPanels.Length)
+                return;
+
+            _indicatorPanels[index].DisableIndicator();
+        }
+
+        public void DisableAllIndicators()
+        {
+            for (int i = 0; i < _indicatorPanels.Length; i++)
+            {
+                DisableIndicator(i);
+            }
+        }
     }
 }

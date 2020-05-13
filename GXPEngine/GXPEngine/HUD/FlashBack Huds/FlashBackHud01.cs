@@ -18,17 +18,25 @@ namespace GXPEngine.HUD.FlashBack_Huds
         private BaseLevel _level;
 
         public bool toDestroy;
-        
+
+        //Accelerate tweens to make it faster
+        private int _alphaTweenDuration = 1;
+        private int _textSpeed = 1;
+
         /// <summary>
         /// Loaded in Game Hud, all logic run as a sequence/routine in Start()
         /// </summary>
         /// <param name="flashBackName"></param>
         /// <param name="pWidth"></param>
         /// <param name="pHeight"></param>
-        public FlashBackHud01(string flashBackName, int pWidth, int pHeight) : base(flashBackName,
+        public FlashBackHud01(string flashBackName, int pWidth, int pHeight, bool speedUp) : base(flashBackName,
             pWidth, pHeight)
         {
             alpha = 0;
+
+            _alphaTweenDuration =
+                (speedUp) ? Settings.Default_AlphaTween_Duration / 6 : Settings.Default_AlphaTween_Duration;
+            _textSpeed = (speedUp) ? Settings.Flashbacks_TextBoxTweenSpeed * 10 : Settings.Flashbacks_TextBoxTweenSpeed;
 
             CoroutineManager.StartCoroutine(Start(), this);
         }
@@ -61,22 +69,20 @@ namespace GXPEngine.HUD.FlashBack_Huds
 
             _level.Player.InputEnabled = false;
 
-            yield return new WaitForMilliSeconds(MyGame.AlphaTweenDuration);
+            yield return new WaitForMilliSeconds(_alphaTweenDuration);
 
             //Create Sprites with the images
             _sprites = new Sprite[_imagesFiles.Length];
             for (int i = 0; i < _imagesFiles.Length; i++)
             {
                 string fileName = _imagesFiles[i];
-                string path = AppDomain.CurrentDomain.BaseDirectory;
-                string path2 = AppDomain.CurrentDomain.DynamicDirectory;
                 if (!File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, fileName)))
                 {
                     Console.WriteLine($"{this}: File '{_imagesFiles[i]}' not exists");
                     fileName = "data/No Image.png";
                 }
 
-                var s = new Sprite(fileName, false, false);
+                var s = new Sprite(fileName, true, false);
                 s.alpha = 0;
                 _sprites[i] = s;
             }
@@ -89,8 +95,8 @@ namespace GXPEngine.HUD.FlashBack_Huds
             AddChild(_textBox);
 
             //Fade in panel and its children
-            DrawableTweener.TweenSpriteAlpha(this, 0, 1, 1500, Easing.Equation.QuadEaseOut);
-            
+            DrawableTweener.TweenSpriteAlpha(this, 0, 1, _alphaTweenDuration, Easing.Equation.QuadEaseOut);
+
             for (int i = 0; i < _sprites.Length; i++)
             {
                 //Load first texts, split by NewLine
@@ -99,12 +105,12 @@ namespace GXPEngine.HUD.FlashBack_Huds
 
                 _textBox.Text = texts.Length == 0 ? "" : texts[0];
                 _textBox.SetXY(120 / 2f, game.height - _textBox.Height - 30);
-                
+
                 //Tween text, can be skipped by AnyKey
-                yield return _textBox.TweenTextRoutine(0, Settings.Flashbacks_TextBoxTweenSpeed);
+                yield return _textBox.TweenTextRoutine(0, _textSpeed);
 
                 yield return null;
-                
+
                 //Wait AnyKey to go to the next text
                 while (!Input.GetAnyKeyDown())
                 {
@@ -112,16 +118,16 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 }
 
                 yield return null;
-                
+
                 //Loop through next texts
                 for (int t = 1; t < texts.Length; t++)
                 {
                     _textBox.Text = texts[t];
                     _textBox.SetXY(120 / 2f, game.height - _textBox.Height - 30);
-                    yield return _textBox.TweenTextRoutine(0, Settings.Flashbacks_TextBoxTweenSpeed);
+                    yield return _textBox.TweenTextRoutine(0, _textSpeed);
 
                     yield return null;
-                    
+
                     //Wait AnyKey to go to the next text, if it is the last ont, goes to next image
                     while (!Input.GetAnyKeyDown())
                     {
@@ -136,15 +142,17 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 {
                     //Fadeout current image
                     var currentIndex = i;
-                    DrawableTweener.TweenSpriteAlpha(_sprites[i], 1, 0, MyGame.AlphaTweenDuration, Easing.Equation.QuadEaseOut, 0,
+                    DrawableTweener.TweenSpriteAlpha(_sprites[i], 1, 0, _alphaTweenDuration,
+                        Easing.Equation.QuadEaseOut, 0,
                         () => { _sprites[currentIndex].Destroy(); });
 
 
                     //Fadein next images
                     AddChildAt(_sprites[i + 1], _textBox.Index);
-                    DrawableTweener.TweenSpriteAlpha(_sprites[i + 1], 0, 1, MyGame.AlphaTweenDuration, Easing.Equation.QuadEaseOut);
+                    DrawableTweener.TweenSpriteAlpha(_sprites[i + 1], 0, 1, _alphaTweenDuration,
+                        Easing.Equation.QuadEaseOut);
 
-                    yield return new WaitForMilliSeconds(MyGame.AlphaTweenDuration);
+                    yield return new WaitForMilliSeconds(_alphaTweenDuration);
                 }
             }
 
@@ -157,7 +165,7 @@ namespace GXPEngine.HUD.FlashBack_Huds
                     _level.Player.InputEnabled = true;
                 });
         }
-        
+
         public string[] ImagesFiles
         {
             get => _imagesFiles;

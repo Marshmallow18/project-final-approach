@@ -7,6 +7,8 @@ namespace GXPEngine
 {
     public class FlashBackTriggersManager : GameObject
     {
+        public static FlashBackTriggersManager Instance;
+        
         private Dictionary<string, FlashBackTrigger> _flashTriggersMap;
 
         private MapGameObject _map;
@@ -14,6 +16,7 @@ namespace GXPEngine
 
         public FlashBackTriggersManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
         {
+            Instance = this;
             _flashTriggersMap = new Dictionary<string, FlashBackTrigger>();
             _level = pLevel;
             _map = pMap;

@@ -18,6 +18,9 @@ namespace GXPEngine
             
             AddChild(_caveLevelMap);
             
+            var hiddenRoomManager = new HiddenRoomCoverManager(this);
+            AddChild(hiddenRoomManager);
+            
             var doorsManager = new DoorsManager(_caveLevelMap, this);
             AddChild(doorsManager);
             
@@ -35,11 +38,10 @@ namespace GXPEngine
             
             var flashbacksManager = new FlashbackManager(this, flashbacksTriggerManager.FlashTriggersMap.Count);
             AddChild(flashbacksManager);
-            
+
             var particlesManager = new ParticleManager();
 
             _player = new Player();
-            //_player.SetOrigin(_player.width / 2, 78);
             AddChild(_player);
 
             var spawnPoint = GetPlayerSpawnPoint();

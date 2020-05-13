@@ -42,5 +42,7 @@ namespace GXPEngine
         }
 
         GameObject IHasTrigger.gameObject => this;
+
+        public TiledObject FlashbackTriggerData => _flashbackData;
     }
 }

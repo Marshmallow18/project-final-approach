@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="34" nextobjectid="49">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="36" nextobjectid="65">
  <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="data/Clouds Border Tileset.png" width="1024" height="1024"/>
  </tileset>
@@ -11,6 +11,9 @@
  </tileset>
  <tileset firstgid="70" name="TileSet1" tilewidth="128" tileheight="128" tilecount="256" columns="16">
   <image source="data/Tileset1.png" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="326" name="HiddenRoom Cover" tilewidth="2048" tileheight="2048" tilecount="1" columns="1">
+  <image source="data/Hidden Room Cover.png" width="2048" height="2048"/>
  </tileset>
  <group id="17" name="walkable image">
   <imagelayer id="10" name="walkable image 0" locked="1">
@@ -42,6 +45,7 @@
   </imagelayer>
  </group>
  <group id="16" name="background image" locked="1">
+  <imagelayer id="34" name="Image Layer 19"/>
   <imagelayer id="3" name="background image 0" locked="1">
    <image source="data/image pieces/map_slice_0_0.png" width="2048" height="2048"/>
   </imagelayer>
@@ -117,14 +121,14 @@
 </data>
  </layer>
  <objectgroup id="18" name="Doors Objects">
-  <object id="11" name="Door1 Trigger" type="DoorTrigger" gid="69" x="3984.72" y="3595.16" width="128" height="252.585" rotation="-765.332"/>
+  <object id="11" name="Door1 Trigger" type="DoorTrigger" gid="69" x="3989.78" y="3593.37" width="128" height="252.585" rotation="-767.503"/>
   <object id="6" name="Door1" type="DoorOneSided" gid="67" x="4028.12" y="3550.69" width="249.815" height="128" rotation="-857.049">
    <properties>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="17" name="Door2 Trigger" type="DoorTrigger" gid="69" x="4256.02" y="2531.65" width="128" height="252.585" rotation="-457.578"/>
-  <object id="18" name="Door2" type="DoorOneSided" gid="67" x="4247.44" y="2470.11" width="249.815" height="128" rotation="-549.295">
+  <object id="17" name="Door2 Trigger" type="DoorTrigger" gid="69" x="4308.42" y="2516.44" width="128" height="252.585" rotation="-459.373"/>
+  <object id="18" name="Door2" type="DoorOneSided" gid="67" x="4298.44" y="2459.11" width="249.815" height="128" rotation="-549.295">
    <properties>
     <property name="open forever" type="bool" value="true"/>
    </properties>
@@ -135,31 +139,31 @@
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="21" name="Door4 Trigger" type="DoorTrigger" gid="69" x="3282.48" y="2610.9" width="128" height="252.585" rotation="-147.55"/>
-  <object id="22" name="Door4" type="DoorOneSided" gid="67" x="3229.83" y="2577.89" width="249.815" height="128" rotation="-239.267">
+  <object id="21" name="Door4 Trigger" type="DoorTrigger" gid="69" x="3304.94" y="2577.97" width="128" height="252.585" rotation="-149.424"/>
+  <object id="22" name="Door4" type="DoorOneSided" gid="67" x="3257.44" y="2551.81" width="249.815" height="128" rotation="-239.489">
    <properties>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="23" name="Door5 Trigger" type="DoorTrigger" gid="69" x="2596.78" y="3136.7" width="128" height="252.585" rotation="-424.297"/>
-  <object id="24" name="Door5" type="DoorOneSided" gid="67" x="2623.38" y="3080.55" width="249.815" height="128" rotation="-516.014">
+  <object id="23" name="Door5 Trigger" type="DoorTrigger" gid="69" x="2616.3" y="3140.08" width="128" height="252.585" rotation="-426.852"/>
+  <object id="24" name="Door5" type="DoorOneSided" gid="67" x="2635.68" y="3089.55" width="249.815" height="128" rotation="-516.703">
    <properties>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="25" name="Door6 Trigger" type="DoorTrigger" gid="69" x="2163.01" y="2350.7" width="128" height="252.585" rotation="-333.163"/>
-  <object id="26" name="Door6" type="DoorOneSided" gid="67" x="2218.63" y="2378.41" width="249.815" height="128" rotation="-424.88">
+  <object id="25" name="Door6 Trigger" type="DoorTrigger" gid="69" x="2202.62" y="2312.73" width="128" height="252.585" rotation="-335.921"/>
+  <object id="26" name="Door6" type="DoorOneSided" gid="67" x="2253.61" y="2334.8" width="249.815" height="128" rotation="-424.64">
    <properties>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="27" name="Door7 Trigger" type="DoorTrigger" gid="69" x="2056.88" y="2799.53" width="128" height="252.585" rotation="-471.341"/>
-  <object id="28" name="Door7" type="DoorOneSided" gid="67" x="2033.91" y="2741.79" width="249.815" height="128" rotation="-563.058">
+  <object id="27" name="Door7 Trigger" type="DoorTrigger" gid="69" x="2106.62" y="2805.96" width="128" height="252.585" rotation="-467.041"/>
+  <object id="28" name="Door7" type="DoorOneSided" gid="67" x="2088.35" y="2751.72" width="249.815" height="128" rotation="-557.779">
    <properties>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
-  <object id="29" name="Door8 Trigger" type="DoorTrigger" gid="69" x="2185.35" y="4051.68" width="128" height="252.585" rotation="-429.92"/>
+  <object id="29" name="Door8 Trigger" type="DoorTrigger" gid="69" x="2193.42" y="4045.06" width="128" height="252.585" rotation="-432.218"/>
   <object id="30" name="Door8" type="DoorOneSided" gid="67" x="2206.32" y="3993.19" width="249.815" height="128" rotation="-521.637">
    <properties>
     <property name="open forever" type="bool" value="true"/>
@@ -182,14 +186,183 @@
     <property name="history_image" type="file" value="data/history images/Cave Images-20.png"/>
    </properties>
   </object>
-  <object id="32" name="History - Some meme" type="History" gid="70" x="1743.67" y="5232.61" width="64.6667" height="62.7832">
+  <object id="32" name="History - Some meme" type="History" gid="70" x="1777" y="5197.94" width="64.6667" height="62.7832">
    <properties>
     <property name="history_image" type="file" value="data/history images/Cave Images-15.png"/>
    </properties>
   </object>
+  <object id="49" name="History - Some meme" type="History" gid="70" x="5917.06" y="1832.34" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="50" name="History - Some meme" type="History" gid="70" x="5570.7" y="1095.88" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="51" name="History - Some meme" type="History" gid="70" x="4879.79" y="1408" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="52" name="History - Some meme" type="History" gid="70" x="4082.82" y="1559.52" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="53" name="History - Some meme" type="History" gid="70" x="3325.24" y="2032.24" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="54" name="History - Some meme" type="History" gid="70" x="3191.91" y="935.275" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="55" name="History - Some meme" type="History" gid="70" x="2382.82" y="332.245" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="56" name="History - Some meme" type="History" gid="70" x="1919.18" y="1338.31" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="57" name="History - Some meme" type="History" gid="70" x="894.939" y="2398.91" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="58" name="History - Some meme" type="History" gid="70" x="252.515" y="2586.79" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="59" name="History - Some meme" type="History" gid="70" x="79.7879" y="3547.4" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="60" name="History - path to the room1" type="History" gid="70" x="3237.36" y="3956.49" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="61" name="History - path to the room2" type="History" gid="70" x="2876.76" y="4238.31" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="30" name="Misc Objects">
-  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="3637.33" y="2180.36" width="128" height="128"/>
+  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1626.67" y="1781.51" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup id="64" name="Hidden Room Cover">
+  <object id="64" name="Hidden Room Collider" type="Doesnt Matter" gid="69" x="1306.21" y="1879.37" width="296.431" height="128" rotation="322.852"/>
+  <object id="63" name="Hidden Room Cover" type="Doesnt matter" gid="326" x="0" y="2048" width="2048" height="2048"/>
+ </objectgroup>
+ <objectgroup id="31" name="FlashBack Triggers Objects">
+  <object id="34" name="Flashback 2" type="Flashback" gid="74" x="3794" y="2228" width="522" height="414">
+   <properties>
+    <property name="image_0" type="file" value="data/flashback images/Flashback 3.png"/>
+    <property name="text_0">Stranger2: Yes. Let’s through some stones at him. Or let’s set the fire to his Nazis uniform and let him dance. He thought he can avoid the justice by deserting. Not only a bastard but a coward too.
+
+Carl: Stop! Wait! I have an order to deliver him alive to the command. He should inform us about the Nazis forces left in Belgium. There will be no use for him if he will be dead.
+
+Stranger2: No way, we suffered a lot from them and I want this Nazi scum to feel that pain!
+
+Frank: I am not Nazi! I never wanted to fight for the ideas of Hitler! I swear! Let me live!
+
+Stranger 2: Of course you would say that when a gun is pointing at you.
+
+Carl: Listen. His information can safe people. Belgian people, American, our people. He will get into the prison after. He won’t avoid the justice now, I promise.
+
+Stranger 2: This is you lucky day Nazi. Let’s go boys, he is hardly wounded so he won’t survive this day any way.   
+
+Carl: Ok let’s move you out of here. 
+</property>
+   </properties>
+  </object>
+  <object id="35" name="Flashback 1" type="Flashback" gid="74" x="3975" y="3301" width="522" height="414">
+   <properties>
+    <property name="image_0" type="file" value=""/>
+    <property name="text_0">Carl: Hey. Excuse me. I am looking for a guy. He is wearing a German uniform. Have you seen him somewhere around?
+
+Stranger: Also lost someone on this war? Hurry up to the Room of Trophy if you want to find this bastard alive. You are not the only one who is searching for the revenge in these caves, boy. 
+
+Carl: Thanks sir but I don’t search for a revenge…
+</property>
+   </properties>
+  </object>
+  <object id="36" name="Flashback 4" type="Flashback" gid="74" x="1915" y="3829" width="522" height="414">
+   <properties>
+    <property name="image_0" type="file" value=""/>
+    <property name="text_0">Carl: I will deliver you to the command. It’s not my problem if you die at the middle of the way. Why would I help you? My brother died in the first day of the occupation of Belgium. Died on the war I hate with all my soul. The war you, Germans, started! Why would I help you?!
+
+Frank: Because we are not that different. I hate this was just as much as you do. Why do you think I speak French that well? Yes I was born in Germany but my mother was from Belgium. I never believed the ideas of Hitler and I never wanted to fight. I just want to return to my wife just as you want to return to your family. 
+
+Carl: None of you wanted to fight but all of you did.
+
+Frank: You also would. There was no other option or choice to make. The only choice I made during this war is to desert and not to be a part of all of it any more. To just survive it and return to the one I love. Listen, you said I won’t be useful if I would be dead anyway. And I will be if you won’t help me to get to the doctor. Aren’t there enough victims of that war? 
+</property>
+   </properties>
+  </object>
+  <object id="37" name="Flashback 3" type="Flashback" gid="74" x="2450.15" y="2714.82" width="506.848" height="395.818">
+   <properties>
+    <property name="image_0" value=""/>
+    <property name="text_0">Frank: Thanks for standing up for me. I would be dead already.
+
+Carl: I had my orders. 
+
+Frank: Listen. These people were right in one think. I need a doctor or I will die less than in an hour. I am almost not able to walk so there is no chance you will deliver me to the command alive. I lost a lot of blood already… I know there is a village nearby. They have a doctor I’ve heard…
+</property>
+   </properties>
+  </object>
+  <object id="38" name="Flashback 5" type="Flashback" gid="74" x="1446.28" y="2185.24" width="443.819" height="373.152">
+   <properties>
+    <property name="image_0" type="file" value=""/>
+    <property name="image_1" type="file" value=""/>
+    <property name="text_0">Carl: What’s your name soldier?
+
+Frank: Frank. And yours?
+
+Carl: Carl. Is your wife beautiful?
+
+Frank: Oh yes she is. I have a picture of her with me. Why?
+
+Carl: I think she will be happy to see you again alive, right?
+
+Frank: Oh God, thanks!
+
+Carl: I’ve killed enough Germans, probably it is time to save one. But I need you to give me any important piece of information you have. I can’t return back empty-handed, you know.
+
+Frank: Alright, I have a map with me with some notes about the disposition and plans. Take it.
+
+Carl: Good. Let’s go now, I will lead you to a hidden exit and give you my map and compass.
+
+Frank: You won’t come with me to the village?
+
+Carl: I need to deliver the map you gave me to the command, so you have to go there on your own. And Frank. You won’t reach the village alive wearing your German uniform. Here, take my clothes.
+
+Frank: And you? What will you do without the clothes, and how will you explain it to the command?
+
+Carl: I’ve felt down to the cave river by accident and my uniform was extremely wet. Not to die from cold I’ve set a fire to dry it and continued searching for you. After I found you dead I returned to my bonfire and saw that my clothes had burned to the ashes. Not to walk naked all the way back in the cold I took the uniform of a dead German soldier. Now go, you need someone to take care of your wound as fast as possible.
+
+Frank: I will return you your compass. I will hide under that stone near the cave exit.
+
+Carl: Buy Frank.
+</property>
+    <property name="text_1">Stranger appears: No way you will escape Nazi!!! 
+
+Carl: Wait! Stop! I am not …
+
+BANG
+</property>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="33" name="Oil Objects">
   <object id="53" name="Oil Fixed" type="Oil" gid="73" x="320.848" y="3264" width="128" height="128"/>
@@ -236,45 +409,12 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="31" name="FlashBack Triggers Objects">
-  <object id="34" name="Flashback 1" type="Flashback" gid="74" x="3794" y="2228" width="522" height="414">
-   <properties>
-    <property name="audio_0" type="file" value=""/>
-    <property name="image_0" type="file" value="data/flashback images/Flashback 3.png"/>
-    <property name="image_1" type="file" value="data/flashback images/Screenshot_2020-05-12_at_17.40.33.png"/>
-    <property name="text_0">Each paragraph (newline) is another &quot;text box&quot;, player will need to press to proceed. Player pressed and now he is reading this. Player pressed and now he is reading this. Player pressed and now he is reading this.
-
-Player pressed and now he is reading this. Player pressed and now he is reading this. Player pressed and now he is reading this. Player pressed and now he is reading this. Player pressed and now he is reading this.</property>
-    <property name="text_1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. In non viverra purus. In lectus mauris, porttitor a mattis a, venenatis a risus. Vestibulum ac erat non elit tincidunt hendrerit. Nulla laoreet mauris non velit volutpat, a luctus tortor pulvinar. Duis laoreet erat id vehicula porta. Pellentesque interdum venenatis urna, ut molestie leo. Nulla non egestas risus, vel eleifend ligula. Quisque venenatis nisi urna, vitae mattis dui cursus vitae. Nulla facilisi. Aliquam sed faucibus urna. Donec a justo sagittis dui finibus lobortis ac eget mi.
-
-Here there are texts[audio_0]
-
-Donec orci massa, vestibulum sed ligula nec, tempor volutpat nulla. Integer condimentum lacus in felis consequat, vel lacinia magna venenatis. Phasellus eu gravida enim. Donec malesuada laoreet erat. Etiam eget lorem vel velit maximus porttitor porta vitae orci. Aliquam mollis pharetra eros eget sodales. Donec diam orci, vestibulum a scelerisque at, pretium non tellus. Phasellus semper eget quam vitae euismod. Nunc facilisis mauris in turpis ultricies, eget luctus ex blandit. Cras venenatis velit ante, ac dictum lorem vulputate vulputate. Quisque ultricies purus neque, eu venenatis nibh venenatis id. Nullam varius arcu sit amet ligula condimentum eleifend et eu est.</property>
-   </properties>
-  </object>
-  <object id="35" name="Flashback 2" type="Flashback" gid="74" x="3975" y="3301" width="522" height="414">
-   <properties>
-    <property name="image_0" type="file" value=""/>
-    <property name="image_1" type="file" value=""/>
-    <property name="text_0" value="text test"/>
-    <property name="text_1" value=""/>
-   </properties>
-  </object>
-  <object id="36" name="Flashback 4" type="Flashback" gid="74" x="1915" y="3829" width="522" height="414"/>
-  <object id="37" name="Flashback 3" type="Flashback" gid="74" x="2435" y="2733" width="522" height="414">
-   <properties>
-    <property name="image" value=""/>
-    <property name="text" value=""/>
-   </properties>
-  </object>
-  <object id="38" name="Flashback 5" type="Flashback" gid="74" x="1391.73" y="2264.03" width="580.182" height="506.485"/>
- </objectgroup>
  <objectgroup id="34" name="Flashback Pickups">
-  <object id="44" name="Flashback Pickup 1" type="FlashbackPickup" gid="86" x="3984.48" y="2060.97" width="128" height="128"/>
-  <object id="45" name="Flashback Pickup 2" type="FlashbackPickup" gid="86" x="4166.3" y="3136" width="128" height="128"/>
+  <object id="44" name="Flashback Pickup 2" type="FlashbackPickup" gid="86" x="3984.48" y="2060.97" width="128" height="128"/>
+  <object id="45" name="Flashback Pickup 1" type="FlashbackPickup" gid="86" x="4166.3" y="3136" width="128" height="128"/>
   <object id="46" name="Flashback Pickup 3" type="FlashbackPickup" gid="86" x="2617.82" y="2566.3" width="128" height="128"/>
   <object id="47" name="Flashback Pickup 4" type="FlashbackPickup" gid="86" x="2099.64" y="3681.45" width="128" height="128"/>
-  <object id="48" name=" Flashback Pickup 5" type="FlashbackPickup" gid="86" x="1596.61" y="2057.21" width="128" height="128"/>
+  <object id="48" name="Flashback Pickup 5" type="FlashbackPickup" gid="86" x="1447.61" y="1942.54" width="128" height="128"/>
  </objectgroup>
  <group id="25" name="Helpers" locked="1">
   <objectgroup id="32" name="Helpers Objects" locked="1">

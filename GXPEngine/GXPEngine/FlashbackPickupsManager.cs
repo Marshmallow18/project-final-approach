@@ -31,13 +31,13 @@ namespace GXPEngine
              _flashesPickupsToSkip = new List<string>();
             if (Settings.Flashback_Pickups_Collected != "0")
             {
-                var flashesStr = Settings.Flashback_Pickups_Collected.Split(' ');
+                var flashesStr = Settings.Flashback_Pickups_Collected.Trim().Split(' ');
                 for (int i = 0; i < flashesStr.Length; i++)
                 {
                     string valStr = flashesStr[i].Trim();
                     if (int.TryParse(valStr, out var val))
                     {
-                        _flashesPickupsToSkip.Add($"Flashback Pickup {val}");
+                        _flashesPickupsToSkip.Add($"Flashback {val}");
                     }
                 }
             }
@@ -51,6 +51,7 @@ namespace GXPEngine
         void AddFlashbackPickupToLevel(TiledObject flashData)
         {
             string objUniqueName = flashData.Name.Trim();
+            flashData.Name = flashData.Name.Replace("Pickup ", "").Trim();
 
             int counter = 0;
             while (_flashPickupsMap.ContainsKey(objUniqueName.ToLower()))
@@ -81,10 +82,12 @@ namespace GXPEngine
             {
                 var pck = kv.Value;
 
+                pck.collider.Enabled = true;
+                
                 //If is set in Setting for test, simulate that those flash pickups were taken
                 if (_flashesPickupsToSkip.Contains(pck.FlashbackData.Name))
                 {
-                    FlashbackManager.Instance.PlayerPickedupFlashblack(pck);
+                    FlashbackManager.Instance.PlayerPickedupFlashblack(pck, false);
                     continue;
                 }
                 

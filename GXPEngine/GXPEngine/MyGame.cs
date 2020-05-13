@@ -122,7 +122,8 @@ public class MyGame : Game
         GameHud.Instance = null;
         FlashbackPickupsManager.Instance = null;
         FlashbackManager.Instance = null;
-
+        HiddenRoomCoverManager.Instance = null;
+        
         LoadLevel(_caveLevelMap);
     }
 

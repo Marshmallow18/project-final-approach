@@ -55,7 +55,7 @@ namespace GXPEngine
             
             _bitMapReuse = new Dictionary<string, Bitmap>();
             
-            var backGroundImages = _mapData.Groups.Where(g => g.name == "background image").SelectMany(g => g.ImageLayers).GroupBy(g => g.Image.FileName);
+            var backGroundImages = _mapData.Groups.Where(g => g.name == "background image").SelectMany(g => g.ImageLayers).Where(g => !string.IsNullOrWhiteSpace(g.Image?.FileName)).GroupBy(g => g.Image?.FileName);
 
             _mapData.ImageLayers = backGroundImages.SelectMany(g => g).ToArray();
             

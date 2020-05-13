@@ -75,6 +75,7 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
+    <Compile Include="HiddenRoomCoverManager.cs" />
     <Compile Include="HUD\FlashBack Huds\FlashBackHud01.cs" />
     <Compile Include="HUD\FlashbackCounterHudPanel.cs" />
     <Compile Include="HUD\FlashBackHud.cs" />

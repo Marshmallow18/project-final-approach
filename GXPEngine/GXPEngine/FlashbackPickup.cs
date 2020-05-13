@@ -33,7 +33,7 @@ namespace GXPEngine
 
         void IHasTrigger.OnEnterTrigger(GameObject other)
         {
-            FlashbackManager.Instance.PlayerPickedupFlashblack(this);
+            FlashbackManager.Instance.PlayerPickedupFlashblack(this, true);
             Console.WriteLine($"{this}: OnEnterTrigger -> {other}");
         }
 
@@ -50,5 +50,7 @@ namespace GXPEngine
         GameObject IHasTrigger.gameObject => this;
 
         public TiledObject FlashbackData => _flashbackData;
+
+        public TriggerBehavior Trigger => _trigger;
     }
 }

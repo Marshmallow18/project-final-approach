@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using GXPEngine.HUD;
 using GXPEngine.HUD.FlashBack_Huds;
@@ -16,8 +17,8 @@ namespace GXPEngine
         private List<string> _collectedFlashPickupsNames;
 
         private BaseLevel _level;
-        
-        
+
+        private FlashbackPickup _lastPicked;
 
         public FlashbackManager(BaseLevel pLevel, int pTotalFlashbacks) : base(false)
         {
@@ -65,13 +66,14 @@ namespace GXPEngine
         public void PlayerPickedupFlashblackTrigger(TiledObject flashbackData)
         {
             bool flashbackExists = _collectedFlashBacksTriggersNames.Contains(flashbackData.Name);
-            
-            GameHud.Instance.SetFlashbackHudCounterText(
-                $"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks}");
 
             if (!flashbackExists)
             {
                 _collectedFlashBacksTriggersNames.Add(flashbackData.Name);
+
+                GameHud.Instance.SetFlashbackHudCounterText(
+                    $"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks}");
+
                 var flashHud = GameHud.Instance.LoadFlashbackHud(flashbackData);
                 CoroutineManager.StartCoroutine(WaitForFlashPanelHudBeDestroyed(flashHud), this);
             }
@@ -111,46 +113,136 @@ namespace GXPEngine
             }
         }
 
-        public void PlayerPickedupFlashblack(FlashbackPickup flashbackPickup)
+        public void PlayerPickedupFlashblack(FlashbackPickup flashbackPickup, bool showPanel = true)
         {
+            CoroutineManager.StartCoroutine(PlayerPickedupFlashblackRoutine(flashbackPickup, showPanel), this);
+        }
+
+        public IEnumerator PlayerPickedupFlashblackRoutine(FlashbackPickup flashbackPickup, bool showPanel)
+        {
+            //Show FlashbackHud
+            if (showPanel)
+            {
+                yield return FlashbackHudRoutine(flashbackPickup.FlashbackData.Name);
+            }
+
             var flashName = flashbackPickup.FlashbackData.Name;
             bool alreadyInList = _collectedFlashPickupsNames.Contains(flashName);
 
             if (!alreadyInList)
             {
                 _collectedFlashPickupsNames.Add(flashName);
-                
-                //Change Indicator
-                if (int.TryParse(flashName.Replace("Flashback Pickup ", ""), out var flashIndex))
-                {
-                    GameHud.Instance.MemoriesHudPanel.EnableIndicator(_collectedFlashPickupsNames.Count-1);
 
+                //Change Indicator
+                if (int.TryParse(flashName.Replace("Flashback ", ""), out var flashIndex))
+                {
+                    GameHud.Instance.MemoriesHudPanel.EnableIndicator(_collectedFlashPickupsNames.Count - 1);
+                }
+
+                //The last flashback pickedup is not disabled because we need to test the collision with player
+                //to re-enable it only after player exit the trigger
+                //So make it invisible
+                if (_collectedFlashPickupsNames.Count >= _totalFlashbacks)
+                {
+                    _lastPicked = flashbackPickup;
+                    CoroutineManager.StopAllCoroutines(flashbackPickup);
+                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
+                        Settings.Default_AlphaTween_Duration);
+                    
+                    CoroutineManager.StartCoroutine(CheckPickupsCollectedOrderSquence(flashbackPickup), this);
+                }
+                else
+                {
                     flashbackPickup.collider.Enabled = false;
                     CoroutineManager.StopAllCoroutines(flashbackPickup);
-                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0, Settings.Default_AlphaTween_Duration);
-                }
-
-                if (_collectedFlashPickupsNames.Count == _totalFlashbacks)
-                {
-                    CoroutineManager.StartCoroutine(CheckPickusCollectedOrder(), this);
+                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
+                        Settings.Default_AlphaTween_Duration, () => { flashbackPickup.Enabled = false; });
                 }
             }
         }
 
-        private IEnumerator CheckPickusCollectedOrder()
+        IEnumerator FlashbackHudRoutine(string flashbackDataName)
+        {
+            if (FlashBackTriggersManager.Instance.FlashTriggersMap.TryGetValue(flashbackDataName.ToLower(),
+                out var flashTrigger))
+            {
+                var flashHud = GameHud.Instance.LoadFlashbackHud(flashTrigger.FlashbackTriggerData, true);
+
+                while (flashHud != null && flashHud.toDestroy == false)
+                {
+                    yield return null;
+                }
+            }
+        }
+
+        private IEnumerator CheckPickupsCollectedOrderSquence(FlashbackPickup flashbackPickup)
         {
             _level.Player.InputEnabled = false;
-            
+
             yield return new WaitForMilliSeconds(Settings.Default_AlphaTween_Duration + 200);
-            
+
+            //Get the original list in lowercase
+            var correctOrder =
+                FlashbackPickupsManager.Instance.FlashPickupsMap.Values.Select(s => s.FlashbackData.Name.ToLower());
+            var collectOrder = _collectedFlashPickupsNames.Select(s => s.ToLower());
+
+            if (correctOrder.SequenceEqual(collectOrder))
+            {
+                //Correct!
+                Utils.print(this, " order correct ", string.Join(", ", collectOrder));
+                
+                yield return CorrectFlashPickupsOrderSequence(flashbackPickup);
+            }
+            else
+            {
+                //Incorrect order
+                Utils.print(this, " order incorrect ", string.Join(", ", collectOrder));
+                yield return IncorrectFlashPickupsOrderSequence(flashbackPickup);
+            }
         }
 
-        void Update()
+        private IEnumerator CorrectFlashPickupsOrderSequence(FlashbackPickup flashbackPickup)
         {
-            if (Input.GetKeyDown(Key.I))
+            yield return new WaitForMilliSeconds(1000);
+
+            var hiddenRoomCover = HiddenRoomCoverManager.Instance.HiddenRoomCover;
+            var hiddenCollider =  HiddenRoomCoverManager.Instance.HiddenRoomCoverCollider;
+            
+            DrawableTweener.TweenSpriteAlpha(hiddenRoomCover, 1, 0, 1000, Easing.Equation.QuadEaseOut);
+            
+            yield return new WaitForMilliSeconds(1400);
+
+            hiddenCollider.Enabled = false;
+            
+            _level.Player.InputEnabled = true;
+        }
+
+        private IEnumerator IncorrectFlashPickupsOrderSequence(FlashbackPickup flashbackPickup)
+        {
+            //Message to player
+            GameHud.Instance.ShowTextBox(Settings.Flashback_Pickups_Incorrect_Order_Message);
+
+            //Disable all indicators
+            GameHud.Instance.MemoriesHudPanel.DisableAllIndicators();
+
+            yield return new WaitForMilliSeconds(1000);
+
+            _collectedFlashPickupsNames.Clear();
+
+            _level.Player.InputEnabled = true;
+
+            //Wait for player get out of the last pickedup to reenable all 
+            while (flashbackPickup.HitTest(_level.Player))
             {
-                GameHud.Instance.ShowTextBox("Test test box", 500, 60, 0, 0, true);
+                yield return null;
             }
+
+            yield return new WaitForMilliSeconds(Settings.Default_AlphaTween_Duration);
+
+            flashbackPickup.visible = true;
+            DrawableTweener.TweenSpriteAlpha(flashbackPickup, 0, 1, Settings.Default_AlphaTween_Duration);
+
+            FlashbackPickupsManager.Instance.EnableFlashbackPickups();
         }
 
         public int TotalFlashbacks => _totalFlashbacks;

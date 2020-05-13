@@ -12,7 +12,7 @@ public class Player : Sprite
     private Sprite _fog1;
     private AnimationSprite _animation, _fog2;
     private int _timer, _timer2, _frame;
-    private float _vSpeed, _hSpeed, _deceleration, _state, _scale = 0.4f;
+    private float _vSpeed, _hSpeed, _deceleration, _state, _scale = 0.2f;
     private Random _rand;
     private float _currentSpeed;
     private float _walkSpeed = 2f;
@@ -37,19 +37,19 @@ public class Player : Sprite
         alpha = 0.0f;
 
         //Adjust a collider, based on a original image of 256x256
-        _customColliderBounds = new Rectangle(-217 * 0.5f * _scale, (-111 * 0.5f * _scale) + 20 * _scale, 217 * _scale,
-            111 * _scale);
+        _customColliderBounds = new Rectangle(-95 * 0.5f * _scale, (-95 * 0.5f * _scale), 95 * _scale,
+            95 * _scale);
 
         _animation = new AnimationSprite("walking_animation.png", 8, 3, -1, false, false);
         AddChild(_animation);
         _animation.SetScaleXY(_scale, _scale);
         _animation.SetOriginToCenter();
 
-        _fog1 = new Sprite("fog.png");
+        _fog1 = new Sprite("fog.png", false, false);
         AddChild(_fog1);
         _fog1.x = -_fog1.width / 2;
         _fog1.y = -_fog1.height / 2;
-        _fog2 = new AnimationSprite("anim_fog.png", 2, 1);
+        _fog2 = new AnimationSprite("anim_fog.png", 2, 1, -1, false,false);
         AddChild(_fog2);
 
         _deceleration = 0.9f;
@@ -226,4 +226,8 @@ public class Player : Sprite
         get => _inputEnabled;
         set => _inputEnabled = value;
     }
+
+    public AnimationSprite Fog2 => _fog2;
+    public Sprite Fog1 => _fog1;
+
 }

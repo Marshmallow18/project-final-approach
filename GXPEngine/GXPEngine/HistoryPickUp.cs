@@ -29,8 +29,6 @@ namespace GXPEngine
         void Update()
         {
             _trigger.HitTest();
-            
-            //Console.WriteLine($"{this} : {alpha}");
         }
 
         void IHasTrigger.OnEnterTrigger(GameObject other)

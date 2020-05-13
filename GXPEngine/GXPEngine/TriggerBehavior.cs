@@ -58,5 +58,7 @@ namespace GXPEngine
             
             _others.ExceptWith(_otherToRemove);
         }
+        
+        public HashSet<GameObject> Others => _others;
     }
 }

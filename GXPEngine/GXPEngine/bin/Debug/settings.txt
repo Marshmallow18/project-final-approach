@@ -14,5 +14,7 @@ Message_To_Player_After_Collect_Flashbacks = Message to player blabla...
 
 //To starts game with some triggers already collected, for test, dont fill with all, use 4 of 5
 //Example: Flashback_Triggers_Collected = 1 2 3 4
-Flashback_Triggers_Collected =  2 3 4 5
-Flashback_Pickups_Collected =   2 3 4 5
+Flashback_Triggers_Collected = 1 2 3 4
+Flashback_Pickups_Collected = 1 2 3 4
+
+Flashback_Pickups_Incorrect_Order_Message = You got the flashbacks in the wrong order.

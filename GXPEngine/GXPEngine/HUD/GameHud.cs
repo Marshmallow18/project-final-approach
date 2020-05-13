@@ -92,7 +92,7 @@ namespace GXPEngine.HUD
         /// Create and Load the flashback panel using data of the tiledObject
         /// </summary>
         /// <param name="tileData"></param>
-        public FlashBackHud01 LoadFlashbackHud(TiledObject tileData)
+        public FlashBackHud01 LoadFlashbackHud(TiledObject tileData, bool speedUp = false)
         {
             if (tileData.propertyList?.properties == null)
             {
@@ -113,7 +113,7 @@ namespace GXPEngine.HUD
             }
 
             //Texts: replace multiple linebreaks for one linebreak
-            var flashHud = new FlashBackHud01(tileData.Name, game.width, game.height)
+            var flashHud = new FlashBackHud01(tileData.Name, game.width, game.height, speedUp)
             {
                 ImagesFiles = imageFiles.Select(im => im.Value).ToArray(),
                 Texts = texts.Select(t =>
@@ -155,29 +155,50 @@ namespace GXPEngine.HUD
             yield return new WaitForMilliSeconds(Settings.Default_AlphaTween_Duration * 2);
         }
 
+        public TextBox ShowTextBox(string pText)
+        {
+            return ShowTextBox(pText, game.width - 120, 40, 0, 0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pText">Text to be shown</param>
+        /// <param name="pWidth">Width of the box</param>
+        /// <param name="pHeight">Height of the box, will be adjusted if text wrap</param>
+        /// <param name="duration">Duration of the exhibition before close, default is 0</param>
+        /// <param name="delay">Delay before the text show</param>
+        /// <param name="lockPlayer">Lock player input</param>
+        /// <param name="onFinished">callback to be executed after textbox finish</param>
+        /// <param name="fade">if the box will be fade/inout</param>
+        /// <returns></returns>
         public TextBox ShowTextBox(string pText, int pWidth, int pHeight, int duration = 0, int delay = 0,
             bool lockPlayer = false,
             TextBox.OnFinished onFinished = null, bool fade = true)
         {
             var textBox = new TextBox(pText, pWidth, pHeight);
 
-            if (lockPlayer && _level?.Player != null)
-            {
-                _level.Player.InputEnabled = false;
-            }
-
             if (duration > 0)
                 textBox.ShowPressAnyKeyToNext = false;
 
             textBox.CenterOnBottom();
 
-            CoroutineManager.StartCoroutine(ShowTextBoxRoutine(textBox, duration, delay, onFinished, fade), this);
+            CoroutineManager.StartCoroutine(ShowTextBoxRoutine(textBox, duration, delay, lockPlayer, onFinished, fade),
+                this);
 
             return textBox;
         }
 
-        IEnumerator ShowTextBoxRoutine(TextBox textBox, int duration, int delay, TextBox.OnFinished onFinished, bool fade)
+        IEnumerator ShowTextBoxRoutine(TextBox textBox, int duration, int delay, bool lockPlayer,
+            TextBox.OnFinished onFinished, bool fade)
         {
+            bool lastPlayerLockState = false;
+            if (lockPlayer && _level?.Player != null)
+            {
+                lastPlayerLockState = _level.Player.InputEnabled;
+                _level.Player.InputEnabled = false;
+            }
+
             if (delay > 0)
             {
                 yield return new WaitForMilliSeconds(delay);
@@ -186,7 +207,7 @@ namespace GXPEngine.HUD
             AddChild(textBox);
 
             if (fade)
-             DrawableTweener.TweenSpriteAlpha(textBox, 0, 1, Settings.Default_AlphaTween_Duration);
+                DrawableTweener.TweenSpriteAlpha(textBox, 0, 1, Settings.Default_AlphaTween_Duration);
 
             yield return textBox.TweenTextRoutine(0, Settings.Flashbacks_TextBoxTweenSpeed,
                 duration == 0 ? true : false);
@@ -204,8 +225,10 @@ namespace GXPEngine.HUD
                 {
                     HierarchyManager.Instance.LateDestroy(textBox);
 
-                    if (_level?.Player != null)
-                        _level.Player.InputEnabled = true;
+                    if (lockPlayer && _level?.Player != null)
+                    {
+                        _level.Player.InputEnabled = lastPlayerLockState;
+                    }
 
                     onFinished?.Invoke();
                 });
