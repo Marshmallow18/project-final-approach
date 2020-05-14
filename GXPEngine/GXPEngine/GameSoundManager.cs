@@ -22,7 +22,7 @@ namespace GXPEngine
         private SoundChannel _currentLoopFxChannel;
 
         private uint _currentChanneId = 0;
-        
+
         private string _currentMusic = "";
         private string _lastMusic = "";
 
@@ -120,7 +120,8 @@ namespace GXPEngine
                 _currentMusicChannel.Stop();
             }
 
-            _currentMusicChannel = _musicsLevelMap[musicKey].Play(false, 0, vol);
+            uint nextChannel = (_currentChanneId++) % 31;
+            _currentMusicChannel = _musicsLevelMap[musicKey].Play(false, nextChannel, vol);
         }
 
         public void StopMusic()
@@ -131,9 +132,22 @@ namespace GXPEngine
             }
         }
 
+        void StopMusicChannel(SoundChannel channel)
+        {
+            if (channel  != null && channel.IsPlaying)
+                channel.Stop();
+        }
+
         public void SetCurrentMusicVolume(float vol)
         {
-            _currentMusicChannel.Volume = vol;
+            if (_currentMusicChannel != null)
+                _currentMusicChannel.Volume = vol;
+        }
+
+        void SetMusicChannelVolume(SoundChannel channel, float vol)
+        {
+            if (channel != null)
+                channel.Volume = vol;
         }
 
         public void FadeInMusic(string key, float vol = 1, int duration = 500)
@@ -163,25 +177,29 @@ namespace GXPEngine
 
         public void FadeOutCurrentMusic(int duration = 500)
         {
-            CoroutineManager.StartCoroutine(FadeOutMusicRoutine(duration), this);
+            if (_currentMusicChannel != null)
+            {
+                var fadeOutChannel = _currentMusicChannel;
+                CoroutineManager.StartCoroutine(FadeOutMusicRoutine(fadeOutChannel, duration), this);
+            }
         }
 
-        private IEnumerator FadeOutMusicRoutine(int duration)
+        private IEnumerator FadeOutMusicRoutine(SoundChannel fadeOutChannel, int duration)
         {
             int time = 0;
-            float currentVolume = _currentMusicChannel.Volume;
-            float faeOutSpeed = _currentMusicChannel.Volume / duration;
+            float currentVolume = fadeOutChannel.Volume;
+            float faeOutSpeed = fadeOutChannel.Volume / duration;
             while (time < duration)
             {
                 currentVolume -= faeOutSpeed * Time.deltaTime;
-                SetCurrentMusicVolume(currentVolume);
+                SetMusicChannelVolume(fadeOutChannel, currentVolume);
                 yield return null;
 
                 time += Time.deltaTime;
             }
 
-            SetCurrentMusicVolume(0);
-            StopMusic();
+            SetMusicChannelVolume(fadeOutChannel, 0);
+            StopMusicChannel(fadeOutChannel);
         }
 
         public void PlayFx(string fxKey, float vol = 1)
@@ -191,7 +209,7 @@ namespace GXPEngine
             uint nextChannel = (_currentChanneId++) % 31;
             _currentFxChannel = _sfxsLevelMap[fxKey].Play(false, nextChannel, vol);
         }
-        
+
         public void PlayFxLoop(string fxKey, float vol = 1)
         {
             if (!_sfxsLoopLevelMap.ContainsKey(fxKey)) return;
@@ -212,5 +230,32 @@ namespace GXPEngine
         public Dictionary<string, Sound> MusicsLevelMap => _musicsLevelMap;
 
         public string LastMusic => _lastMusic;
+
+        public void StopAllSounds()
+        {
+            StopAllLoopFxs();
+            StopAllFxs();
+
+            if (_currentMusicChannel != null)
+                FadeOutCurrentMusic();
+        }
+
+        void StopAllLoopFxs()
+        {
+            if (_currentLoopFxChannel == null)
+                return;
+
+            if (_currentLoopFxChannel.IsPlaying || _currentLoopFxChannel.IsPaused)
+                _currentLoopFxChannel?.Stop();
+        }
+
+        void StopAllFxs()
+        {
+            if (_currentFxChannel == null)
+                return;
+
+            if (_currentFxChannel.IsPlaying || _currentFxChannel.IsPaused)
+                _currentFxChannel?.Stop();
+        }
     }
 }

@@ -129,6 +129,9 @@ public class MyGame : Game
         FlashbackPickupsManager.Instance = null;
         FlashbackManager.Instance = null;
         HiddenRoomCoverManager.Instance = null;
+
+        GameSoundManager.Instance.StopAllSounds();
+        GameSoundManager.Instance = null;
         
         LoadLevel(_caveLevelMap);
     }

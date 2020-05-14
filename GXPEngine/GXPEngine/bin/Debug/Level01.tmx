@@ -284,7 +284,7 @@ Carl: Ok let’s move you out of here.
     <property name="audio_0" type="file" value="data/audios/sfx/fl5_shooting.wav"/>
     <property name="audio_0_volume" type="float" value="0.6"/>
     <property name="audio_1" type="file" value="data/audios/sfx/gate_long.wav"/>
-    <property name="close_music_0" type="bool" value="true"/>
+    <property name="close_music" type="bool" value="true"/>
     <property name="image_0" type="file" value=""/>
     <property name="music_0" type="file" value="data/audios/musics/fl_1.ogg"/>
     <property name="music_volume_0" type="float" value="0.6"/>

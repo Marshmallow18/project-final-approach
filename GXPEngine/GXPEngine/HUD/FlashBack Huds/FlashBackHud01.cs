@@ -179,15 +179,6 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 }
             }
 
-            //Fadein Music if has one
-            var closeMusicFilename = _tiledData.GetStringProperty("close_music", null);
-            var closeMusicVol = _tiledData.GetFloatProperty("close_music", Settings.Background_Music_Volume);
-            if (closeMusicFilename != null)
-            {
-                GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
-                GameSoundManager.Instance.FadeInMusic(closeMusicFilename);
-            }
-
             //Fadeout panel, destroy itself, enables Player input
             DrawableTweener.TweenSpriteAlpha(this, 1, 0, MyGame.AlphaTweenDuration, Easing.Equation.QuadEaseOut, 0,
                 () =>

@@ -81,17 +81,24 @@ namespace GXPEngine
                     $"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks}");
 
                 var flashHud = GameHud.Instance.LoadFlashbackHud(flashbackData, false, Settings.Flashback_Triggers_Allow_Skip_With_Esc_Key);
-                CoroutineManager.StartCoroutine(WaitForFlashPanelHudBeDestroyed(flashHud), this);
+                CoroutineManager.StartCoroutine(WaitForFlashPanelHudBeDestroyed(flashHud, flashbackData), this);
             }
         }
 
-        private IEnumerator WaitForFlashPanelHudBeDestroyed(FlashBackHud01 flashHud)
+        private IEnumerator WaitForFlashPanelHudBeDestroyed(FlashBackHud01 flashHud, TiledObject flashbackData)
         {
             while (flashHud != null && flashHud.toDestroy == false)
             {
                 yield return null;
             }
 
+            //Fadein Music if has one and a property to closeit
+            var closeMusicBool = flashbackData.GetBoolProperty("close_music", false);
+            if (closeMusicBool)
+            {
+                GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
+            }
+            
             if (_collectedFlashBacksTriggersNames.Count >= _totalFlashbacks)
             {
                 //All found
@@ -130,6 +137,13 @@ namespace GXPEngine
             if (showPanel)
             {
                 yield return FlashbackHudRoutine(flashbackPickup.FlashbackData.Name);
+                
+                //Fadeout Music if has one and a property to close it
+                var closeMusicBool = flashbackPickup.FlashbackData.GetBoolProperty("close_music", false);
+                if (closeMusicBool)
+                {
+                    GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
+                }
             }
 
             var flashName = flashbackPickup.FlashbackData.Name;
