@@ -86,6 +86,8 @@ namespace GXPEngine {
 		public static string Flashback_Pickups_Collected = "0";
 		public static string Flashback_Pickups_Incorrect_Order_Message = "You get the incorrect order";
 
+		public static bool Flashback_Triggers_Allow_Skip_With_Esc_Key = true;
+		
 		/// <summary>
 		/// Load new values from the file settings.txt
 		/// </summary>

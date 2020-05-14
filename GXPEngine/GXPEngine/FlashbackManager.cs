@@ -80,7 +80,7 @@ namespace GXPEngine
                 GameHud.Instance.SetFlashbackHudCounterText(
                     $"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks}");
 
-                var flashHud = GameHud.Instance.LoadFlashbackHud(flashbackData);
+                var flashHud = GameHud.Instance.LoadFlashbackHud(flashbackData, false, Settings.Flashback_Triggers_Allow_Skip_With_Esc_Key);
                 CoroutineManager.StartCoroutine(WaitForFlashPanelHudBeDestroyed(flashHud), this);
             }
         }
@@ -139,6 +139,16 @@ namespace GXPEngine
             {
                 _collectedFlashPickupsNames.Add(flashName);
 
+                if (flashName == "final flashback")
+                {
+                    CoroutineManager.StopAllCoroutines(flashbackPickup);
+                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0, Settings.Default_AlphaTween_Duration,
+                        () => { flashbackPickup.Enabled = false; });
+                    
+                    Console.WriteLine($"{this} go to END");
+                    yield break;
+                }
+                
                 //Change Indicator
                 if (int.TryParse(flashName.Replace("flashback ", ""), out var flashIndex))
                 {
@@ -170,6 +180,7 @@ namespace GXPEngine
         IEnumerator FlashbackHudRoutine(string flashbackDataName)
         {
             TiledObject flashData = null;
+            bool allowSkipByKey = true;
 
             if (FlashBackTriggersManager.Instance.FlashTriggersMap.TryGetValue(flashbackDataName.ToLower(),
                 out var flashTrigger))
@@ -180,11 +191,12 @@ namespace GXPEngine
             else if (flashbackDataName == "final flashback")//FlashbackPickupsManager.Instance.FinalPickup.FlashbackData.Name)
             {
                 flashData = FlashbackPickupsManager.Instance.FinalPickup.FlashbackData;
+                allowSkipByKey = false;
             }
 
             if (flashData != null)
             {
-                var flashHud = GameHud.Instance.LoadFlashbackHud(flashData, true);
+                var flashHud = GameHud.Instance.LoadFlashbackHud(flashData, true, allowSkipByKey);
 
                 while (flashHud != null && flashHud.toDestroy == false)
                 {
@@ -209,6 +221,8 @@ namespace GXPEngine
                 //Correct!
                 Utils.print(this, " order correct ", string.Join(", ", collectOrder));
 
+                flashbackPickup.Enabled = false;
+                
                 yield return CorrectFlashPickupsOrderSequence(flashbackPickup);
             }
             else

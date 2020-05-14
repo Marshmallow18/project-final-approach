@@ -23,14 +23,14 @@ namespace GXPEngine.HUD
         private float _hudRatioY;
 
         private FlashBackHud01 _currentFlashHud;
-        
+
         public GameHud(BaseLevel pLevel, MCamera pCam) : base(false)
         {
             Instance = this;
 
-            _hudRatioX = (float)game.width / Settings.ScreenResolutionX;
-            _hudRatioY = (float)game.height / Settings.ScreenResolutionY;
-            
+            _hudRatioX = (float) game.width / Settings.ScreenResolutionX;
+            _hudRatioY = (float) game.height / Settings.ScreenResolutionY;
+
             _level = pLevel;
             _cam = pCam;
             Cam = _cam;
@@ -100,7 +100,7 @@ namespace GXPEngine.HUD
         /// Create and Load the flashback panel using data of the tiledObject
         /// </summary>
         /// <param name="tileData"></param>
-        public FlashBackHud01 LoadFlashbackHud(TiledObject tileData, bool speedUp = false)
+        public FlashBackHud01 LoadFlashbackHud(TiledObject tileData, bool speedUp = false, bool pAllowSkipByKey = true)
         {
             if (tileData.propertyList?.properties == null)
             {
@@ -121,7 +121,7 @@ namespace GXPEngine.HUD
             }
 
             //Texts: replace multiple linebreaks for one linebreak
-            _currentFlashHud = new FlashBackHud01(tileData.Name, game.width, game.height, speedUp)
+            _currentFlashHud = new FlashBackHud01(tileData.Name, game.width, game.height, speedUp, pAllowSkipByKey)
             {
                 ImagesFiles = imageFiles.Select(im => im.Value).ToArray(),
                 Texts = texts.Select(t =>
@@ -249,6 +249,32 @@ namespace GXPEngine.HUD
                     _level.Player.InputEnabled = true;
 
                 onFinished?.Invoke();
+            }
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(Key.ESCAPE))
+            {
+                if (_currentFlashHud != null && _currentFlashHud.AllowSkipByKey)
+                {
+                    CoroutineManager.StopAllCoroutines(_currentFlashHud);
+                    var allChilds = _currentFlashHud.GetChildrenRecursive();
+                    foreach (var child in allChilds)
+                    {
+                        CoroutineManager.StopAllCoroutines(child);
+                    }
+
+                    _currentFlashHud.toDestroy = true;
+
+                    DrawableTweener.TweenSpriteAlpha(_currentFlashHud, _currentFlashHud.alpha, 0,
+                        Settings.Default_AlphaTween_Duration / 2,
+                        () =>
+                        {
+                            HierarchyManager.Instance.LateDestroy(_currentFlashHud);
+                            _currentFlashHud = null;
+                        });
+                }
             }
         }
 

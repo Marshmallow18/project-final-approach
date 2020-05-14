@@ -176,7 +176,7 @@
     <property name="history_image" type="file" value="data/history images/Cave Images-6.png"/>
    </properties>
   </object>
-  <object id="31" name="History - Some meme" type="History" gid="70" x="4259.12" y="4564.25" width="64.6667" height="62.7832">
+  <object id="31" name="History - Some meme" type="History" gid="70" x="4213.67" y="4600.61" width="64.6667" height="62.7832">
    <properties>
     <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
    </properties>
@@ -246,9 +246,19 @@
     <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
    </properties>
   </object>
+  <object id="60" name="History - path to the room1" type="History" gid="70" x="3237.36" y="3956.49" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
+  <object id="61" name="History - path to the room2" type="History" gid="70" x="2876.76" y="4238.31" width="64.6667" height="62.7832">
+   <properties>
+    <property name="history_image" type="file" value="data/history images/Cave Images-5.png"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="30" name="Misc Objects">
-  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1908.61" y="1792.06" width="128" height="128"/>
+  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1926.67" y="1805.51" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="64" name="Hidden Room Cover">
   <object id="64" name="Hidden Room Collider" type="Doesnt Matter" gid="69" x="1306.21" y="1879.37" width="296.431" height="128" rotation="322.852"/>
@@ -258,19 +268,19 @@
   <object id="34" name="Flashback 2" type="Flashback" gid="74" x="3794" y="2228" width="522" height="414">
    <properties>
     <property name="image_0" type="file" value="data/flashback images/Flashback 3.png"/>
-    <property name="text_0">Civilian2: Yes. Let’s throw some stones at him. Or let’s set the fire to his Nazis uniform and let him dance. He thought he can avoid the justice by deserting. Not only a bastard but a coward too.
+    <property name="text_0">Stranger2: Yes. Let’s through some stones at him. Or let’s set the fire to his Nazis uniform and let him dance. He thought he can avoid the justice by deserting. Not only a bastard but a coward too.
 
 Carl: Stop! Wait! I have an order to deliver him alive to the command. He should inform us about the Nazis forces left in Belgium. There will be no use for him if he will be dead.
 
-Civilian2: No way, we suffered a lot from them and I want this Nazi scum to feel that pain!
+Stranger2: No way, we suffered a lot from them and I want this Nazi scum to feel that pain!
 
-German deserter: I am not Nazi! I never wanted to fight for the ideas of Hitler! I swear! Let me live!
+Frank: I am not Nazi! I never wanted to fight for the ideas of Hitler! I swear! Let me live!
 
-Civilian2: Of course you would say that when a gun is pointing at you.
+Stranger 2: Of course you would say that when a gun is pointing at you.
 
 Carl: Listen. His information can safe people. Belgian people, American, our people. He will get into the prison after. He won’t avoid the justice now, I promise.
 
-Civilian3: This is you lucky day Nazi. Let’s go boys, he is hardly wounded so he won’t survive this day any way.   
+Stranger 2: This is you lucky day Nazi. Let’s go boys, he is hardly wounded so he won’t survive this day any way.   
 
 Carl: Ok let’s move you out of here. 
 </property>
@@ -281,7 +291,7 @@ Carl: Ok let’s move you out of here.
     <property name="image_0" type="file" value=""/>
     <property name="text_0">Carl: Hey. Excuse me. I am looking for a guy. He is wearing a German uniform. Have you seen him somewhere around?
 
-Civilian: Also lost someone on this war? Hurry up to the Room of Trophy if you want to find this bastard alive. You are not the only one who is searching for the revenge in these caves, boy. 
+Stranger: Also lost someone on this war? Hurry up to the Room of Trophy if you want to find this bastard alive. You are not the only one who is searching for the revenge in these caves, boy. 
 
 Carl: Thanks sir but I don’t search for a revenge…
 </property>
@@ -292,22 +302,22 @@ Carl: Thanks sir but I don’t search for a revenge…
     <property name="image_0" type="file" value=""/>
     <property name="text_0">Carl: I will deliver you to the command. It’s not my problem if you die at the middle of the way. Why would I help you? My brother died in the first day of the occupation of Belgium. Died on the war I hate with all my soul. The war you, Germans, started! Why would I help you?!
 
-German deserter: Because we are not that different. I hate this was just as much as you do. Why do you think I speak French that well? Yes I was born in Germany but my mother was from Belgium. I never believed the ideas of Hitler and I never wanted to fight. I just want to return to my wife just as you want to return to your family. 
+Frank: Because we are not that different. I hate this was just as much as you do. Why do you think I speak French that well? Yes I was born in Germany but my mother was from Belgium. I never believed the ideas of Hitler and I never wanted to fight. I just want to return to my wife just as you want to return to your family. 
 
 Carl: None of you wanted to fight but all of you did.
 
-German deserter: You also would. There was no other option or choice to make. The only choice I made during this war is to desert and not to be a part of all of it any more. To just survive it and return to the one I love. Listen, you said I won’t be useful if I would be dead anyway. And I will be if you won’t help me to get to the doctor. Aren’t there enough victims of that war? 
+Frank: You also would. There was no other option or choice to make. The only choice I made during this war is to desert and not to be a part of all of it any more. To just survive it and return to the one I love. Listen, you said I won’t be useful if I would be dead anyway. And I will be if you won’t help me to get to the doctor. Aren’t there enough victims of that war? 
 </property>
    </properties>
   </object>
   <object id="37" name="Flashback 3" type="Flashback" gid="74" x="2450.15" y="2714.82" width="506.848" height="395.818">
    <properties>
     <property name="image_0" value=""/>
-    <property name="text_0">German deserter: Thanks for standing up for me. I would be dead already.
+    <property name="text_0">Frank: Thanks for standing up for me. I would be dead already.
 
 Carl: I had my orders. 
 
-German deserter: Listen. These people were right in one thing. I need a doctor or I will die less than in an hour. I am almost not able to walk so there is no chance you will deliver me to the command alive. I lost a lot of blood already… I know there is a village nearby. They have a doctor I’ve heard…
+Frank: Listen. These people were right in one think. I need a doctor or I will die less than in an hour. I am almost not able to walk so there is no chance you will deliver me to the command alive. I lost a lot of blood already… I know there is a village nearby. They have a doctor I’ve heard…
 </property>
    </properties>
   </object>
@@ -317,7 +327,7 @@ German deserter: Listen. These people were right in one thing. I need a doctor o
     <property name="image_1" type="file" value=""/>
     <property name="text_0">Carl: What’s your name soldier?
 
-German deserter: Frank. And yours?
+Frank: Frank. And yours?
 
 Carl: Carl. Is your wife beautiful?
 
@@ -345,7 +355,7 @@ Frank: I will return you your compass. I will hide under that stone near the cav
 
 Carl: Buy Frank.
 </property>
-    <property name="text_1">Stranger appears: No way you will escape, Nazi scum!!! 
+    <property name="text_1">Stranger appears: No way you will escape Nazi!!! 
 
 Carl: Wait! Stop! I am not …
 
@@ -409,12 +419,41 @@ BANG
    <properties>
     <property name="image_0" type="file" value=""/>
     <property name="image_1" type="file" value=""/>
-    <property name="text_0" value="Carl: Final messages"/>
-    <property name="text_1">Stranger appears: Final
+    <property name="text_0">Carl: What’s your name soldier?
 
-Carl: final
+Frank: Frank. And yours?
 
-End
+Carl: Carl. Is your wife beautiful?
+
+Frank: Oh yes she is. I have a picture of her with me. Why?
+
+Carl: I think she will be happy to see you again alive, right?
+
+Frank: Oh God, thanks!
+
+Carl: I’ve killed enough Germans, probably it is time to save one. But I need you to give me any important piece of information you have. I can’t return back empty-handed, you know.
+
+Frank: Alright, I have a map with me with some notes about the disposition and plans. Take it.
+
+Carl: Good. Let’s go now, I will lead you to a hidden exit and give you my map and compass.
+
+Frank: You won’t come with me to the village?
+
+Carl: I need to deliver the map you gave me to the command, so you have to go there on your own. And Frank. You won’t reach the village alive wearing your German uniform. Here, take my clothes.
+
+Frank: And you? What will you do without the clothes, and how will you explain it to the command?
+
+Carl: I’ve felt down to the cave river by accident and my uniform was extremely wet. Not to die from cold I’ve set a fire to dry it and continued searching for you. After I found you dead I returned to my bonfire and saw that my clothes had burned to the ashes. Not to walk naked all the way back in the cold I took the uniform of a dead German soldier. Now go, you need someone to take care of your wound as fast as possible.
+
+Frank: I will return you your compass. I will hide under that stone near the cave exit.
+
+Carl: Buy Frank.
+</property>
+    <property name="text_1">Stranger appears: No way you will escape Nazi!!! 
+
+Carl: Wait! Stop! I am not …
+
+BANG
 </property>
    </properties>
   </object>

@@ -91,9 +91,10 @@ namespace GXPEngine
 
         public void EnableFlashbackPickups()
         {
-            foreach (var kv in _flashPickupsMap)
+            var flashPickupsOrdered = _flashPickupsMap.Values.OrderBy(f => f.FlashbackData.Name);
+            foreach (var flashbackPickup in flashPickupsOrdered)
             {
-                EnablePickup(kv.Value);
+                EnablePickup(flashbackPickup);
             }
             
             EnablePickup(_finalPickup);

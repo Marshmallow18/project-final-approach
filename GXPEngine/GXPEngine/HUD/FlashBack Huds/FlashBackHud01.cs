@@ -23,16 +23,21 @@ namespace GXPEngine.HUD.FlashBack_Huds
         private int _alphaTweenDuration = 1;
         private int _textSpeed = 1;
 
+        private bool _allowSkipByKey = true;
+        
         /// <summary>
         /// Loaded in Game Hud, all logic run as a sequence/routine in Start()
         /// </summary>
         /// <param name="flashBackName"></param>
         /// <param name="pWidth"></param>
         /// <param name="pHeight"></param>
-        public FlashBackHud01(string flashBackName, int pWidth, int pHeight, bool speedUp) : base(flashBackName,
+        public FlashBackHud01(string flashBackName, int pWidth, int pHeight, bool speedUp, bool pAllowSkipByKey = true) : base(flashBackName,
             pWidth, pHeight)
         {
             alpha = 0;
+
+            //Used in Gamehud to check if this flashback can be skipped by pressing ESCAPE
+            _allowSkipByKey = pAllowSkipByKey;
 
             _alphaTweenDuration =
                 (speedUp) ? Settings.Default_AlphaTween_Duration / 6 : Settings.Default_AlphaTween_Duration;
@@ -183,5 +188,7 @@ namespace GXPEngine.HUD.FlashBack_Huds
             get => _level;
             set => _level = value;
         }
+
+        public bool AllowSkipByKey => _allowSkipByKey;
     }
 }
