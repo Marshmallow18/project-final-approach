@@ -112,7 +112,7 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 yield return null;
 
                 //Wait AnyKey to go to the next text
-                while (!Input.GetAnyKeyDown())
+                while (!Input.GetAnyKeyDown(Key.ESCAPE))
                 {
                     yield return null;
                 }
@@ -129,7 +129,7 @@ namespace GXPEngine.HUD.FlashBack_Huds
                     yield return null;
 
                     //Wait AnyKey to go to the next text, if it is the last ont, goes to next image
-                    while (!Input.GetAnyKeyDown())
+                    while (!Input.GetAnyKeyDown(Key.ESCAPE))
                     {
                         yield return null;
                     }

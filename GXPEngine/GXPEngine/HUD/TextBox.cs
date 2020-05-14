@@ -97,7 +97,7 @@ namespace GXPEngine.HUD
 
         public void CentralizeHorizontal()
         {
-            this.x = game.width / 2f - this.Width / 2f;
+            this.x = (game.width) / 2f - this.Width / 2f;
         }
 
         public void CenterOnBottom()
@@ -159,7 +159,7 @@ namespace GXPEngine.HUD
                 duration = Mathf.Ceiling((float) len / speed) * 1000;
             }
 
-            while (time < duration && !Input.GetAnyKeyDown())
+            while (time < duration && !Input.GetAnyKeyDown(Key.ESCAPE))
             {
                 float easing = Easing.Ease(Easing.Equation.Linear, time, 0, 1, duration);
                 int mapIndex = Mathf.Round(Mathf.Map(easing, 0, 1, 0, len - 1));
@@ -183,7 +183,7 @@ namespace GXPEngine.HUD
 
             yield return null;
 
-            while (waitAnyKetToClose && !Input.GetAnyKeyDown())
+            while (waitAnyKetToClose && !Input.GetAnyKeyDown(Key.ESCAPE))
             {
                 yield return null;
             }

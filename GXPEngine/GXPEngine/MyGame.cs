@@ -60,11 +60,17 @@ public class MyGame : Game
 
     public MyGame() : base(SCREEN_WIDTH, SCREEN_HEIGHT, Settings.FullScreen) // Create a window that's 800x600 and NOT fullscreen
     {
+        SCREEN_WIDTH = game.width;
+        SCREEN_HEIGHT = game.height;
+
+        HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
+        HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
+        
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
         var caveLevelMap = new CaveLevelMapGameObject(mapData);
-
-        _cam = new FollowCamera(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        
+        _cam = new FollowCamera(0, 0, game.width, game.height);
         Cam = _cam;
 
         LoadLevel(caveLevelMap);
@@ -150,7 +156,8 @@ public class MyGame : Game
                              Vector2.up * (height / 2) * _cam.scaleY;
 
         _debugText.TextValue =
-            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}";
+            $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}\r\n" +
+            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
         _level?.Player?.EnableRun(Input.GetKey(Key.LEFT_SHIFT));
@@ -208,10 +215,7 @@ public class MyGame : Game
 
         SCREEN_WIDTH = Settings.ScreenResolutionX;
         SCREEN_HEIGHT = Settings.ScreenResolutionY;
-
-        HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
-        HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
-
+        
         AlphaTweenDuration = Settings.Default_AlphaTween_Duration;
 
         new MyGame().Start(); // Create a "MyGame" and start it

@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayerCollision.cs" />
+    <Compile Include="SoundManager.cs" />
     <Compile Include="Test\Test1.cs" />
     <Compile Include="Tools\DebugDrawBoundBox.cs" />
     <Compile Include="Tools\DrawableTweener.cs" />

@@ -19,10 +19,18 @@ namespace GXPEngine.HUD
 
         private FlashbackCounterHudPanel _flashbackCounterHudPanel;
 
+        private float _hudRatioX;
+        private float _hudRatioY;
+
+        private FlashBackHud01 _currentFlashHud;
+        
         public GameHud(BaseLevel pLevel, MCamera pCam) : base(false)
         {
             Instance = this;
 
+            _hudRatioX = (float)game.width / Settings.ScreenResolutionX;
+            _hudRatioY = (float)game.height / Settings.ScreenResolutionY;
+            
             _level = pLevel;
             _cam = pCam;
             Cam = _cam;
@@ -113,7 +121,7 @@ namespace GXPEngine.HUD
             }
 
             //Texts: replace multiple linebreaks for one linebreak
-            var flashHud = new FlashBackHud01(tileData.Name, game.width, game.height, speedUp)
+            _currentFlashHud = new FlashBackHud01(tileData.Name, game.width, game.height, speedUp)
             {
                 ImagesFiles = imageFiles.Select(im => im.Value).ToArray(),
                 Texts = texts.Select(t =>
@@ -125,9 +133,9 @@ namespace GXPEngine.HUD
                 Level = _level
             };
 
-            HierarchyManager.Instance.LateAdd(this, flashHud);
+            HierarchyManager.Instance.LateAdd(this, _currentFlashHud);
 
-            return flashHud;
+            return _currentFlashHud;
         }
 
         public IEnumerator ShowFlashbackDetectivePanel()
@@ -204,7 +212,7 @@ namespace GXPEngine.HUD
                 yield return new WaitForMilliSeconds(delay);
             }
 
-            AddChild(textBox);
+            HierarchyManager.Instance.LateAdd(this, textBox);
 
             if (fade)
                 DrawableTweener.TweenSpriteAlpha(textBox, 0, 1, Settings.Default_AlphaTween_Duration);
@@ -247,5 +255,9 @@ namespace GXPEngine.HUD
         public static MCamera Cam { get; set; }
 
         public MemoriesHudPanel MemoriesHudPanel => _memoriesHudPanel;
+
+        public float HudRatioX => _hudRatioX;
+
+        public float HudRatioY => _hudRatioY;
     }
 }
