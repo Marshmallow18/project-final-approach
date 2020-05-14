@@ -121,7 +121,7 @@ namespace GXPEngine.HUD
             }
 
             //Texts: replace multiple linebreaks for one linebreak
-            _currentFlashHud = new FlashBackHud01(tileData.Name, game.width, game.height, speedUp, pAllowSkipByKey)
+            _currentFlashHud = new FlashBackHud01(tileData, game.width, game.height, speedUp, pAllowSkipByKey)
             {
                 ImagesFiles = imageFiles.Select(im => im.Value).ToArray(),
                 Texts = texts.Select(t =>

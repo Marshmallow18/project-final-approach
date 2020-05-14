@@ -71,6 +71,7 @@
     <Compile Include="FlashBackTriggersManager.cs" />
     <Compile Include="FogSystemManager.cs" />
     <Compile Include="FollowCamera.cs" />
+    <Compile Include="GameSoundManager.cs" />
     <Compile Include="GXPEngine\Core\SoundSystem.cs" />
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
@@ -129,7 +130,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PlayerCollision.cs" />
-    <Compile Include="SoundManager.cs" />
     <Compile Include="Test\Test1.cs" />
     <Compile Include="Tools\DebugDrawBoundBox.cs" />
     <Compile Include="Tools\DrawableTweener.cs" />

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using GXPEngine.Core;
 using GXPEngine.OpenGL;
 
@@ -26,6 +27,9 @@ namespace GXPEngine.HUD
 
         private bool _showPressAnyKeyToNext = true;
         private EasyDraw _pressAnyKeyMsg;
+
+        private static Regex _audioRegex = new Regex(Settings.Regex_Audio_Music_Pattern,
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         public delegate void OnFinished();
 
@@ -117,7 +121,7 @@ namespace GXPEngine.HUD
             get => _text;
             set
             {
-                _text = value;
+                _text = _audioRegex.Replace(value, "");
                 _textToShow = "";
 
                 _text = (_autoWrap) ? WrappedText(out var numOfLines) : _text;

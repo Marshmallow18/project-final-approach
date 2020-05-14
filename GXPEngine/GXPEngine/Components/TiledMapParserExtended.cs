@@ -42,7 +42,7 @@ namespace TiledMapParserExtended
     }
 
     [XmlRootAttribute("mapData")]
-    public class Map
+    public class Map : PropertyContainer
     {
         [XmlAttribute("width")] public int Width;
         [XmlAttribute("height")] public int Height;
@@ -63,6 +63,8 @@ namespace TiledMapParserExtended
         [XmlElement("imagelayer")] public ImageLayer[] ImageLayers;
         
         [XmlElement("group")] public Group[] Groups;
+        
+        
 
         [XmlText] public string InnerXML; // This should be empty
 

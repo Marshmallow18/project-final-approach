@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
+using System.Threading;
 using GXPEngine.Components;
 using GXPEngine.Core;
 
@@ -17,6 +19,9 @@ namespace GXPEngine
             _cam = (FollowCamera)pCam;
             
             AddChild(_caveLevelMap);
+
+            var gameSoundManager = new GameSoundManager(this);
+            AddChild(gameSoundManager);
             
             var hiddenRoomManager = new HiddenRoomCoverManager(this);
             AddChild(hiddenRoomManager);
@@ -55,9 +60,17 @@ namespace GXPEngine
             
             _playerCollision = new PlayerCollision(_player, _caveLevelMap, _cam);
             AddChild(_playerCollision);
+
+            CoroutineManager.StartCoroutine(Start(), this);
+        }
+
+        private IEnumerator Start()
+        {
+            yield return new WaitForMilliSeconds(2000);
             
-            // var fogsystem = new FogSystemManager(_cam, _player);
-            // AddChild(fogsystem);
+            //Play level music
+            string startMusic = _caveLevelMap.MapData.GetStringProperty("level_start_music", "");
+            GameSoundManager.Instance.FadeInMusic(startMusic, Settings.Background_Music_Volume, 1000);
         }
 
         private Vector2 GetPlayerSpawnPoint()

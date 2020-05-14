@@ -79,7 +79,7 @@ namespace GXPEngine
 		public SoundChannel Play( bool paused = false, uint channelId=0, float volume=1, float pan=0)
 		{
 
-			#if !USE_FMOD_AUDIO
+			#if false //!USE_FMOD_AUDIO
 			if (channelId != 0)
 			{
 				throw new Exception("Channel ID is not supported when using SoLoud audio. Please change #define in GLContext.cs!");

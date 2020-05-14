@@ -87,7 +87,12 @@ namespace GXPEngine {
 		public static string Flashback_Pickups_Incorrect_Order_Message = "You get the incorrect order";
 
 		public static bool Flashback_Triggers_Allow_Skip_With_Esc_Key = true;
-		
+		public static string Regex_Audio_Music_Pattern = @"(\[audio_\d+\])|(\[music_\d+\])";
+		public static float Flashbacks_Music_Volume = 1f;
+		public static int Flashbacks_Music_Fadein_Duration = 800;
+		public static float Background_Music_Volume = 0.4f;
+		public static float SFX_Default_Volume = 0.7f;
+
 		/// <summary>
 		/// Load new values from the file settings.txt
 		/// </summary>

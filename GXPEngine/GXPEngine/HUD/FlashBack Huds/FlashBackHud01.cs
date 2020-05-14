@@ -3,6 +3,8 @@ using System.Collections;
 using System.Drawing;
 using System.IO;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
+using TiledMapParserExtended;
 
 namespace GXPEngine.HUD.FlashBack_Huds
 {
@@ -24,17 +26,26 @@ namespace GXPEngine.HUD.FlashBack_Huds
         private int _textSpeed = 1;
 
         private bool _allowSkipByKey = true;
-        
+
+        private TiledObject _tiledData;
+
+        Regex _audioRegex = new Regex(Settings.Regex_Audio_Music_Pattern,
+            RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         /// <summary>
         /// Loaded in Game Hud, all logic run as a sequence/routine in Start()
         /// </summary>
         /// <param name="flashBackName"></param>
         /// <param name="pWidth"></param>
         /// <param name="pHeight"></param>
-        public FlashBackHud01(string flashBackName, int pWidth, int pHeight, bool speedUp, bool pAllowSkipByKey = true) : base(flashBackName,
-            pWidth, pHeight)
+        public FlashBackHud01(TiledObject pTiledData, int pWidth, int pHeight, bool speedUp = false,
+            bool pAllowSkipByKey = true)
+            : base(pTiledData.Name,
+                pWidth, pHeight)
         {
             alpha = 0;
+
+            _tiledData = pTiledData;
 
             //Used in Gamehud to check if this flashback can be skipped by pressing ESCAPE
             _allowSkipByKey = pAllowSkipByKey;
@@ -111,6 +122,9 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 _textBox.Text = texts.Length == 0 ? "" : texts[0];
                 _textBox.SetXY(120 / 2f, game.height - _textBox.Height - 30);
 
+                //Check if has audio to play
+                PlayAudioOrMusic(texts[0]);
+
                 //Tween text, can be skipped by AnyKey
                 yield return _textBox.TweenTextRoutine(0, _textSpeed);
 
@@ -129,6 +143,10 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 {
                     _textBox.Text = texts[t];
                     _textBox.SetXY(120 / 2f, game.height - _textBox.Height - 30);
+
+                    //Check if has audio to play
+                    PlayAudioOrMusic(texts[t]);
+
                     yield return _textBox.TweenTextRoutine(0, _textSpeed);
 
                     yield return null;
@@ -161,6 +179,15 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 }
             }
 
+            //Fadein Music if has one
+            var closeMusicFilename = _tiledData.GetStringProperty("close_music", null);
+            var closeMusicVol = _tiledData.GetFloatProperty("close_music", Settings.Background_Music_Volume);
+            if (closeMusicFilename != null)
+            {
+                GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
+                GameSoundManager.Instance.FadeInMusic(closeMusicFilename);
+            }
+
             //Fadeout panel, destroy itself, enables Player input
             DrawableTweener.TweenSpriteAlpha(this, 1, 0, MyGame.AlphaTweenDuration, Easing.Equation.QuadEaseOut, 0,
                 () =>
@@ -169,6 +196,49 @@ namespace GXPEngine.HUD.FlashBack_Huds
                     toDestroy = true;
                     _level.Player.InputEnabled = true;
                 });
+        }
+
+        private void PlayAudioOrMusic(string text)
+        {
+            var match = _audioRegex.Match(text);
+            if (match.Success)
+            {
+                var propName = match.Value.Replace("[", "").Replace("]", "");
+
+                var fileName = _tiledData.GetStringProperty(propName, "");
+
+                if (string.IsNullOrWhiteSpace(fileName))
+                    return;
+
+                if (propName.StartsWith("audio_"))
+                {
+                    //Try find loop property
+                    int audioIndex = int.TryParse(propName.Replace("audio_", ""), out audioIndex) ? audioIndex : -1;
+                    var loopProp = _tiledData.GetBoolProperty($"audio_loop_{audioIndex}", false);
+                    var audioVolume =
+                        _tiledData.GetFloatProperty($"audio_volume_{audioIndex}", Settings.SFX_Default_Volume);
+
+                    if (loopProp)
+                    {
+                        GameSoundManager.Instance.PlayFxLoop(fileName, audioVolume);
+                    }
+                    else
+                    {
+                        GameSoundManager.Instance.PlayFx(fileName, audioVolume);
+                    }
+                }
+                else if (propName.StartsWith("music_"))
+                {
+                    int musicIndex = int.TryParse(propName.Replace("music_", ""), out musicIndex) ? musicIndex : -1;
+                    float musicVolume =
+                        _tiledData.GetFloatProperty($"music_volume_{musicIndex}", Settings.Flashbacks_Music_Volume);
+
+                    GameSoundManager.Instance.FadeOutCurrentMusic();
+                    
+                    GameSoundManager.Instance.FadeInMusic(fileName, musicVolume,
+                        Settings.Flashbacks_Music_Fadein_Duration);
+                }
+            }
         }
 
         public string[] ImagesFiles

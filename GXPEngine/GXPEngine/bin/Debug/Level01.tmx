@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="36" nextobjectid="66">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="36" nextobjectid="67">
+ <properties>
+  <property name="level_start_music" type="file" value="data/audios/musics/cave_info.ogg"/>
+ </properties>
  <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="data/Clouds Border Tileset.png" width="1024" height="1024"/>
  </tileset>
@@ -248,7 +251,7 @@
   </object>
  </objectgroup>
  <objectgroup id="30" name="Misc Objects">
-  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1908.61" y="1792.06" width="128" height="128"/>
+  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="4276.61" y="3524.06" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="64" name="Hidden Room Cover">
   <object id="64" name="Hidden Room Collider" type="Doesnt Matter" gid="69" x="1306.21" y="1879.37" width="296.431" height="128" rotation="322.852"/>
@@ -278,12 +281,18 @@ Carl: Ok let’s move you out of here.
   </object>
   <object id="35" name="Flashback 1" type="Flashback" gid="74" x="3975" y="3301" width="522" height="414">
    <properties>
+    <property name="audio_0" type="file" value="data/audios/sfx/fl5_shooting.wav"/>
+    <property name="audio_0_volume" type="float" value="0.6"/>
+    <property name="audio_1" type="file" value="data/audios/sfx/gate_long.wav"/>
+    <property name="close_music_0" type="bool" value="true"/>
     <property name="image_0" type="file" value=""/>
+    <property name="music_0" type="file" value="data/audios/musics/fl_1.ogg"/>
+    <property name="music_volume_0" type="float" value="0.6"/>
     <property name="text_0">Carl: Hey. Excuse me. I am looking for a guy. He is wearing a German uniform. Have you seen him somewhere around?
 
-Civilian: Also lost someone on this war? Hurry up to the Room of Trophy if you want to find this bastard alive. You are not the only one who is searching for the revenge in these caves, boy. 
+Civilian: Also lost someone on this war? Hurry up to the Room of Trophy if you want to find this bastard alive. You are not the only one who is searching for the revenge in these caves, boy. [music_0]
 
-Carl: Thanks sir but I don’t search for a revenge…
+Carl: Thanks sir but I don’t search for a revenge… [audio_1]
 </property>
    </properties>
   </object>
@@ -302,7 +311,10 @@ German deserter: You also would. There was no other option or choice to make. Th
   </object>
   <object id="37" name="Flashback 3" type="Flashback" gid="74" x="2450.15" y="2714.82" width="506.848" height="395.818">
    <properties>
+    <property name="audio_1" type="file" value="data/audios/sfx/fl5_gunshoot.wav"/>
+    <property name="audio_loop_1" type="bool" value="true"/>
     <property name="image_0" value=""/>
+    <property name="music_0" type="file" value=""/>
     <property name="text_0">German deserter: Thanks for standing up for me. I would be dead already.
 
 Carl: I had my orders. 
@@ -315,6 +327,7 @@ German deserter: Listen. These people were right in one thing. I need a doctor o
    <properties>
     <property name="image_0" type="file" value=""/>
     <property name="image_1" type="file" value=""/>
+    <property name="music_2" type="file" value="data/audios/musics/end_scene.ogg"/>
     <property name="text_0">Carl: What’s your name soldier?
 
 German deserter: Frank. And yours?
@@ -421,8 +434,8 @@ End
  </objectgroup>
  <group id="25" name="Helpers" locked="1">
   <objectgroup id="32" name="Helpers Objects" locked="1">
-   <object id="39" gid="75" x="3920" y="2096" width="436" height="420"/>
-   <object id="40" gid="76" x="4104" y="3204" width="404" height="404"/>
+   <object id="39" gid="75" x="4164" y="3068" width="436" height="420"/>
+   <object id="40" gid="76" x="3964" y="2008" width="404" height="404"/>
    <object id="41" gid="77" x="2480" y="2692" width="440" height="440"/>
    <object id="42" gid="78" x="1872" y="3880" width="572" height="572"/>
    <object id="43" gid="79" x="1424" y="2200" width="428" height="428"/>
