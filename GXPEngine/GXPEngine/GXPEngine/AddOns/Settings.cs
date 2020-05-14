@@ -93,6 +93,8 @@ namespace GXPEngine {
 		public static float Background_Music_Volume = 0.4f;
 		public static float SFX_Default_Volume = 0.7f;
 
+		public static string HUD_Flashback_Counter_Format = "{0} of {1} flashbacks";
+		
 		/// <summary>
 		/// Load new values from the file settings.txt
 		/// </summary>

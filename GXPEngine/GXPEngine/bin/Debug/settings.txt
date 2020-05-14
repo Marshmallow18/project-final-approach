@@ -20,3 +20,5 @@ Message_To_Player_After_Collect_Flashbacks = Message to player blabla...
 Flashback_Triggers_Allow_Skip_With_Esc_Key = true
 
 Flashback_Pickups_Incorrect_Order_Message = You got the flashbacks in the wrong order.
+
+HUD_Flashback_Counter_Format = {0} of {1} flashbacks

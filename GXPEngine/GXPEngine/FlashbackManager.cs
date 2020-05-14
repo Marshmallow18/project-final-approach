@@ -52,7 +52,7 @@ namespace GXPEngine
                     {
                         string triggerName = $"flashback {val}";
                         _collectedFlashBacksTriggersNames.Add(triggerName);
-                        
+
                         //Disable triggers
                         var trigger = FlashBackTriggersManager.Instance.FlashTriggersMap[triggerName];
                         trigger.Enabled = false;
@@ -60,8 +60,9 @@ namespace GXPEngine
                 }
             }
 
-            GameHud.Instance.SetFlashbackHudCounterText(
-                $"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks}");
+            GameHud.Instance.SetFlashbackHudCounterText(string.Format(Settings.HUD_Flashback_Counter_Format,
+                _collectedFlashBacksTriggersNames.Count, _totalFlashbacks));
+            //$"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks} flashbacks");
         }
 
         /// <summary>
@@ -78,9 +79,12 @@ namespace GXPEngine
                 _collectedFlashBacksTriggersNames.Add(flashbackData.Name);
 
                 GameHud.Instance.SetFlashbackHudCounterText(
-                    $"{_collectedFlashBacksTriggersNames.Count} of {_totalFlashbacks}");
+                    string.Format(Settings.HUD_Flashback_Counter_Format, _collectedFlashBacksTriggersNames.Count,
+                        _totalFlashbacks)
+                );
 
-                var flashHud = GameHud.Instance.LoadFlashbackHud(flashbackData, false, Settings.Flashback_Triggers_Allow_Skip_With_Esc_Key);
+                var flashHud = GameHud.Instance.LoadFlashbackHud(flashbackData, false,
+                    Settings.Flashback_Triggers_Allow_Skip_With_Esc_Key);
                 CoroutineManager.StartCoroutine(WaitForFlashPanelHudBeDestroyed(flashHud, flashbackData), this);
             }
         }
@@ -98,7 +102,7 @@ namespace GXPEngine
             {
                 GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
             }
-            
+
             if (_collectedFlashBacksTriggersNames.Count >= _totalFlashbacks)
             {
                 //All found
@@ -137,7 +141,7 @@ namespace GXPEngine
             if (showPanel)
             {
                 yield return FlashbackHudRoutine(flashbackPickup.FlashbackData.Name);
-                
+
                 //Fadeout Music if has one and a property to close it
                 var closeMusicBool = flashbackPickup.FlashbackData.GetBoolProperty("close_music", false);
                 if (closeMusicBool)
@@ -156,13 +160,14 @@ namespace GXPEngine
                 if (flashName == "final flashback")
                 {
                     CoroutineManager.StopAllCoroutines(flashbackPickup);
-                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0, Settings.Default_AlphaTween_Duration,
+                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
+                        Settings.Default_AlphaTween_Duration,
                         () => { flashbackPickup.Enabled = false; });
-                    
+
                     Console.WriteLine($"{this} go to END");
                     yield break;
                 }
-                
+
                 //Change Indicator
                 if (int.TryParse(flashName.Replace("flashback ", ""), out var flashIndex))
                 {
@@ -202,7 +207,8 @@ namespace GXPEngine
                 flashData = flashTrigger.FlashbackTriggerData;
             }
             //For the final flahback scene, its not a trigger so needs a different load
-            else if (flashbackDataName == "final flashback")//FlashbackPickupsManager.Instance.FinalPickup.FlashbackData.Name)
+            else if (flashbackDataName == "final flashback"
+            ) //FlashbackPickupsManager.Instance.FinalPickup.FlashbackData.Name)
             {
                 flashData = FlashbackPickupsManager.Instance.FinalPickup.FlashbackData;
                 allowSkipByKey = false;
@@ -227,7 +233,8 @@ namespace GXPEngine
 
             //Get the original list in lowercase
             var correctOrder =
-                FlashbackPickupsManager.Instance.FlashPickupsMap.Values.OrderBy(s => s.FlashbackData.Name).Select(s => s.FlashbackData.Name.ToLower());
+                FlashbackPickupsManager.Instance.FlashPickupsMap.Values.OrderBy(s => s.FlashbackData.Name)
+                    .Select(s => s.FlashbackData.Name.ToLower());
             var collectOrder = _collectedFlashPickupsNames.Select(s => s.ToLower());
 
             if (correctOrder.SequenceEqual(collectOrder))
@@ -236,7 +243,7 @@ namespace GXPEngine
                 Utils.print(this, " order correct ", string.Join(", ", collectOrder));
 
                 flashbackPickup.Enabled = false;
-                
+
                 yield return CorrectFlashPickupsOrderSequence(flashbackPickup);
             }
             else
@@ -290,7 +297,7 @@ namespace GXPEngine
 
             FlashbackPickupsManager.Instance.EnableFlashbackPickups();
         }
-        
+
         TextBox textBox = null;
 
         void Update()
@@ -299,16 +306,16 @@ namespace GXPEngine
             {
                 textBox = GameHud.Instance.ShowTextBox(
                     "Vivamus commodo suscipit neque. Donec fermentum leo a risus volutpat, sit amet malesuada magna tincidunt. Ut lacinia tellus enim, vel ullamcorper odio aliquam sed. Sed id metus neque. Vestibulum sed dolor vel massa finibus vulputate. Donec quis viverra nulla, dapibus blandit turpis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos."
-                    
-                    );
+                );
             }
 
             if (textBox != null)
             {
-                Console.WriteLine($"{this}: {textBox.x} {textBox.y} | {textBox.width} {textBox.height} | gameW: {game.width} | gameH: {game.height} | hudRatioX: {GameHud.Instance.HudRatioX} hudRatioY: {GameHud.Instance.HudRatioY}");
+                Console.WriteLine(
+                    $"{this}: {textBox.x} {textBox.y} | {textBox.width} {textBox.height} | gameW: {game.width} | gameH: {game.height} | hudRatioX: {GameHud.Instance.HudRatioX} hudRatioY: {GameHud.Instance.HudRatioY}");
             }
         }
-        
+
         public int TotalFlashbacks => _totalFlashbacks;
         public int FlashbackTriggersCollectedCount => _collectedFlashBacksTriggersNames.Count;
         public int CollectedFlashPickupsCount => _collectedFlashPickupsNames.Count;
