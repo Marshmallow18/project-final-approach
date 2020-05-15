@@ -1,9 +1,9 @@
 ﻿//General
-ScreenResolutionX = 1920
-ScreenResolutionY = 1080
-//ScreenResolutionX = 1280
-//ScreenResolutionY = 720
-FullScreen = true
+//ScreenResolutionX = 1920
+//ScreenResolutionY = 1080
+ScreenResolutionX = 1280
+ScreenResolutionY = 720
+FullScreen = false
 
 Default_AlphaTween_Duration = 600
 Textbox_Font = Anton
@@ -15,7 +15,7 @@ Message_To_Player_After_Collect_Flashbacks = Message to player blabla...
 //To starts game with some triggers already collected, for test, dont fill with all, use 3 or 4
 //Example: Flashback_Triggers_Collected = 1 2 3 4
 //Flashback_Triggers_Collected = 1 2 3 4
-//Flashback_Pickups_Collected = 1 2 3
+//Flashback_Pickups_Collected = 1 2 3 4
 
 Flashback_Triggers_Allow_Skip_With_Esc_Key = true
 

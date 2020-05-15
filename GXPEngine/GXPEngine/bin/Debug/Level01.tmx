@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="36" nextobjectid="66">
+<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="36" nextobjectid="67">
+ <properties>
+  <property name="level_start_music" type="file" value="data/audios/musics/cave_info.ogg"/>
+ </properties>
  <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="data/Clouds Border Tileset.png" width="1024" height="1024"/>
  </tileset>

@@ -15,7 +15,7 @@
         {
             if (_timeCounter >= _updateInterval)
             {
-                _fps = 1 / Time.delta;
+                _fps = game.currentFps;
                 _timeCounter = 0;
             }
 

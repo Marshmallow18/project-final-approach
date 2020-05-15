@@ -78,16 +78,10 @@ public class MyGame : Game
         LoadLevel(caveLevelMap);
 
         //Debug
-        _circleGo = new CircleGameObject(64, 64, (uint) Color.Red.ToArgb());
-        var circleGo2 = new CircleGameObject(4, 4);
-        AddChild(_circleGo);
-        _circleGo.SetXY(1192, 4664);
-        _circleGo.AddChild(circleGo2);
-
         _fpsCounter = new FpsCounter();
         AddChild(_fpsCounter);
 
-        _debugText = new DebugTextBox("Hello World", width, 50);
+        _debugText = new DebugTextBox("Hello World", width, 100);
         _cam.AddChild(_debugText);
         _debugText.x = -SCREEN_WIDTH / 2;
         _debugText.y = -SCREEN_HEIGHT / 2;
@@ -162,9 +156,12 @@ public class MyGame : Game
 
         _debugText.TextValue =
             $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}\r\n" +
-            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)} | animFrame: {_level?.Player?.Frame}";
+            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)} | animFrame: {_level?.Player?.Frame}\r\n" +
+            $"Channel: {GameSoundManager.Instance?.CurrentChannel?.ID}/{GameSoundManager.Instance?.CurrentChannelId} | isplaying: {GameSoundManager.Instance?.CurrentChannel?.IsPlaying} | ispaused: {GameSoundManager.Instance?.CurrentChannel?.IsPaused}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
+        if (Debug) GameSoundManager.Instance?.DebugSoundChannels();
+        
         _level?.Player?.EnableRun(Input.GetKey(Key.LEFT_SHIFT));
 
         if (Input.GetKeyDown(Key.U))

@@ -21,7 +21,7 @@ namespace GXPEngine
         private SoundChannel _currentFxChannel;
         private SoundChannel _currentLoopFxChannel;
 
-        private uint _currentChanneId = 0;
+        private uint _currentChannelId = 0;
 
         private SoundChannel[] _sfxChannels;
 
@@ -120,7 +120,7 @@ namespace GXPEngine
 
             //Cave ambient
             LoadLoopSfxByFilename(Settings.Cave_Background_Ambient_Sound);
-            
+
             //Door open
             LoadSfxByFilename(Settings.Door0_Open_Sound);
 
@@ -142,8 +142,12 @@ namespace GXPEngine
                 _currentMusicChannel.Stop();
             }
 
-            uint nextChannel = (_currentChanneId++) % 31;
-            _currentMusicChannel = _musicsLevelMap[musicKey].Play(false, nextChannel, vol);
+            uint nextChannel = GetNextFreeChannel();
+
+            _currentChannelId = nextChannel;
+
+            _sfxChannels[nextChannel] = _musicsLevelMap[musicKey].Play(false, nextChannel, vol);
+            _currentMusicChannel = _sfxChannels[nextChannel];
         }
 
         public void StopMusic()
@@ -228,7 +232,10 @@ namespace GXPEngine
         {
             if (!_sfxsLevelMap.ContainsKey(fxKey)) return null;
 
-            uint nextChannel = (_currentChanneId++) % 31;
+            uint nextChannel = GetNextFreeChannel();
+
+            _currentChannelId = nextChannel;
+
             _sfxChannels[nextChannel] = _sfxsLevelMap[fxKey].Play(false, nextChannel, vol);
             _currentFxChannel = _sfxChannels[nextChannel];
             return _sfxChannels[nextChannel];
@@ -246,8 +253,11 @@ namespace GXPEngine
                     return;
                 }
             }
-            
-            uint nextChannel = (_currentChanneId++) % 31;
+
+            uint nextChannel = GetNextFreeChannel();
+
+            _currentChannelId = nextChannel;
+
             _sfxChannels[nextChannel] = _sfxsLoopLevelMap[fxKey].Play(false, nextChannel, vol);
             _currentLoopFxChannel = _sfxChannels[nextChannel];
 
@@ -271,7 +281,7 @@ namespace GXPEngine
                 }
             }
         }
-        
+
         public void PauseFxLoopSound(string fxKey)
         {
             if (_loopSfxChannelsMap.TryGetValue(fxKey, out var channel))
@@ -282,19 +292,11 @@ namespace GXPEngine
                 }
             }
         }
-        
+
         public void StopCurrentFxLoop()
         {
             _currentLoopFxChannel?.Stop();
         }
-
-        public Dictionary<string, Sound> SfxsLoopLevelMap => _sfxsLoopLevelMap;
-
-        public Dictionary<string, Sound> SfxsLevelMap => _sfxsLevelMap;
-
-        public Dictionary<string, Sound> MusicsLevelMap => _musicsLevelMap;
-
-        public string LastMusic => _lastMusic;
 
         public void StopAllSounds()
         {
@@ -337,6 +339,47 @@ namespace GXPEngine
             {
                 _sfxsLoopLevelMap.Add(filename, new Sound(filename, true, false));
             }
+        }
+
+        uint GetNextFreeChannel()
+        {
+            uint nextChannel = (_currentChannelId++) % 31;
+            int countLoop = 0;
+            while (_sfxChannels[nextChannel] != null && (_sfxChannels[nextChannel].IsPlaying || _sfxChannels[nextChannel].IsPaused) && countLoop < 32)
+            {
+                nextChannel = (_currentChannelId++) % 31;
+                countLoop++;
+            }
+
+            return nextChannel;
+        }
+
+        public Dictionary<string, Sound> SfxsLoopLevelMap => _sfxsLoopLevelMap;
+
+        public Dictionary<string, Sound> SfxsLevelMap => _sfxsLevelMap;
+
+        public Dictionary<string, Sound> MusicsLevelMap => _musicsLevelMap;
+
+        public string LastMusic => _lastMusic;
+
+        public uint CurrentChannelId => _currentChannelId;
+
+        public SoundChannel CurrentChannel => _sfxChannels[_currentChannelId];
+
+        public void DebugSoundChannels()
+        {
+            Console.WriteLine($"{this}: Channels:");
+            for (int i = 0; i < _sfxChannels.Length; i++)
+            {
+                var channel = _sfxChannels[i];
+                if (channel == null)
+                    continue;
+
+                Console.WriteLine(
+                    $"    channelId: {Convert.ToString(channel.ID, 2)} | isPla: {channel.IsPlaying} | isPaus: {channel.IsPaused}");
+            }
+
+            Console.WriteLine();
         }
     }
 }
