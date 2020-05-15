@@ -14,8 +14,8 @@ Message_To_Player_After_Collect_Flashbacks = Now I need to go through these memo
 
 //To starts game with some triggers already collected, for test, dont fill with all, use 3 or 4
 //Example: Flashback_Triggers_Collected = 1 2 3 4
-//Flashback_Triggers_Collected = 1 2 3 4
-//Flashback_Pickups_Collected = 1 2 3 4
+Flashback_Triggers_Collected = 1 2 3 4
+Flashback_Pickups_Collected = 1 2 3 4
 
 Flashback_Triggers_Allow_Skip_With_Esc_Key = true
 
@@ -49,4 +49,15 @@ Cheat_Mode = false
 
 //Cam Settings
 Camera_Scale_Enable_With_E_C_Keys = true
-Camera_Scale = 0,965
+Camera_Scale = 0.965
+
+//StartScreen
+StartScreen_Bg_Image = data/StartScreenBg.png
+StartScreen_Music = data/audios/musics/noaudio.ogg
+
+//In Game StartScreen 1
+In_Game_StartScreen_1_Bg_Image = data/Game_StartScreen_1.png
+In_Game_StartScreen_1_Music = data/audios/musics/open_scene_1.ogg
+
+In_Game_StartScreen_2_Bg_Image = data/Game_StartScreen_2.png
+In_Game_StartScreen_2_Music = data/audios/sfx/fl1_Hosp.ogg

@@ -26,7 +26,7 @@
                 return;
 
             _indicatorPanels[index].EnableIndicator();
-            ParticleManager.Instance.PlayCoinsExplosion(_indicatorPanels[index], _indicatorPanels[index].height / 2f, _indicatorPanels[index].height / 2f);
+            //ParticleManager.Instance.PlayCoinsExplosion(_indicatorPanels[index], _indicatorPanels[index].height / 2f, _indicatorPanels[index].height / 2f);
         }
 
         public void DisableIndicator(int index)

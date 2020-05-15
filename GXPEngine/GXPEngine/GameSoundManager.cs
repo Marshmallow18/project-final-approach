@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using TiledMapParserExtended;
 
 namespace GXPEngine
 {
@@ -11,7 +12,7 @@ namespace GXPEngine
     {
         public static GameSoundManager Instance;
 
-        private BaseLevel _level;
+        private Map _mapData;
 
         private Dictionary<string, Sound> _sfxsLevelMap;
         private Dictionary<string, Sound> _sfxsLoopLevelMap;
@@ -31,7 +32,7 @@ namespace GXPEngine
         //Used to pause and unpause loop sfxs
         private Dictionary<string, SoundChannel> _loopSfxChannelsMap;
 
-        public GameSoundManager(BaseLevel pLevel) : base(false)
+        public GameSoundManager(Map pMapData) : base(false)
         {
             Instance = this;
 
@@ -43,7 +44,7 @@ namespace GXPEngine
 
             _sfxChannels = new SoundChannel[31];
 
-            _level = pLevel;
+            _mapData = pMapData;
 
             //Load fixed sounds, sounds that its not set in Tiled
             var stepSound = new Sound("data/audios/sfx/steps_loop.wav", true, false);
@@ -56,7 +57,7 @@ namespace GXPEngine
             //This code loads all audio and music set in TileObjects (properties with audio_N or music_N name pattern)
             //Its checks, for audio, if has a property audio_loop_N for each audio, to be created with loop
             //Its checks if file exists too
-            var allObjects = _level.LevelMap.MapData.ObjectGroups.SelectMany(og => og.Objects);
+            var allObjects = _mapData.ObjectGroups.SelectMany(og => og.Objects);
             foreach (var tiledObject in allObjects)
             {
                 var properties = tiledObject.propertyList?.properties.Where(p => rx.IsMatch(p.Name.Trim()));
@@ -91,8 +92,7 @@ namespace GXPEngine
                                 else if (!_musicsLevelMap.ContainsKey(prop.Value) &&
                                          prop.Name.ToLower().StartsWith("music_"))
                                 {
-                                    var music = new Sound(prop.Value, true, true);
-                                    _musicsLevelMap.Add(prop.Value, music);
+                                    LoadMusic(prop.Value);
                                 }
 
                                 Console.WriteLine($"{this} | name: '{prop.Name}' | v: '{prop.Value}'");
@@ -103,7 +103,7 @@ namespace GXPEngine
             }
 
             //Load music from map properties
-            var startMusicFilename = _level.LevelMap.MapData.GetStringProperty("level_start_music", null);
+            var startMusicFilename = _mapData.GetStringProperty("level_start_music", null);
             if (startMusicFilename != null && File.Exists(Path.Combine(path, startMusicFilename)))
             {
                 _musicsLevelMap.Add(startMusicFilename, new Sound(startMusicFilename, true, true));
@@ -123,6 +123,11 @@ namespace GXPEngine
 
             //Door open
             LoadSfxByFilename(Settings.Door0_Open_Sound);
+
+            //Screen musics
+            LoadMusic(Settings.StartScreen_Music);
+            LoadMusic(Settings.In_Game_StartScreen_1_Music);
+            LoadMusic(Settings.In_Game_StartScreen_2_Music);
 
             Console.WriteLine();
         }
@@ -305,6 +310,15 @@ namespace GXPEngine
 
             if (_currentMusicChannel != null)
                 FadeOutCurrentMusic();
+
+            for (int i = 0; i < _sfxChannels.Length; i++)
+            {
+                var channel = _sfxChannels[i];
+                if (channel != null && (channel.IsPlaying || channel.IsPaused))
+                {
+                    channel.Stop();
+                }
+            }
         }
 
         void StopAllLoopFxs()
@@ -338,6 +352,15 @@ namespace GXPEngine
             if (!_sfxsLoopLevelMap.ContainsKey(filename))
             {
                 _sfxsLoopLevelMap.Add(filename, new Sound(filename, true, false));
+            }
+        }
+        
+        private void LoadMusic(string filename)
+        {
+            if (!_musicsLevelMap.ContainsKey(filename))
+            {
+                var music = new Sound(filename, true, true);
+                _musicsLevelMap.Add(filename, music);
             }
         }
 

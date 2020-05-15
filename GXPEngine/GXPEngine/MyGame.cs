@@ -7,6 +7,7 @@ using GXPEngine.Components;
 using GXPEngine.Core;
 using GXPEngine.Extensions;
 using GXPEngine.HUD;
+using GXPEngine.Screens;
 using TiledMapParserExtended;
 using Rectangle = System.Drawing.Rectangle;
 
@@ -15,7 +16,7 @@ using Rectangle = System.Drawing.Rectangle;
 public class MyGame : Game
 {
     public static bool Debug;
-
+    
     //Defined in void Main()
     public static int SCREEN_WIDTH;
     public static int SCREEN_HEIGHT;
@@ -70,13 +71,33 @@ public class MyGame : Game
         
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
-        var caveLevelMap = new CaveLevelMapGameObject(mapData);
+        _caveLevelMap = new CaveLevelMapGameObject(mapData);
         
         _cam = new FollowCamera(0, 0, game.width, game.height);
         _cam.scale = Settings.Camera_Scale;
         Cam = _cam;
 
-        LoadLevel(caveLevelMap);
+        var gameSoundManager = new GameSoundManager(mapData);
+        AddChild(gameSoundManager);
+        
+        var startScreen = new PreGameStartScreen(Settings.StartScreen_Bg_Image, Settings.StartScreen_Music, () =>
+        {
+            var inGameStartScreen1 =
+                new PreGameStartScreen(Settings.In_Game_StartScreen_1_Bg_Image, Settings.In_Game_StartScreen_1_Music,
+                    () =>
+                    {
+                        var inGameStartScreen2 =
+                            new PreGameStartScreen(Settings.In_Game_StartScreen_2_Bg_Image, Settings.In_Game_StartScreen_2_Music,
+                                () =>
+                                {
+                                    GameSoundManager.Instance.FadeOutCurrentMusic();
+                                    LoadLevel();
+                                });
+                        AddChild(inGameStartScreen2);
+                    });
+            AddChild(inGameStartScreen1);
+        });
+        AddChild(startScreen);
 
         //Debug
         _fpsCounter = new FpsCounter();
@@ -89,18 +110,17 @@ public class MyGame : Game
         _debugText.SetActive(false);
     }
 
-    private void LoadLevel(CaveLevelMapGameObject pCaveLevelMap)
+    public void LoadLevel()
     {
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
-
-        _caveLevelMap = pCaveLevelMap;
+        
         _level = new BaseLevel(_caveLevelMap, _cam);
 
         AddChild(_level);
-
+        
         _gameHud = new GameHud(_level, _cam);
-
+        
         DebugDrawBoundBox.level = _level;
 
         foreach (var sprite in _level.GetChildren().Where(s => s is Sprite))
@@ -128,9 +148,8 @@ public class MyGame : Game
         HiddenRoomCoverManager.Instance = null;
 
         GameSoundManager.Instance.StopAllSounds();
-        GameSoundManager.Instance = null;
-        
-        LoadLevel(_caveLevelMap);
+
+        LoadLevel();
     }
 
     void Update()
@@ -157,7 +176,7 @@ public class MyGame : Game
 
         _debugText.TextValue =
             $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}\r\n" +
-            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)} | animFrame: {_level?.Player?.Frame} | camScale: {_cam?.scale}\r\n" +
+            $"pickups: {((FlashbackManager.Instance != null) ? string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames) : null)} | animFrame: {_level?.Player?.Frame} | camScale: {_cam?.scale}\r\n" +
             $"Channel: {GameSoundManager.Instance?.CurrentChannel?.ID}/{GameSoundManager.Instance?.CurrentChannelId} | isplaying: {GameSoundManager.Instance?.CurrentChannel?.IsPlaying} | ispaused: {GameSoundManager.Instance?.CurrentChannel?.IsPaused}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 

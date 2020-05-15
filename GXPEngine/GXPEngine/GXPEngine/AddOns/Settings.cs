@@ -125,7 +125,17 @@ namespace GXPEngine
         //Camera Settings
         public static float Camera_Scale = 1;
         public static bool Camera_Scale_Enable_With_E_C_Keys = false;
+        
+        //Start Screen
+        public static string StartScreen_Bg_Image = "data/StartScreenBg.png";
+        public static string StartScreen_Music = "data/audio/musics/nosound.wav";
 
+        public static string In_Game_StartScreen_1_Bg_Image = "data/Game_StartScreen_1.png";
+        public static string In_Game_StartScreen_1_Music = "data/audios/musics/noaudio.ogg";
+        
+        public static string In_Game_StartScreen_2_Bg_Image = "data/Game_StartScreen_1.png";
+        public static string In_Game_StartScreen_2_Music = "data/audios/musics/noaudio.ogg";
+        
         /// <summary>
         /// Load new values from the file settings.txt
         /// </summary>
