@@ -83,6 +83,8 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 yield break;
             }
 
+            GameSoundManager.Instance.PauseFxLoopSound(Settings.Cave_Background_Ambient_Sound);
+            
             _level.Player.InputEnabled = false;
 
             yield return new WaitForMilliSeconds(_alphaTweenDuration);
@@ -185,7 +187,7 @@ namespace GXPEngine.HUD.FlashBack_Huds
                 {
                     HierarchyManager.Instance.LateDestroy(this);
                     toDestroy = true;
-                    _level.Player.InputEnabled = true;
+                    GameSoundManager.Instance.PlayFxLoop(Settings.Cave_Background_Ambient_Sound, Settings.Cave_Background_Ambient_Sound_Volume);
                 });
         }
 

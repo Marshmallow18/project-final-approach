@@ -26,6 +26,9 @@ public class Player : Sprite
 
     private Rectangle _customColliderBounds;
 
+    private SoundChannel _step0Channel;
+    private SoundChannel _step1Channel;
+
     public Player(bool pInputEnabled = true) : base("player_base_sprite.png")
     {
         SetOriginToCenter();
@@ -49,7 +52,7 @@ public class Player : Sprite
         AddChild(_fog1);
         _fog1.x = -_fog1.width / 2;
         _fog1.y = -_fog1.height / 2;
-        _fog2 = new AnimationSprite("anim_fog.png", 2, 1, -1, false,false);
+        _fog2 = new AnimationSprite("anim_fog.png", 2, 1, -1, false, false);
         AddChild(_fog2);
 
         _deceleration = 0.9f;
@@ -74,6 +77,8 @@ public class Player : Sprite
         _fog2.y = -_fog2.height / 2 + 10;
 
         oil = ((MyGame) game).GetOil();
+
+        PlayStepSound();
     }
 
     public void Movement()
@@ -221,6 +226,23 @@ public class Player : Sprite
         return ret;
     }
 
+    /// <summary>
+    /// frames 4 and 13 are the frames with the feet in the front of the animation
+    /// </summary>
+    void PlayStepSound()
+    {
+        if (_frame == 4)
+        {
+            if (_step0Channel == null || !_step0Channel.IsPlaying)
+                _step0Channel = GameSoundManager.Instance.PlayFx(Settings.Footstep1_SFX, Settings.Footsteps_Volume);
+        }
+        else if (_frame == 13)
+        {
+            if (_step1Channel == null || !_step1Channel.IsPlaying)
+                _step1Channel = GameSoundManager.Instance.PlayFx(Settings.Footstep2_SFX, Settings.Footsteps_Volume);
+        }
+    }
+
     public bool InputEnabled
     {
         get => _inputEnabled;
@@ -230,4 +252,5 @@ public class Player : Sprite
     public AnimationSprite Fog2 => _fog2;
     public Sprite Fog1 => _fog1;
 
+    public int Frame => _frame;
 }

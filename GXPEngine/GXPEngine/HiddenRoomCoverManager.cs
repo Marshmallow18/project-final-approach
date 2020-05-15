@@ -48,7 +48,7 @@ namespace GXPEngine
                 Console.WriteLine($"{_hiddenRoomCover}: {_hiddenRoomCover.scaleX} | {_hiddenRoomCover.scaleY}");
 
                 _hiddenRoomCoverCollider = new Sprite("data/White Texture.png");
-                
+
                 _hiddenRoomCoverCollider.width = Mathf.Round(hiddenRoomColliderData.Width);
                 _hiddenRoomCoverCollider.height = Mathf.Round(hiddenRoomColliderData.Height);
                 _hiddenRoomCoverCollider.SetOrigin(0, _hiddenRoomCoverCollider.texture.height);
@@ -57,7 +57,7 @@ namespace GXPEngine
                 _hiddenRoomCoverCollider.rotation = hiddenRoomColliderData.rotation;
                 _hiddenRoomCoverCollider.SetXY(hiddenRoomColliderData.X, hiddenRoomColliderData.Y);
                 _hiddenRoomCoverCollider.visible = false;
-                
+
                 Console.WriteLine(
                     $"{_hiddenRoomCoverCollider}: {_hiddenRoomCoverCollider.scaleX} | {_hiddenRoomCoverCollider.scaleY}");
 
@@ -75,11 +75,21 @@ namespace GXPEngine
 
             _level.Player.objectsToCheck = _level.Player.objectsToCheck
                 .Concat(new GameObject[] {_hiddenRoomCoverCollider}).ToArray();
-            
-            Utils.print("player", _level.Player.Index, "fog1", _level.Player.Fog1.Index, "fog2", _level.Player.Fog2.Index);
-            
+
+            Utils.print("player", _level.Player.Index, "fog1", _level.Player.Fog1.Index, "fog2",
+                _level.Player.Fog2.Index);
+
             //Draw over player layer
             _level.AddChildAt(_hiddenRoomCover, _level.Player.Fog2.Index);
+
+            //Change final pickup flashback index to be below this
+            while (FlashbackPickupsManager.Instance?.FinalPickup == null)
+            {
+                yield return null;
+            }
+
+            HierarchyManager.Instance.LateAdd(_level, FlashbackPickupsManager.Instance?.FinalPickup,
+                _hiddenRoomCover.Index);
         }
 
         public Sprite HiddenRoomCover => _hiddenRoomCover;

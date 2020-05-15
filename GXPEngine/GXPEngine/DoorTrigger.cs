@@ -9,10 +9,13 @@ namespace GXPEngine
         private Door _door;
         private bool isOnCollisionWith;
         private GameObject otherInCollision;
+
+        private bool _disableAfterHit;
         
-        public DoorTrigger(Door pDoor, string fileName = "data/Door Trigger Helper.png", bool addCollider = true) : base(fileName, addCollider)
+        public DoorTrigger(Door pDoor, bool pDisableAfterHit = true, string fileName = "data/Door Trigger Helper.png", bool addCollider = true) : base(fileName, addCollider)
         {
             _door = pDoor;
+            _disableAfterHit = pDisableAfterHit;
         }
 
         void OnCollision(GameObject other)
@@ -23,6 +26,8 @@ namespace GXPEngine
                 otherInCollision = other;
 
                 TriggerEnter();
+
+                _collider.Enabled = !_disableAfterHit;
             }
         }
 

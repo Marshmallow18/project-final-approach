@@ -24,6 +24,8 @@ namespace GXPEngine.HUD
 
         private FlashBackHud01 _currentFlashHud;
 
+        private ResetFlashbackDetectiveButtonHud _resetFlashbackButton;
+
         public GameHud(BaseLevel pLevel, MCamera pCam) : base(false)
         {
             Instance = this;
@@ -44,6 +46,12 @@ namespace GXPEngine.HUD
 
             _memoriesHudPanel = new MemoriesHudPanel();
             _memoriesHudPanel.SetXY(70, 36);
+
+            _resetFlashbackButton = new ResetFlashbackDetectiveButtonHud();
+            _resetFlashbackButton.SetOriginToCenter();
+            AddChild(_resetFlashbackButton);
+            _resetFlashbackButton.SetXY(game.width - 166, 60);
+            _resetFlashbackButton.SetActive(false);
 
             CoroutineManager.StartCoroutine(Start(), this);
         }
@@ -155,6 +163,21 @@ namespace GXPEngine.HUD
                         () =>
                         {
                             DrawableTweener.TweenScale(_memoriesHudPanel, Vector2.one * 1.1f, Vector2.one * 1,
+                                Settings.Default_AlphaTween_Duration / 2,
+                                null);
+                        });
+                });
+
+            //Show Reset Button
+            _resetFlashbackButton.SetActive(true);
+            DrawableTweener.TweenSpriteAlpha(_resetFlashbackButton, 0, 1, Settings.Default_AlphaTween_Duration,
+                () =>
+                {
+                    DrawableTweener.TweenScale(_resetFlashbackButton, Vector2.one, Vector2.one * 1.1f,
+                        Settings.Default_AlphaTween_Duration / 2,
+                        () =>
+                        {
+                            DrawableTweener.TweenScale(_resetFlashbackButton, Vector2.one * 1.1f, Vector2.one * 1,
                                 Settings.Default_AlphaTween_Duration / 2,
                                 null);
                         });
@@ -285,5 +308,7 @@ namespace GXPEngine.HUD
         public float HudRatioX => _hudRatioX;
 
         public float HudRatioY => _hudRatioY;
+
+        public ResetFlashbackDetectiveButtonHud ResetFlashbackButton => _resetFlashbackButton;
     }
 }

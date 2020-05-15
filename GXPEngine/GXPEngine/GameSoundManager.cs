@@ -23,8 +23,13 @@ namespace GXPEngine
 
         private uint _currentChanneId = 0;
 
+        private SoundChannel[] _sfxChannels;
+
         private string _currentMusic = "";
         private string _lastMusic = "";
+
+        //Used to pause and unpause loop sfxs
+        private Dictionary<string, SoundChannel> _loopSfxChannelsMap;
 
         public GameSoundManager(BaseLevel pLevel) : base(false)
         {
@@ -33,6 +38,10 @@ namespace GXPEngine
             _sfxsLevelMap = new Dictionary<string, Sound>();
             _sfxsLoopLevelMap = new Dictionary<string, Sound>();
             _musicsLevelMap = new Dictionary<string, Sound>();
+
+            _loopSfxChannelsMap = new Dictionary<string, SoundChannel>();
+
+            _sfxChannels = new SoundChannel[31];
 
             _level = pLevel;
 
@@ -100,9 +109,22 @@ namespace GXPEngine
                 _musicsLevelMap.Add(startMusicFilename, new Sound(startMusicFilename, true, true));
             }
 
-            Console.WriteLine();
+            //Load aditional sfx
 
-            //Read all audio files in Objects
+            //Flashback Picked up sound
+            LoadSfxByFilename(Settings.History_Pickedup_SFX);
+
+            //Footsteps
+            LoadSfxByFilename(Settings.Footstep1_SFX);
+            LoadSfxByFilename(Settings.Footstep2_SFX);
+
+            //Cave ambient
+            LoadLoopSfxByFilename(Settings.Cave_Background_Ambient_Sound);
+            
+            //Door open
+            LoadSfxByFilename(Settings.Door0_Open_Sound);
+
+            Console.WriteLine();
         }
 
         public void PlayMusic(string musicKey, float vol = 0.07f)
@@ -134,7 +156,7 @@ namespace GXPEngine
 
         void StopMusicChannel(SoundChannel channel)
         {
-            if (channel  != null && channel.IsPlaying)
+            if (channel != null && channel.IsPlaying)
                 channel.Stop();
         }
 
@@ -202,22 +224,65 @@ namespace GXPEngine
             StopMusicChannel(fadeOutChannel);
         }
 
-        public void PlayFx(string fxKey, float vol = 1)
+        public SoundChannel PlayFx(string fxKey, float vol = 1)
         {
-            if (!_sfxsLevelMap.ContainsKey(fxKey)) return;
+            if (!_sfxsLevelMap.ContainsKey(fxKey)) return null;
 
             uint nextChannel = (_currentChanneId++) % 31;
-            _currentFxChannel = _sfxsLevelMap[fxKey].Play(false, nextChannel, vol);
+            _sfxChannels[nextChannel] = _sfxsLevelMap[fxKey].Play(false, nextChannel, vol);
+            _currentFxChannel = _sfxChannels[nextChannel];
+            return _sfxChannels[nextChannel];
         }
 
         public void PlayFxLoop(string fxKey, float vol = 1)
         {
             if (!_sfxsLoopLevelMap.ContainsKey(fxKey)) return;
 
+            if (_loopSfxChannelsMap.TryGetValue(fxKey, out var channel))
+            {
+                if (channel.IsPaused)
+                {
+                    channel.IsPaused = false;
+                    return;
+                }
+            }
+            
             uint nextChannel = (_currentChanneId++) % 31;
-            _currentLoopFxChannel = _sfxsLoopLevelMap[fxKey].Play(false, nextChannel, vol);
+            _sfxChannels[nextChannel] = _sfxsLoopLevelMap[fxKey].Play(false, nextChannel, vol);
+            _currentLoopFxChannel = _sfxChannels[nextChannel];
+
+            if (_loopSfxChannelsMap.ContainsKey(fxKey))
+            {
+                _loopSfxChannelsMap[fxKey] = _sfxChannels[nextChannel];
+            }
+            else
+            {
+                _loopSfxChannelsMap.Add(fxKey, _sfxChannels[nextChannel]);
+            }
         }
 
+        public void StopFxLoopSound(string fxKey)
+        {
+            if (_loopSfxChannelsMap.TryGetValue(fxKey, out var channel))
+            {
+                if (channel.IsPlaying)
+                {
+                    channel.Stop();
+                }
+            }
+        }
+        
+        public void PauseFxLoopSound(string fxKey)
+        {
+            if (_loopSfxChannelsMap.TryGetValue(fxKey, out var channel))
+            {
+                if (channel.IsPlaying)
+                {
+                    channel.IsPaused = true;
+                }
+            }
+        }
+        
         public void StopCurrentFxLoop()
         {
             _currentLoopFxChannel?.Stop();
@@ -256,6 +321,22 @@ namespace GXPEngine
 
             if (_currentFxChannel.IsPlaying || _currentFxChannel.IsPaused)
                 _currentFxChannel?.Stop();
+        }
+
+        void LoadSfxByFilename(string filename)
+        {
+            if (!_sfxsLevelMap.ContainsKey(filename))
+            {
+                _sfxsLevelMap.Add(filename, new Sound(filename, false, false));
+            }
+        }
+
+        void LoadLoopSfxByFilename(string filename)
+        {
+            if (!_sfxsLoopLevelMap.ContainsKey(filename))
+            {
+                _sfxsLoopLevelMap.Add(filename, new Sound(filename, true, false));
+            }
         }
     }
 }

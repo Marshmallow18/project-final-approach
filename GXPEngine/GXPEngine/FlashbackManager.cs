@@ -95,6 +95,8 @@ namespace GXPEngine
             {
                 yield return null;
             }
+            
+            _level.Player.InputEnabled = true;
 
             //Fadein Music if has one and a property to closeit
             var closeMusicBool = flashbackData.GetBoolProperty("close_music", false);
@@ -135,12 +137,16 @@ namespace GXPEngine
             CoroutineManager.StartCoroutine(PlayerPickedupFlashblackRoutine(flashbackPickup, showPanel), this);
         }
 
-        public IEnumerator PlayerPickedupFlashblackRoutine(FlashbackPickup flashbackPickup, bool showPanel)
+        private IEnumerator PlayerPickedupFlashblackRoutine(FlashbackPickup flashbackPickup, bool showPanel)
         {
+            GameHud.Instance.ResetFlashbackButton.collider.Enabled = false;
+            
             //Show FlashbackHud
             if (showPanel)
             {
                 yield return FlashbackHudRoutine(flashbackPickup.FlashbackData.Name);
+                
+                GameHud.Instance.ResetFlashbackButton.SetActive(false);
 
                 //Fadeout Music if has one and a property to close it
                 var closeMusicBool = flashbackPickup.FlashbackData.GetBoolProperty("close_music", false);
@@ -184,7 +190,7 @@ namespace GXPEngine
                     DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
                         Settings.Default_AlphaTween_Duration);
 
-                    CoroutineManager.StartCoroutine(CheckPickupsCollectedOrderSquence(flashbackPickup), this);
+                    yield return CheckPickupsCollectedOrderSquence(flashbackPickup);
                 }
                 else
                 {
@@ -192,8 +198,12 @@ namespace GXPEngine
                     CoroutineManager.StopAllCoroutines(flashbackPickup);
                     DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
                         Settings.Default_AlphaTween_Duration, () => { flashbackPickup.Enabled = false; });
+                    
+                    GameHud.Instance.ResetFlashbackButton.SetActive(true);
                 }
             }
+
+            _level.Player.InputEnabled = true;
         }
 
         IEnumerator FlashbackHudRoutine(string flashbackDataName)
@@ -251,6 +261,8 @@ namespace GXPEngine
                 //Incorrect order
                 Utils.print(this, " order incorrect ", string.Join(", ", collectOrder));
                 yield return IncorrectFlashPickupsOrderSequence(flashbackPickup);
+                
+                GameHud.Instance.ResetFlashbackButton.SetActive(true);
             }
         }
 
@@ -314,6 +326,12 @@ namespace GXPEngine
                 Console.WriteLine(
                     $"{this}: {textBox.x} {textBox.y} | {textBox.width} {textBox.height} | gameW: {game.width} | gameH: {game.height} | hudRatioX: {GameHud.Instance.HudRatioX} hudRatioY: {GameHud.Instance.HudRatioY}");
             }
+        }
+        
+        public void ResetMemorySequence()
+        {
+            _collectedFlashPickupsNames.Clear();
+            FlashbackPickupsManager.Instance.EnableFlashbackPickups();
         }
 
         public int TotalFlashbacks => _totalFlashbacks;

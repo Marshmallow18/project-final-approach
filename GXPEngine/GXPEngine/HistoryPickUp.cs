@@ -35,6 +35,8 @@ namespace GXPEngine
         {
             Console.WriteLine($"{this}: OnEnterTrigger -> {other}");
 
+            GameSoundManager.Instance.PlayFx(Settings.History_Pickedup_SFX, Settings.History_Pickedup_SFX_Volume);
+            
             DrawableTweener.TweenSpriteAlpha(this, 1, 0, 200, Easing.Equation.QuadEaseOut, 0, () =>
             {
                 GameHud.Instance.ShowHistoricHud(_historyImageFileName);

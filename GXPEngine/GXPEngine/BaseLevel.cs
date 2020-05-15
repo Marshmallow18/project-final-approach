@@ -22,10 +22,7 @@ namespace GXPEngine
 
             var gameSoundManager = new GameSoundManager(this);
             AddChild(gameSoundManager);
-            
-            var hiddenRoomManager = new HiddenRoomCoverManager(this);
-            AddChild(hiddenRoomManager);
-            
+
             var doorsManager = new DoorsManager(_caveLevelMap, this);
             AddChild(doorsManager);
             
@@ -40,6 +37,9 @@ namespace GXPEngine
 
             var flashbackPickupsManager = new FlashbackPickupsManager(_caveLevelMap, this);
             AddChild(flashbackPickupsManager);
+            
+            var hiddenRoomManager = new HiddenRoomCoverManager(this);
+            AddChild(hiddenRoomManager);
             
             var flashbacksManager = new FlashbackManager(this, flashbacksTriggerManager.FlashTriggersMap.Count);
             AddChild(flashbacksManager);
@@ -66,7 +66,11 @@ namespace GXPEngine
 
         private IEnumerator Start()
         {
-            yield return new WaitForMilliSeconds(2000);
+            yield return new WaitForMilliSeconds(1000);
+            //Play ambient sound
+            GameSoundManager.Instance.PlayFxLoop(Settings.Cave_Background_Ambient_Sound, Settings.Cave_Background_Ambient_Sound_Volume);   
+            
+            yield return new WaitForMilliSeconds(1000);
             
             //Play level music
             string startMusic = _caveLevelMap.MapData.GetStringProperty("level_start_music", "");

@@ -25,7 +25,7 @@ namespace GXPEngine
 		/// Set visibility and add/remove Update and OnCollision
 		/// </summary>
 		/// <param name="active"></param>
-		public void SetActive(bool active)
+		public virtual void SetActive(bool active)
 		{
 			bool lastEnabled = _enabled;
 			_enabled = active;

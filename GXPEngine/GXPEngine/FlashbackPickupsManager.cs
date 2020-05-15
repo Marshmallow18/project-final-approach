@@ -17,7 +17,7 @@ namespace GXPEngine
         private List<string> _flashesPickupsToSkip;
 
         private FlashbackPickup _finalPickup;
-        
+
         public FlashbackPickupsManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
         {
             Instance = this;
@@ -30,7 +30,7 @@ namespace GXPEngine
                 .Where(tileObj => tileObj?.Type.ToLower() == "flashbackpickup");
 
             //Get from settings to skip some flashbacks
-             _flashesPickupsToSkip = new List<string>();
+            _flashesPickupsToSkip = new List<string>();
             if (Settings.Flashback_Pickups_Collected != "0")
             {
                 var flashesStr = Settings.Flashback_Pickups_Collected.Trim().Split(' ');
@@ -48,12 +48,12 @@ namespace GXPEngine
             {
                 var flashPickup = AddFlashbackPickupToLevel(flashData);
                 _flashPickupsMap.Add(flashData.Name.ToLower(), flashPickup);
-
             }
-            
+
             //Final trigger flashback
             var finalFlashData = _map.ObjectGroups
-                .SelectMany(og => og.Objects).FirstOrDefault(tileObj => tileObj?.Type.ToLower() == "finalflashbackpickup");
+                .SelectMany(og => og.Objects)
+                .FirstOrDefault(tileObj => tileObj?.Type.ToLower() == "finalflashbackpickup");
 
             if (finalFlashData != null)
             {
@@ -77,7 +77,7 @@ namespace GXPEngine
             {
                 name = objUniqueName
             };
-            
+
             _level.AddChild(flashPickup);
             flashPickup.Enabled = false;
             flashPickup.width = Mathf.Round(flashData.Width);
@@ -96,37 +96,44 @@ namespace GXPEngine
             {
                 EnablePickup(flashbackPickup);
             }
-            
+
             EnablePickup(_finalPickup);
+
+            //Simulate pickup for test
+            foreach (var flashName in _flashesPickupsToSkip)
+            {
+                if (!_flashPickupsMap.TryGetValue(flashName, out var pickup))
+                {
+                    continue;
+                }
+
+                FlashbackManager.Instance.PlayerPickedupFlashblack(pickup, false);
+            }
         }
 
         private void EnablePickup(FlashbackPickup pickup)
         {
-            pickup.collider.Enabled = true;
-
-            //If is set in Setting for test, simulate that those flash pickups were taken
-            if (_flashesPickupsToSkip.Contains(pickup.FlashbackData.Name))
-            {
-                FlashbackManager.Instance.PlayerPickedupFlashblack(pickup, false);
-                return;
-            }
-
             pickup.Enabled = true;
-            DrawableTweener.TweenSpriteAlpha(pickup, 0, 1, Settings.Default_AlphaTween_Duration, () => { pickup.Blink(); });
+            
+            DrawableTweener.TweenSpriteAlpha(pickup, 0, 1, Settings.Default_AlphaTween_Duration,
+                () => { pickup.Blink(); });
+            
             DrawableTweener.TweenScale(pickup, Vector2.one, Vector2.one * 1.1f,
                 Settings.Default_AlphaTween_Duration / 2,
                 () =>
                 {
                     DrawableTweener.TweenScale(pickup, Vector2.one * 1.1f, Vector2.one,
-                        Settings.Default_AlphaTween_Duration / 2, null);
+                        Settings.Default_AlphaTween_Duration / 2, () =>
+                        {
+                            pickup.collider.Enabled = true;
+                        });
                 });
         }
 
         void Update()
         {
-
         }
-        
+
         public Dictionary<string, FlashbackPickup> FlashPickupsMap => _flashPickupsMap;
 
         public List<string> FlashesPickupsToSkip => _flashesPickupsToSkip;

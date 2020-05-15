@@ -77,7 +77,7 @@ namespace GXPEngine
 		void HandleOnStep ()
 		{
 			//mouse can enter/leave target without moving (the target may move!)
-			bool isOnTarget = _target.HitTestPoint (MyGame.WorldMousePosition.x, MyGame.WorldMousePosition.y);
+			bool isOnTarget = _target.collider.Enabled && _target.HitTestPoint (MyGame.WorldMousePosition.x, MyGame.WorldMousePosition.y);
 			if (isOnTarget  && !_wasOnTarget)
 			{
 				OnMouseOverTarget?.Invoke (_target, MouseEventType.MouseOverTarget);

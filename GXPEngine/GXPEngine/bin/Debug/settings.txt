@@ -1,9 +1,9 @@
 ﻿//General
-//ScreenResolutionX = 1920
-//ScreenResolutionY = 1080
-ScreenResolutionX = 1280
-ScreenResolutionY = 720
-FullScreen = false
+ScreenResolutionX = 1920
+ScreenResolutionY = 1080
+//ScreenResolutionX = 1280
+//ScreenResolutionY = 720
+FullScreen = true
 
 Default_AlphaTween_Duration = 600
 Textbox_Font = Anton
@@ -12,7 +12,7 @@ Textbox_Font = Anton
 Flashbacks_TextBoxTweenSpeed = 80
 Message_To_Player_After_Collect_Flashbacks = Message to player blabla...
 
-//To starts game with some triggers already collected, for test, dont fill with all, use 4 of 5
+//To starts game with some triggers already collected, for test, dont fill with all, use 3 or 4
 //Example: Flashback_Triggers_Collected = 1 2 3 4
 //Flashback_Triggers_Collected = 1 2 3 4
 //Flashback_Pickups_Collected = 1 2 3
@@ -22,3 +22,24 @@ Flashback_Triggers_Allow_Skip_With_Esc_Key = true
 Flashback_Pickups_Incorrect_Order_Message = You got the flashbacks in the wrong order.
 
 HUD_Flashback_Counter_Format = {0} of {1} flashbacks
+
+
+//Musics and SFXs
+SFX_Default_Volume = 0.4
+Background_Music_Volume = 0.02
+
+History_Pickedup_SFX = data/audios/non-organic_sfx/pickup_2_reverb.wav
+History_Pickedup_SFX_Volume = 0.2
+
+Footstep1_SFX = data/audios/sfx/step_one.wav
+Footstep2_SFX = data/audios/sfx/step_two.wav
+
+Footsteps_Volume = 0.05
+
+Cave_Background_Ambient_Sound = data/audios/sfx/ambiant_background.wav
+Cave_Background_Ambient_Sound_Volume = 0.1
+
+Hidden_Room_Revealed_Sound = none
+
+Door0_Open_Sound = data/audios/sfx/261109__jaklocke__door-opening-and-closing-8.wav
+Door0_Open_Sound_Volume = 0.2

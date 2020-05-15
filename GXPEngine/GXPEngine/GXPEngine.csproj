@@ -62,6 +62,7 @@
     <Compile Include="Door.cs" />
     <Compile Include="DoorsManager.cs" />
     <Compile Include="DoorTrigger.cs" />
+    <Compile Include="Extensions\DictionaryExtension.cs" />
     <Compile Include="Extensions\MathfExtensions.cs" />
     <Compile Include="Extensions\SpriteExtensions.cs" />
     <Compile Include="FlashbackManager.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="HUD\HudPanel.cs" />
     <Compile Include="HUD\MemoriesHudPanel.cs" />
     <Compile Include="HUD\MemoryIndicatorPanel.cs" />
+    <Compile Include="HUD\ResetFlashbackDetectiveButtonHud.cs" />
     <Compile Include="HUD\TextBox.cs" />
     <Compile Include="IHasSpeed.cs" />
     <Compile Include="HistoryPickupsManager.cs" />

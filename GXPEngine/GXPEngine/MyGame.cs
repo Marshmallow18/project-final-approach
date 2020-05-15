@@ -66,6 +66,8 @@ public class MyGame : Game
         HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2;
         HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2;
         
+        ShowMouse(true);
+        
         string[] tmxFiles = TmxFilesLoader.GetTmxFileNames("Level*.tmx");
         var mapData = TiledMapParserExtended.MapParser.ReadMap(tmxFiles[0]);
         var caveLevelMap = new CaveLevelMapGameObject(mapData);
@@ -160,7 +162,7 @@ public class MyGame : Game
 
         _debugText.TextValue =
             $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}\r\n" +
-            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)}";
+            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)} | animFrame: {_level?.Player?.Frame}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
         _level?.Player?.EnableRun(Input.GetKey(Key.LEFT_SHIFT));
