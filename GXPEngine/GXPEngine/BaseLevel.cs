@@ -35,7 +35,10 @@ namespace GXPEngine
             
             var flashbacksManager = new FlashbackManager(this, flashbacksTriggerManager.FlashTriggersMap.Count);
             AddChild(flashbacksManager);
-            
+
+            var darkHallManager = new DarkHallManager(_caveLevelMap, this);
+            AddChild(darkHallManager);
+
             var particlesManager = new ParticleManager();
 
             _player = new Player();

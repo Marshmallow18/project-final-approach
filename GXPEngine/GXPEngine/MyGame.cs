@@ -58,7 +58,7 @@ public class MyGame : Game
 
     private GameHud _gameHud;
 
-    public float oil = 65f;
+    public float oil = 100f;
 
     private int _timer;
 

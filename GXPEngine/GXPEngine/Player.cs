@@ -15,7 +15,7 @@ public class Player : Sprite
     private float _vSpeed, _hSpeed, _deceleration, _state, _scale = 0.4f;
     private Random _rand;
     private float _currentSpeed;
-    private float _walkSpeed = 1.8f;
+    private float _walkSpeed = 2.4f;
     private float _runSpeed = 10f;
     private bool _lampOpen = true;
     private bool _inputEnabled;
@@ -34,7 +34,7 @@ public class Player : Sprite
         _inputEnabled = pInputEnabled;
 
         _inputEnabled = pInputEnabled;
-        alpha = 0.0f;
+        //alpha = 0.0f;
 
         //Adjust a collider, based on a original image of 256x256
         _customColliderBounds = new Rectangle(-217 * 0.5f * _scale, (-111 * 0.5f * _scale) + 20 * _scale, 217 * _scale,
@@ -51,6 +51,7 @@ public class Player : Sprite
         _fog1.y = -_fog1.height / 2;
         _fog2 = new AnimationSprite("anim_fog.png", 2, 1);
         AddChild(_fog2);
+        _fog2.x = x + 1000;
 
         _deceleration = 0.9f;
         _currentSpeed = _walkSpeed;
@@ -194,7 +195,7 @@ public class Player : Sprite
 
     public void LampReduceLight()
     {
-        if (oil > 30)
+        if (oil > 50)
         {
             _fog2.SetScaleXY(oil / 100, oil / 100);
             _lampOpen = true;

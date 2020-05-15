@@ -11,13 +11,13 @@ namespace GXPEngine
     {
         private MapGameObject _map;
 
-        private Dictionary<string, DarkTrigger> _darkTriggersMap;
+        private Dictionary<string, DarkHall> _darkTriggersMap;
 
         private BaseLevel _level; //the level
 
         public DarkHallManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
         {
-            _darkTriggersMap = new Dictionary<string, DarkTrigger>();
+            _darkTriggersMap = new Dictionary<string, DarkHall>();
             _map = pMap;
             _level = pLevel;
 
@@ -28,37 +28,27 @@ namespace GXPEngine
             //Creates DoorTrigger Game Objects in scene, IGNORE if doesn't exist a door with the same name "NameofTheDoor Trigger"
             foreach (var memData in darkTriggersData)
             {
-                AddDarkTrigger(memData.Name, memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
+                AddDarkHall(memData.Name, memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
             }
 
-            //CoroutineManager.StartCoroutine(Start(), this);
         }
 
-        IEnumerator Start()
+        private void AddDarkHall(string pName, float pX, float pY, float rot, float pWidth, float pHeight)
         {
-            //Set player objects to collide after player is set
-            while (_level.Player == null)
-            {
-                yield return null;
-            }
+            string numberString = pName.Replace("Dark Hall ", "");
 
-            //_level.Player.objectsToCheck = _level.Player.objectsToCheck.Concat(_darkMap.Values).ToArray();
-        }
+            var darkHall = new DarkHall("data/darkhall"+ numberString +".png");
+            _darkTriggersMap.Add(pName, darkHall);
 
-        private void AddDarkTrigger(string pName, float pX, float pY, float rot, float pWidth, float pHeight)
-        {
-            var darkTrigger = new DarkTrigger();
-            _darkTriggersMap.Add(pName, darkTrigger);
+            darkHall.width = Mathf.Round(pWidth);
+            darkHall.height = Mathf.Round(pHeight);
+            darkHall.SetOrigin(0, darkHall.texture.height);
 
-            darkTrigger.width = Mathf.Round(pWidth);
-            darkTrigger.height = Mathf.Round(pHeight);
-            darkTrigger.SetOrigin(0, darkTrigger.texture.height);
+            _level.AddChild(darkHall);
+            darkHall.rotation = rot;
+            darkHall.SetXY(pX, pY);
 
-            _level.LateAddChild(darkTrigger);
-            darkTrigger.rotation = rot;
-            darkTrigger.SetXY(pX, pY);
-
-            Console.WriteLine($"{darkTrigger}: {darkTrigger.scaleX} | {darkTrigger.scaleY}");
+            Console.WriteLine($"{darkHall}: {darkHall.scaleX} | {darkHall.scaleY}");
         }
     }
 }

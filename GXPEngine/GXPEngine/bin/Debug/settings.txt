@@ -1,8 +1,8 @@
 ﻿//General
-//ScreenResolutionX = 1920
-//ScreenResolutionY = 1080
-ScreenResolutionX = 1280
-ScreenResolutionY = 720
+ScreenResolutionX = 1920
+ScreenResolutionY = 1080
+//ScreenResolutionX = 1280
+//ScreenResolutionY = 720
 FullScreen = false
 
 Default_AlphaTween_Duration = 600

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="35" nextobjectid="91">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="35" nextobjectid="96">
  <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="data/Clouds Border Tileset.png" width="1024" height="1024"/>
  </tileset>
@@ -11,6 +11,15 @@
  </tileset>
  <tileset firstgid="70" name="TileSet1" tilewidth="128" tileheight="128" tilecount="256" columns="16">
   <image source="data/Tileset1.png" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="326" name="DarkHall1" tilewidth="1024" tileheight="1024" tilecount="1" columns="1">
+  <image source="data/darkhall1.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="327" name="DarkHall2" tilewidth="2048" tileheight="2048" tilecount="1" columns="1">
+  <image source="data/darkhall3.png" width="2048" height="2048"/>
+ </tileset>
+ <tileset firstgid="328" name="DarkHall3" tilewidth="2048" tileheight="2048" tilecount="1" columns="1">
+  <image source="data/darkhall2.png" width="2048" height="2048"/>
  </tileset>
  <group id="17" name="walkable image">
   <imagelayer id="10" name="walkable image 0" locked="1">
@@ -116,7 +125,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="18" name="Doors Objects">
+ <objectgroup id="18" name="Doors Objects" visible="0">
   <object id="11" name="Door1 Trigger" type="DoorTrigger" gid="69" x="3984.72" y="3595.16" width="128" height="252.585" rotation="-765.332"/>
   <object id="6" name="Door1" type="DoorOneSided" gid="67" x="4028.12" y="3550.69" width="249.815" height="128" rotation="-857.049">
    <properties>
@@ -317,7 +326,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="29" name="History Objects">
+ <objectgroup id="29" name="History Objects" visible="0">
   <object id="14" name="History - Some meme" type="History" gid="70" x="2616" y="3984" width="64.6667" height="62.7832">
    <properties>
     <property name="history_image" type="file" value="data/history images/Cave Images-6.png"/>
@@ -339,10 +348,10 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="30" name="Misc Objects">
+ <objectgroup id="30" name="Misc Objects" visible="0">
   <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1385.33" y="2564.36" width="128" height="128"/>
  </objectgroup>
- <objectgroup id="33" name="Oil Objects">
+ <objectgroup id="33" name="Oil Objects" visible="0">
   <object id="53" name="Oil Fixed" type="Oil" gid="73" x="328.848" y="3268" width="128" height="128"/>
   <object id="54" name="Oil Fixed" type="Oil" gid="73" x="5560.24" y="1733.7" width="128" height="128"/>
   <object id="55" name="Oil Fixed" type="Oil" gid="73" x="2805.7" y="421.576" width="128" height="128"/>
@@ -387,7 +396,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="31" name="FlashBack Triggers Objects">
+ <objectgroup id="31" name="FlashBack Triggers Objects" visible="0">
   <object id="34" name="Flashback 1" type="Flashback" gid="74" x="3794" y="2228" width="522" height="414">
    <properties>
     <property name="audio_0" type="file" value=""/>
@@ -420,22 +429,19 @@ Donec orci massa, vestibulum sed ligula nec, tempor volutpat nulla. Integer cond
   </object>
   <object id="38" name="Flashback 5" type="Flashback" gid="74" x="1391.73" y="2264.03" width="580.182" height="506.485"/>
  </objectgroup>
- <objectgroup id="34" name="Dark Hall Triggers" visible="0">
-  <object id="85" name="Dark corridor" type="dark" gid="69" x="2750.35" y="1547.74" width="824" height="496"/>
-  <object id="86" name="Dark corridor" type="dark" gid="69" x="2446.35" y="1027.74" width="456" height="440"/>
-  <object id="87" name="Dark corridor" type="dark" gid="69" x="319.252" y="3633.26" width="392.777" height="372.316" rotation="18.8969"/>
-  <object id="88" name="Dark corridor" type="dark" gid="69" x="663.078" y="3667.95" width="392.777" height="372.316" rotation="-289.471"/>
-  <object id="89" name="Dark corridor" type="dark" gid="69" x="4829.73" y="2983.16" width="423.822" height="449.492" rotation="40.906"/>
-  <object id="90" name="Dark corridor" type="dark" gid="69" x="5136.93" y="2296.12" width="423.822" height="449.492" rotation="45.5299"/>
+ <objectgroup id="34" name="Dark Hall Triggers">
+  <object id="91" name="Dark Hall 1" type="dark" gid="326" x="386.886" y="4039.17" width="633.47" height="753.09" rotation="-0.363337"/>
+  <object id="93" name="Dark Hall 2" type="dark" gid="327" x="4587.7" y="3351.89" width="1441.22" height="1457.56" rotation="1.18851"/>
+  <object id="95" name="Dark Hall 3" type="dark" gid="328" x="2344.9" y="1808.57" width="1496.9" height="1584.17" rotation="1.24387"/>
  </objectgroup>
- <objectgroup id="34" name="Flashback Pickups">
+ <objectgroup id="34" name="Flashback Pickups" visible="0">
   <object id="44" name="Flashback Pickup 1" type="FlashbackPickup" gid="86" x="3984.48" y="2060.97" width="128" height="128"/>
   <object id="45" name="Flashback Pickup 2" type="FlashbackPickup" gid="86" x="4166.3" y="3136" width="128" height="128"/>
   <object id="46" name="Flashback Pickup 3" type="FlashbackPickup" gid="86" x="2617.82" y="2566.3" width="128" height="128"/>
   <object id="47" name="Flashback Pickup 4" type="FlashbackPickup" gid="86" x="2099.64" y="3681.45" width="128" height="128"/>
   <object id="48" name=" Flashback Pickup 5" type="FlashbackPickup" gid="86" x="1596.61" y="2057.21" width="128" height="128"/>
  </objectgroup>
- <group id="25" name="Helpers" locked="1">
+ <group id="25" name="Helpers" visible="0" locked="1">
   <objectgroup id="32" name="Helpers Objects" locked="1">
    <object id="39" gid="75" x="3920" y="2096" width="436" height="420"/>
    <object id="40" gid="76" x="4104" y="3204" width="404" height="404"/>
