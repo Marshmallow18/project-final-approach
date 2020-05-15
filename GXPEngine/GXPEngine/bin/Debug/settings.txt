@@ -10,7 +10,7 @@ Textbox_Font = Anton
 
 //Flashbacks
 Flashbacks_TextBoxTweenSpeed = 80
-Message_To_Player_After_Collect_Flashbacks = Message to player blabla...
+Message_To_Player_After_Collect_Flashbacks = Now I need to go through these memories in the correct order...
 
 //To starts game with some triggers already collected, for test, dont fill with all, use 3 or 4
 //Example: Flashback_Triggers_Collected = 1 2 3 4
@@ -19,9 +19,9 @@ Message_To_Player_After_Collect_Flashbacks = Message to player blabla...
 
 Flashback_Triggers_Allow_Skip_With_Esc_Key = true
 
-Flashback_Pickups_Incorrect_Order_Message = You got the flashbacks in the wrong order.
+Flashback_Pickups_Incorrect_Order_Message = You got the memories in the wrong order.
 
-HUD_Flashback_Counter_Format = {0} of {1} flashbacks
+HUD_Flashback_Counter_Format = {0} of {1} memories
 
 
 //Musics and SFXs
@@ -49,4 +49,4 @@ Cheat_Mode = false
 
 //Cam Settings
 Camera_Scale_Enable_With_E_C_Keys = true
-Camera_Scale = 1
+Camera_Scale = 0,965

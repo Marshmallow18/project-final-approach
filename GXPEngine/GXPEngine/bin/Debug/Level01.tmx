@@ -246,7 +246,7 @@
   </object>
  </objectgroup>
  <objectgroup id="30" name="Misc Objects">
-  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="3123.76" y="4479.94" width="128" height="128"/>
+  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="3137.76" y="4563.94" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="64" name="Hidden Room Cover">
   <object id="64" name="Hidden Room Collider" type="Doesnt Matter" gid="69" x="1306.21" y="1879.37" width="296.431" height="128" rotation="322.852"/>
