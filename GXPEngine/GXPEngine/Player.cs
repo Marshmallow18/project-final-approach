@@ -15,7 +15,7 @@ public class Player : Sprite
     private float _vSpeed, _hSpeed, _deceleration, _state, _scale = 0.4f;
     private Random _rand;
     private float _currentSpeed;
-    private float _walkSpeed = 2f;
+    private float _walkSpeed = 1.8f;
     private float _runSpeed = 10f;
     private bool _lampOpen = true;
     private bool _inputEnabled;
@@ -156,7 +156,7 @@ public class Player : Sprite
             _animation.SetFrame(_frame);
 
             _timer++;
-            if (_timer > 2)
+            if (_timer > 4)
             {
                 _frame++;
                 _timer = 0;

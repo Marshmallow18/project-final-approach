@@ -183,7 +183,7 @@ namespace GXPEngine.HUD
                 yield return new WaitForMilliSeconds(delay);
             }
 
-            AddChild(textBox);
+            HierarchyManager.Instance.LateAdd(this, textBox);
 
             if (fade)
              DrawableTweener.TweenSpriteAlpha(textBox, 0, 1, Settings.Default_AlphaTween_Duration);

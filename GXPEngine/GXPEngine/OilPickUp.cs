@@ -7,7 +7,7 @@ using GXPEngine.HUD;
 
 namespace GXPEngine
 {
-    class OilPickUp : AnimationSprite
+    public class OilPickUp : AnimationSprite
     {
         public int max;
 
@@ -49,10 +49,22 @@ namespace GXPEngine
 
         public void OnCollision(GameObject any)
         {
-            if(any is Player)
+            if(Enabled && any is Player)
             {
                 ((MyGame)game).SetOil(max);
-                LateDestroy();
+
+                if (_oilType >= 1 && _oilType<=3)
+                {
+                    ((MyGame)game).WaitForNextRandomize(this);
+                }
+                else
+                {
+                    ((MyGame)game).WaitForNext(this);
+                }
+
+                Console.WriteLine($"{this} onCollision with {any}");
+
+                //LateDestroy();
                 //_working = false;
             }
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="34" nextobjectid="49">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="35" nextobjectid="91">
  <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="data/Clouds Border Tileset.png" width="1024" height="1024"/>
  </tileset>
@@ -120,49 +120,200 @@
   <object id="11" name="Door1 Trigger" type="DoorTrigger" gid="69" x="3984.72" y="3595.16" width="128" height="252.585" rotation="-765.332"/>
   <object id="6" name="Door1" type="DoorOneSided" gid="67" x="4028.12" y="3550.69" width="249.815" height="128" rotation="-857.049">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="17" name="Door2 Trigger" type="DoorTrigger" gid="69" x="4256.02" y="2531.65" width="128" height="252.585" rotation="-457.578"/>
   <object id="18" name="Door2" type="DoorOneSided" gid="67" x="4247.44" y="2470.11" width="249.815" height="128" rotation="-549.295">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="19" name="Door3 Trigger" type="DoorTrigger" gid="69" x="3326.47" y="2167.39" width="128" height="252.585" rotation="-202.171"/>
   <object id="20" name="Door3" type="DoorOneSided" gid="67" x="3269.08" y="2191.2" width="249.815" height="128" rotation="-293.888">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="21" name="Door4 Trigger" type="DoorTrigger" gid="69" x="3282.48" y="2610.9" width="128" height="252.585" rotation="-147.55"/>
   <object id="22" name="Door4" type="DoorOneSided" gid="67" x="3229.83" y="2577.89" width="249.815" height="128" rotation="-239.267">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="23" name="Door5 Trigger" type="DoorTrigger" gid="69" x="2596.78" y="3136.7" width="128" height="252.585" rotation="-424.297"/>
   <object id="24" name="Door5" type="DoorOneSided" gid="67" x="2623.38" y="3080.55" width="249.815" height="128" rotation="-516.014">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="25" name="Door6 Trigger" type="DoorTrigger" gid="69" x="2163.01" y="2350.7" width="128" height="252.585" rotation="-333.163"/>
   <object id="26" name="Door6" type="DoorOneSided" gid="67" x="2218.63" y="2378.41" width="249.815" height="128" rotation="-424.88">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="27" name="Door7 Trigger" type="DoorTrigger" gid="69" x="2056.88" y="2799.53" width="128" height="252.585" rotation="-471.341"/>
   <object id="28" name="Door7" type="DoorOneSided" gid="67" x="2033.91" y="2741.79" width="249.815" height="128" rotation="-563.058">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
    </properties>
   </object>
   <object id="29" name="Door8 Trigger" type="DoorTrigger" gid="69" x="2185.35" y="4051.68" width="128" height="252.585" rotation="-429.92"/>
   <object id="30" name="Door8" type="DoorOneSided" gid="67" x="2206.32" y="3993.19" width="249.815" height="128" rotation="-521.637">
    <properties>
+    <property name="dark tunnel" type="bool" value="false"/>
     <property name="open forever" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="63" name="Door12 Trigger" type="DoorTrigger" gid="69" x="1100.84" y="3868.17" width="159.989" height="330.627" rotation="-471.341">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="49" name="Door9" type="DoorOneSided" gid="67" x="458.077" y="3644" width="249.815" height="128" rotation="-431.637">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="64" name="Door11 Trigger" type="DoorTrigger" gid="69" x="1068" y="3720.71" width="175.946" height="317.594" rotation="-471.341">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="50" name="Door10" type="DoorOneSided" gid="67" x="718.092" y="3666" width="249.815" height="128" rotation="-431.637">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="65" name="Door10 Trigger" type="DoorTrigger" gid="1073741893" x="796.383" y="3420.06" width="198.216" height="318.579" rotation="201.341">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="51" name="Door11" type="DoorOneSided" gid="1073741891" x="780.417" y="3779.2" width="249.815" height="128" rotation="341.637">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="67" name="Door9 Trigger" type="DoorTrigger" gid="1073741893" x="626.012" y="3423.56" width="222.685" height="301.549" rotation="201.341">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="52" name="Door12" type="DoorOneSided" gid="1073741891" x="800.092" y="3955" width="249.815" height="128" rotation="341.637">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="68" name="Door13 Trigger" type="DoorTrigger" gid="69" x="5082.67" y="3196.37" width="204.579" height="252.585" rotation="-765.332">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="53" name="Door13" type="DoorOneSided" gid="67" x="5166" y="3105.7" width="249.815" height="128" rotation="-857.049">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="69" name="Door14 Trigger" type="DoorTrigger" gid="69" x="5203.13" y="3032.79" width="235.446" height="252.585" rotation="-765.332">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="54" name="Door14" type="DoorOneSided" gid="67" x="5366" y="2860.24" width="249.815" height="128" rotation="-857.049">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="70" name="Door16 Trigger" type="DoorTrigger" gid="69" x="5310.67" y="2473.71" width="356.656" height="252.585" rotation="-765.332">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="55" name="Door15" type="DoorOneSided" gid="67" x="5741.76" y="2245.09" width="249.815" height="128" rotation="-857.049">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="71" name="Door15 Trigger" type="DoorTrigger" gid="69" x="5503.09" y="2493.68" width="339.817" height="252.585" rotation="-765.332">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="56" name="Door16" type="DoorOneSided" gid="67" x="5402" y="2374.62" width="249.815" height="128" rotation="-497.049">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="72" name="Door17 Trigger" type="DoorTrigger" gid="69" x="3647.04" y="903.766" width="767.335" height="280.736" rotation="-556.182">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="57" name="Door17" type="DoorOneSided" gid="67" x="3569.03" y="978.424" width="249.815" height="128" rotation="-239.267">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="73" name="Door18 Trigger" type="DoorTrigger" gid="69" x="3117.01" y="1267.64" width="399.557" height="252.585" rotation="-495.332">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="58" name="Door18" type="DoorOneSided" gid="67" x="2802.37" y="990.545" width="249.815" height="128" rotation="-239.267">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="75" name="Door19 Trigger" type="DoorTrigger" gid="1073741893" x="2661.75" y="1344.91" width="258.006" height="252.585" rotation="64.297">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="60" name="Door19" type="DoorOneSided" gid="67" x="2953.88" y="1363.27" width="249.815" height="128" rotation="-563.058">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="76" name="Door21 Trigger" type="DoorTrigger" gid="69" x="2603.64" y="503.554" width="306.865" height="252.585" rotation="115.703">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="61" name="Door20" type="DoorOneSided" gid="67" x="2835.7" y="936" width="249.815" height="128" rotation="-516.014">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="77" name="Door20 Trigger" type="DoorTrigger" gid="69" x="2684.61" y="680.172" width="288.979" height="252.585" rotation="115.703">
+   <properties>
+    <property name="dark_trigger" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="62" name="Door21" type="DoorOneSided" gid="67" x="2817.52" y="617.818" width="249.815" height="128" rotation="-516.014">
+   <properties>
+    <property name="dark tunnel" type="bool" value="true"/>
+    <property name="open forever" type="bool" value="false"/>
    </properties>
   </object>
  </objectgroup>
@@ -189,10 +340,10 @@
   </object>
  </objectgroup>
  <objectgroup id="30" name="Misc Objects">
-  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="3637.33" y="2180.36" width="128" height="128"/>
+  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1385.33" y="2564.36" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="33" name="Oil Objects">
-  <object id="53" name="Oil Fixed" type="Oil" gid="73" x="320.848" y="3264" width="128" height="128"/>
+  <object id="53" name="Oil Fixed" type="Oil" gid="73" x="328.848" y="3268" width="128" height="128"/>
   <object id="54" name="Oil Fixed" type="Oil" gid="73" x="5560.24" y="1733.7" width="128" height="128"/>
   <object id="55" name="Oil Fixed" type="Oil" gid="73" x="2805.7" y="421.576" width="128" height="128"/>
   <object id="56" name="Oil Random 3" type="Oil" gid="72" x="1045.09" y="4694.3" width="128" height="128">
@@ -268,6 +419,14 @@ Donec orci massa, vestibulum sed ligula nec, tempor volutpat nulla. Integer cond
    </properties>
   </object>
   <object id="38" name="Flashback 5" type="Flashback" gid="74" x="1391.73" y="2264.03" width="580.182" height="506.485"/>
+ </objectgroup>
+ <objectgroup id="34" name="Dark Hall Triggers" visible="0">
+  <object id="85" name="Dark corridor" type="dark" gid="69" x="2750.35" y="1547.74" width="824" height="496"/>
+  <object id="86" name="Dark corridor" type="dark" gid="69" x="2446.35" y="1027.74" width="456" height="440"/>
+  <object id="87" name="Dark corridor" type="dark" gid="69" x="319.252" y="3633.26" width="392.777" height="372.316" rotation="18.8969"/>
+  <object id="88" name="Dark corridor" type="dark" gid="69" x="663.078" y="3667.95" width="392.777" height="372.316" rotation="-289.471"/>
+  <object id="89" name="Dark corridor" type="dark" gid="69" x="4829.73" y="2983.16" width="423.822" height="449.492" rotation="40.906"/>
+  <object id="90" name="Dark corridor" type="dark" gid="69" x="5136.93" y="2296.12" width="423.822" height="449.492" rotation="45.5299"/>
  </objectgroup>
  <objectgroup id="34" name="Flashback Pickups">
   <object id="44" name="Flashback Pickup 1" type="FlashbackPickup" gid="86" x="3984.48" y="2060.97" width="128" height="128"/>

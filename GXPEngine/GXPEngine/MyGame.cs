@@ -1,4 +1,5 @@
 using System; // System contains a lot of default C# libraries 
+using System.Collections;
 using System.Drawing;
 using System.Linq;
 // System.Drawing contains a library used for canvas drawing below
@@ -34,6 +35,9 @@ public class MyGame : Game
 
     private FpsCounter _fpsCounter;
 
+    public bool _reduceLight = true;
+ 
+
     public static int[] Keys_Used = new int[]
     {
         Key.O,
@@ -54,7 +58,7 @@ public class MyGame : Game
 
     private GameHud _gameHud;
 
-    public float oil = 100f;
+    public float oil = 65f;
 
     private int _timer;
 
@@ -221,18 +225,59 @@ public class MyGame : Game
         oil = value;
     }
 
+    public void WaitForNextRandomize(OilPickUp oilPickUp)
+    {
+        CoroutineManager.StartCoroutine(WaitForNextRandomizeSequence(oilPickUp), this);    
+    }
+
+    private IEnumerator WaitForNextRandomizeSequence(OilPickUp oilPickUp)
+    {
+        oilPickUp.Enabled = false;
+
+        yield return new WaitForMilliSeconds(20000);
+
+       OilPickUpsManager.Instance.RandomizeGroup(oilPickUp._oilType);
+    }
+
+    public void WaitForNext(OilPickUp oilPickUp)
+    {
+        CoroutineManager.StartCoroutine(WaitForNextSequence(oilPickUp), this);
+    }
+
+    private IEnumerator WaitForNextSequence(OilPickUp oilPickUp)
+    {
+        oilPickUp.Enabled = false;
+
+        yield return new WaitForMilliSeconds(20000);
+
+        oilPickUp.Enabled = true;
+    }
+
     public float GetOil()
     {
         return oil;
     }
 
+    public void StartOil()
+    {
+        _reduceLight = true;
+    }
+
+    public void StopOil()
+    {
+        _reduceLight = false;
+    }
+
     public void LampReduceLight()
     {
-        _timer++;
-        if (_timer > 60)
+        if (_reduceLight)
         {
-            oil--;
-            _timer = 0;
+            _timer++;
+            if (_timer > 60)
+            {
+                oil--;
+                _timer = 0;
+            }
         }
     }
 }
