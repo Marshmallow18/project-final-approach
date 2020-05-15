@@ -30,7 +30,7 @@ namespace GXPEngine
 
         void Update()
         {
-            var isWalkable = _caveLevel.IsWalkablePosition(_player.Position);
+            var isWalkable = _caveLevel.IsWalkablePosition(_player.Position) || Settings.Cheat_Mode;
 
             if (!isWalkable)
             {

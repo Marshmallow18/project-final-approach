@@ -29,7 +29,7 @@ namespace GXPEngine
                 level?.AddChild(_linesMap[s][i]);
             }
             
-            Console.WriteLine($"DebugDrawBoundBox: {s.name} added");
+            //Console.WriteLine($"DebugDrawBoundBox: {s.name} added");
         }
 
         public static void DrawBounds()

@@ -96,8 +96,6 @@ namespace GXPEngine
             _level.AddChild(doorTrigger);
             doorTrigger.rotation = rot;
             doorTrigger.SetXY(pX, pY);
-            
-            Console.WriteLine($"{doorTrigger}: {doorTrigger.scaleX} | {doorTrigger.scaleY}");
         }
     }
 }

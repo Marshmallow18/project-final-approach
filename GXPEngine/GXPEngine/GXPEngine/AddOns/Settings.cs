@@ -33,11 +33,11 @@ namespace GXPEngine
 
         // Resolution values - use these when creating a new MyGame instance:
         // (Note: for the arcade machine, use ScreenResolutionX,Y = 1600,1200)
-        public static int Width = 800;
-        public static int Height = 600;
-        public static int ScreenResolutionX = 800;
-        public static int ScreenResolutionY = 600;
-        public static bool FullScreen = false;
+        public static int Width = 1920;
+        public static int Height = 1080;
+        public static int ScreenResolutionX = 1920;
+        public static int ScreenResolutionY = 1080;
+        public static bool FullScreen = true;
 
         // In your Player class, you can use these keys for player controls:
         // (Default: arcade machine setup:)
@@ -119,6 +119,8 @@ namespace GXPEngine
 
         public static string Door0_Open_Sound = "data/audios/sfx/261109__jaklocke__door-opening-and-closing-8.wav";
         public static float Door0_Open_Sound_Volume = 0.2f;
+
+        public static bool Cheat_Mode = false;
         
         /// <summary>
         /// Load new values from the file settings.txt

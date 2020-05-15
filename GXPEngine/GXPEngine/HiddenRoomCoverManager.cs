@@ -44,9 +44,7 @@ namespace GXPEngine
                 _level.AddChild(_hiddenRoomCover);
                 _hiddenRoomCover.rotation = hiddenRoomData.rotation;
                 _hiddenRoomCover.SetXY(hiddenRoomData.X, hiddenRoomData.Y);
-
-                Console.WriteLine($"{_hiddenRoomCover}: {_hiddenRoomCover.scaleX} | {_hiddenRoomCover.scaleY}");
-
+                
                 _hiddenRoomCoverCollider = new Sprite("data/White Texture.png");
 
                 _hiddenRoomCoverCollider.width = Mathf.Round(hiddenRoomColliderData.Width);
@@ -76,7 +74,7 @@ namespace GXPEngine
             _level.Player.objectsToCheck = _level.Player.objectsToCheck
                 .Concat(new GameObject[] {_hiddenRoomCoverCollider}).ToArray();
 
-            Utils.print("player", _level.Player.Index, "fog1", _level.Player.Fog1.Index, "fog2",
+            Utils.print("player index", _level.Player.Index, "fog1 index", _level.Player.Fog1.Index, "fog2 index",
                 _level.Player.Fog2.Index);
 
             //Draw over player layer

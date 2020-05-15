@@ -1,9 +1,9 @@
 ﻿//General
 //ScreenResolutionX = 1920
 //ScreenResolutionY = 1080
-ScreenResolutionX = 1280
-ScreenResolutionY = 720
-FullScreen = false
+//ScreenResolutionX = 1280
+//ScreenResolutionY = 720
+//FullScreen = true
 
 Default_AlphaTween_Duration = 600
 Textbox_Font = Anton
@@ -43,3 +43,6 @@ Hidden_Room_Revealed_Sound = none
 
 Door0_Open_Sound = data/audios/sfx/261109__jaklocke__door-opening-and-closing-8.wav
 Door0_Open_Sound_Volume = 0.2
+
+//Cheat -> Wallhack
+Cheat_Mode = false
