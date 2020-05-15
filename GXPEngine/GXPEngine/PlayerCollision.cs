@@ -38,7 +38,7 @@ namespace GXPEngine
 
                 var normalCollision = _caveLevel.GetCollisionNormal(nextPos);
 
-                Console.WriteLine($"nextpos: {nextPos} | normal: {normalCollision}");
+                //Console.WriteLine($"nextpos: {nextPos} | normal: {normalCollision}");
 
                 _player.SetXY(_player.lastPos.x, _player.lastPos.y);
 

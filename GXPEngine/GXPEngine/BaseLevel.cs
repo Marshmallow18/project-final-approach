@@ -110,15 +110,18 @@ namespace GXPEngine
 
         void Update()
         {
-            float camZoomSpeed = 3;
-            
-            if (Input.GetKey(Key.C))
+            float camZoomSpeed = 1;
+
+            if (Settings.Camera_Scale_Enable_With_E_C_Keys)
             {
-                _cam.scale += camZoomSpeed * Time.delta;
-            }
-            else if (Input.GetKey(Key.E))
-            {
-                _cam.scale -= camZoomSpeed * Time.delta;
+                if (Input.GetKey(Key.C))
+                {
+                    _cam.scale += camZoomSpeed * Time.delta;
+                }
+                else if (Input.GetKey(Key.E))
+                {
+                    _cam.scale -= camZoomSpeed * Time.delta;
+                }
             }
         }
     }

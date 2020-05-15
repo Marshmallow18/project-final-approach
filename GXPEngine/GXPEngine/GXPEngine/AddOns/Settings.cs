@@ -122,6 +122,10 @@ namespace GXPEngine
 
         public static bool Cheat_Mode = false;
         
+        //Camera Settings
+        public static float Camera_Scale = 1;
+        public static bool Camera_Scale_Enable_With_E_C_Keys = false;
+
         /// <summary>
         /// Load new values from the file settings.txt
         /// </summary>

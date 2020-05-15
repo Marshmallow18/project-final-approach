@@ -73,6 +73,7 @@ public class MyGame : Game
         var caveLevelMap = new CaveLevelMapGameObject(mapData);
         
         _cam = new FollowCamera(0, 0, game.width, game.height);
+        _cam.scale = Settings.Camera_Scale;
         Cam = _cam;
 
         LoadLevel(caveLevelMap);
@@ -156,7 +157,7 @@ public class MyGame : Game
 
         _debugText.TextValue =
             $"playerPos: {_level?.Player?.Position} | mouseWorld: {WorldMousePosition} | mapSize: {_caveLevelMap.TotalWidth} x {_caveLevelMap.TotalHeight}| oil: {oil}\r\n" +
-            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)} | animFrame: {_level?.Player?.Frame}\r\n" +
+            $"pickups: {string.Join(", ", FlashbackManager.Instance.CollectedFlashPickupsNames)} | animFrame: {_level?.Player?.Frame} | camScale: {_cam?.scale}\r\n" +
             $"Channel: {GameSoundManager.Instance?.CurrentChannel?.ID}/{GameSoundManager.Instance?.CurrentChannelId} | isplaying: {GameSoundManager.Instance?.CurrentChannel?.IsPlaying} | ispaused: {GameSoundManager.Instance?.CurrentChannel?.IsPaused}";
         //$"camScale: {_cam.scale:0.00} | mousePos: {mousePos} | worldMousePos: {worldMousePos} | isWalk: {isWalkable}";
 
@@ -167,11 +168,6 @@ public class MyGame : Game
         if (Input.GetKeyDown(Key.U))
         {
             ToogleDebug(WorldMousePosition);
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            ParticleManager.Instance.PlayCoinsExplosion(_level.Player);
         }
 
         DebugDrawBoundBox.DrawBounds();

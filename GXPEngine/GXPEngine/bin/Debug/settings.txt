@@ -46,3 +46,7 @@ Door0_Open_Sound_Volume = 0.2
 
 //Cheat -> Wallhack
 Cheat_Mode = false
+
+//Cam Settings
+Camera_Scale_Enable_With_E_C_Keys = true
+Camera_Scale = 1
