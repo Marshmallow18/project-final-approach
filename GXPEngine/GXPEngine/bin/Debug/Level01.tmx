@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="left-down" width="48" height="42" tilewidth="128" tileheight="128" infinite="0" nextlayerid="36" nextobjectid="67">
- <properties>
-  <property name="level_start_music" type="file" value="data/audios/musics/cave_info.ogg"/>
- </properties>
  <tileset firstgid="1" name="Map Borders" tilewidth="128" tileheight="128" tilecount="64" columns="8">
   <image source="data/Clouds Border Tileset.png" width="1024" height="1024"/>
  </tileset>
@@ -246,7 +243,7 @@
   </object>
  </objectgroup>
  <objectgroup id="30" name="Misc Objects">
-  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="3137.76" y="4563.94" width="128" height="128"/>
+  <object id="16" name="Player Spawn" type="PlayerSpawnPoint" gid="71" x="1905.76" y="1823.94" width="128" height="128"/>
  </objectgroup>
  <objectgroup id="64" name="Hidden Room Cover">
   <object id="64" name="Hidden Room Collider" type="Doesnt Matter" gid="69" x="1306.21" y="1879.37" width="296.431" height="128" rotation="322.852"/>
@@ -255,8 +252,10 @@
  <objectgroup id="31" name="FlashBack Triggers Objects">
   <object id="34" name="Flashback 2" type="Flashback" gid="74" x="3794" y="2228" width="522" height="414">
    <properties>
+    <property name="close_music" type="bool" value="true"/>
     <property name="image_0" type="file" value="data/flashback images/flashback2.png"/>
-    <property name="text_0">Civilian2: Yes. Let’s throw some stones at him. Or let’s set the fire to his Nazis uniform and let him dance. He thought he can avoid the justice by deserting. Not only a bastard but a coward too.
+    <property name="music_0" type="file" value="data/audios/musics/fl_2.ogg"/>
+    <property name="text_0">Civilian2: Yes. Let’s throw some stones at him. Or let’s set the fire to his Nazis uniform and let him dance. He thought he can avoid the justice by deserting. Not only a bastard but a coward too.[music_0]
 
 Carl: Stop! Wait! I have an order to deliver him alive to the command. He should inform us about the Nazis forces left in Belgium. There will be no use for him if he will be dead.
 
@@ -276,8 +275,10 @@ Carl: Ok let’s move you out of here.
   </object>
   <object id="35" name="Flashback 1" type="Flashback" gid="74" x="3975" y="3301" width="522" height="414">
    <properties>
+    <property name="close_music" type="bool" value="true"/>
     <property name="image_0" type="file" value="data/flashback images/flashback1.png"/>
-    <property name="text_0">Carl: Hey. Excuse me. I am looking for a guy. He is wearing a German uniform. Have you seen him somewhere around?
+    <property name="music_0" type="file" value="data/audios/musics/fl_1.ogg"/>
+    <property name="text_0">Carl: Hey. Excuse me. I am looking for a guy. He is wearing a German uniform. Have you seen him somewhere around?[music_0]
 
 Civilian: Also lost someone on this war? Hurry up to the Room of Trophy if you want to find this bastard alive. You are not the only one who is searching for the revenge in these caves, boy. 
 
@@ -287,8 +288,10 @@ Carl: Thanks sir but I don’t search for a revenge…
   </object>
   <object id="36" name="Flashback 4" type="Flashback" gid="74" x="1915" y="3829" width="522" height="414">
    <properties>
+    <property name="close_music" type="bool" value="true"/>
     <property name="image_0" type="file" value="data/flashback images/flashback4.png"/>
-    <property name="text_0">Carl: I will deliver you to the command. It’s not my problem if you die at the middle of the way. Why would I help you? My brother died in the first day of the occupation of Belgium. Died on the war I hate with all my soul. The war you, Germans, started! Why would I help you?!
+    <property name="music_0" type="file" value="data/audios/musics/fl_4.ogg"/>
+    <property name="text_0">Carl: I will deliver you to the command. It’s not my problem if you die at the middle of the way. Why would I help you? My brother died in the first day of the occupation of Belgium. Died on the war I hate with all my soul. The war you, Germans, started! Why would I help you?![music_0]
 
 German deserter: Because we are not that different. I hate this was just as much as you do. Why do you think I speak French that well? Yes I was born in Germany but my mother was from Belgium. I never believed the ideas of Hitler and I never wanted to fight. I just want to return to my wife just as you want to return to your family. 
 
@@ -300,8 +303,10 @@ German deserter: You also would. There was no other option or choice to make. Th
   </object>
   <object id="37" name="Flashback 3" type="Flashback" gid="74" x="2450.15" y="2714.82" width="506.848" height="395.818">
    <properties>
+    <property name="close_music" type="bool" value="true"/>
     <property name="image_0" type="file" value="data/flashback images/flashback3.png"/>
-    <property name="text_0">German deserter: Thanks for standing up for me. I would be dead already.
+    <property name="music_0" type="file" value="data/audios/musics/fl_3.ogg"/>
+    <property name="text_0">German deserter: Thanks for standing up for me. I would be dead already.[music_0]
 
 Carl: I had my orders. 
 
@@ -311,9 +316,14 @@ German deserter: Listen. These people were right in one thing. I need a doctor o
   </object>
   <object id="38" name="Flashback 5" type="Flashback" gid="74" x="1446.28" y="2185.24" width="443.819" height="373.152">
    <properties>
+    <property name="audio_0" type="file" value="data/audios/sfx/fl5_gunshoot.wav"/>
+    <property name="audio_volume_0" type="float" value="0.7"/>
+    <property name="close_music" type="bool" value="true"/>
     <property name="image_0" type="file" value="data/flashback images/flashback3_number_2.png"/>
     <property name="image_1" type="file" value="data/flashback images/flashback5.png"/>
-    <property name="text_0">Carl: What’s your name soldier?
+    <property name="music_0" type="file" value="data/audios/musics/fl_5_1.ogg"/>
+    <property name="music_1" type="file" value="data/audios/musics/fl_5_2.ogg"/>
+    <property name="text_0">Carl: What’s your name soldier?[music_0]
 
 German deserter: Frank. And yours?
 
@@ -346,11 +356,11 @@ Carl: Buy Frank.
 
 
 </property>
-    <property name="text_1">Stranger appears: No way you will escape, Nazi scum!!! 
+    <property name="text_1">Stranger appears: No way you will escape, Nazi scum!!![music_1]
 
 Carl: Wait! Stop! I am not …
 
-BANG</property>
+BANG[audio_0]</property>
    </properties>
   </object>
  </objectgroup>
@@ -407,18 +417,19 @@ BANG</property>
   <object id="48" name="Flashback Pickup 5" type="FlashbackPickup" gid="86" x="1447.61" y="1942.54" width="128" height="128"/>
   <object id="65" name="Final Flashback" type="FinalFlashbackPickup" gid="86" x="868" y="1364" width="128" height="128">
    <properties>
+    <property name="audio_0" type="file" value=""/>
     <property name="image_0" type="file" value="data/flashback images/flashback6.png"/>
     <property name="image_1" type="file" value="data/flashback images/163838c3dda8f6ac.png"/>
+    <property name="music_0" type="file" value="data/audios/musics/end_scene.ogg"/>
     <property name="text_0" value="Carl: Oh! It's my old compass!"/>
-    <property name="text_1">The End
-</property>
+    <property name="text_1" value="The End"/>
    </properties>
   </object>
  </objectgroup>
  <group id="25" name="Helpers" locked="1">
   <objectgroup id="32" name="Helpers Objects" locked="1">
-   <object id="39" gid="75" x="3920" y="2096" width="436" height="420"/>
-   <object id="40" gid="76" x="4104" y="3204" width="404" height="404"/>
+   <object id="39" gid="75" x="4244" y="3236" width="436" height="420"/>
+   <object id="40" gid="76" x="3940" y="2056" width="404" height="404"/>
    <object id="41" gid="77" x="2480" y="2692" width="440" height="440"/>
    <object id="42" gid="78" x="1872" y="3880" width="572" height="572"/>
    <object id="43" gid="79" x="1424" y="2200" width="428" height="428"/>

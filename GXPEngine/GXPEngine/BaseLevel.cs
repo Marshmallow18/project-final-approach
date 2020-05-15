@@ -72,8 +72,7 @@ namespace GXPEngine
             yield return new WaitForMilliSeconds(1000);
 
             //Play level music
-            string startMusic = _caveLevelMap.MapData.GetStringProperty("level_start_music", "");
-            GameSoundManager.Instance.FadeInMusic(startMusic, Settings.Background_Music_Volume, 1000);
+            GameSoundManager.Instance.FadeInMusic(Settings.Base_Music, Settings.Background_Music_Volume);
         }
 
         private Vector2 GetPlayerSpawnPoint()

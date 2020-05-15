@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading;
 using GXPEngine.HUD;
@@ -95,7 +96,7 @@ namespace GXPEngine
             {
                 yield return null;
             }
-            
+
             _level.Player.InputEnabled = true;
 
             //Fadein Music if has one and a property to closeit
@@ -103,6 +104,8 @@ namespace GXPEngine
             if (closeMusicBool)
             {
                 GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
+                GameSoundManager.Instance.FadeInMusic(Settings.Base_Music, Settings.Background_Music_Volume,
+                    Settings.Flashbacks_Music_Fadein_Duration);
             }
 
             if (_collectedFlashBacksTriggersNames.Count >= _totalFlashbacks)
@@ -140,19 +143,24 @@ namespace GXPEngine
         private IEnumerator PlayerPickedupFlashblackRoutine(FlashbackPickup flashbackPickup, bool showPanel)
         {
             GameHud.Instance.ResetFlashbackButton.collider.Enabled = false;
-            
+
             //Show FlashbackHud
             if (showPanel)
             {
                 yield return FlashbackHudRoutine(flashbackPickup.FlashbackData.Name);
-                
+
                 GameHud.Instance.ResetFlashbackButton.SetActive(false);
 
                 //Fadeout Music if has one and a property to close it
-                var closeMusicBool = flashbackPickup.FlashbackData.GetBoolProperty("close_music", false);
-                if (closeMusicBool)
+                if (FlashBackTriggersManager.Instance.FlashTriggersMap.TryGetValue(flashbackPickup.FlashbackData.Name, out var flashTrigger))
                 {
-                    GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
+                    var closeMusicBool = flashTrigger.FlashbackTriggerData.GetBoolProperty("close_music", false);
+                    if (closeMusicBool)
+                    {
+                        GameSoundManager.Instance.FadeOutCurrentMusic(Settings.Flashbacks_Music_Fadein_Duration);
+                        GameSoundManager.Instance.FadeInMusic(Settings.Base_Music, Settings.Background_Music_Volume,
+                            Settings.Flashbacks_Music_Fadein_Duration);
+                    }
                 }
             }
 
@@ -170,36 +178,39 @@ namespace GXPEngine
                         Settings.Default_AlphaTween_Duration,
                         () => { flashbackPickup.Enabled = false; });
 
+                    GameHud.Instance.ShowTextBox("Game Over");
+                    
                     Console.WriteLine($"{this} go to END");
-                    yield break;
-                }
-
-                //Change Indicator
-                if (int.TryParse(flashName.Replace("flashback ", ""), out var flashIndex))
-                {
-                    GameHud.Instance.MemoriesHudPanel.EnableIndicator(_collectedFlashPickupsNames.Count - 1);
-                }
-
-                //The last flashback pickedup is not disabled because we need to test the collision with player
-                //to re-enable it only after player exit the trigger
-                //So make it invisible
-                if (_collectedFlashPickupsNames.Count >= _totalFlashbacks)
-                {
-                    _lastPicked = flashbackPickup;
-                    CoroutineManager.StopAllCoroutines(flashbackPickup);
-                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
-                        Settings.Default_AlphaTween_Duration);
-
-                    yield return CheckPickupsCollectedOrderSquence(flashbackPickup);
                 }
                 else
                 {
-                    flashbackPickup.collider.Enabled = false;
-                    CoroutineManager.StopAllCoroutines(flashbackPickup);
-                    DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
-                        Settings.Default_AlphaTween_Duration, () => { flashbackPickup.Enabled = false; });
-                    
-                    GameHud.Instance.ResetFlashbackButton.SetActive(true);
+                    //Change Indicator
+                    if (int.TryParse(flashName.Replace("flashback ", ""), out var flashIndex))
+                    {
+                        GameHud.Instance.MemoriesHudPanel.EnableIndicator(_collectedFlashPickupsNames.Count - 1);
+                    }
+
+                    //The last flashback pickedup is not disabled because we need to test the collision with player
+                    //to re-enable it only after player exit the trigger
+                    //So make it invisible
+                    if (_collectedFlashPickupsNames.Count >= _totalFlashbacks)
+                    {
+                        _lastPicked = flashbackPickup;
+                        CoroutineManager.StopAllCoroutines(flashbackPickup);
+                        DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
+                            Settings.Default_AlphaTween_Duration);
+
+                        yield return CheckPickupsCollectedOrderSquence(flashbackPickup);
+                    }
+                    else
+                    {
+                        flashbackPickup.collider.Enabled = false;
+                        CoroutineManager.StopAllCoroutines(flashbackPickup);
+                        DrawableTweener.TweenSpriteAlpha(flashbackPickup, flashbackPickup.alpha, 0,
+                            Settings.Default_AlphaTween_Duration, () => { flashbackPickup.Enabled = false; });
+
+                        GameHud.Instance.ResetFlashbackButton.SetActive(true);
+                    }
                 }
             }
 
@@ -208,6 +219,7 @@ namespace GXPEngine
 
         IEnumerator FlashbackHudRoutine(string flashbackDataName)
         {
+            bool speedUp = true;
             TiledObject flashData = null;
             bool allowSkipByKey = true;
 
@@ -217,16 +229,16 @@ namespace GXPEngine
                 flashData = flashTrigger.FlashbackTriggerData;
             }
             //For the final flahback scene, its not a trigger so needs a different load
-            else if (flashbackDataName == "final flashback"
-            ) //FlashbackPickupsManager.Instance.FinalPickup.FlashbackData.Name)
+            else if (flashbackDataName == "final flashback")
             {
                 flashData = FlashbackPickupsManager.Instance.FinalPickup.FlashbackData;
                 allowSkipByKey = false;
+                speedUp = false;
             }
 
             if (flashData != null)
             {
-                var flashHud = GameHud.Instance.LoadFlashbackHud(flashData, true, allowSkipByKey);
+                var flashHud = GameHud.Instance.LoadFlashbackHud(flashData, speedUp, allowSkipByKey);
 
                 while (flashHud != null && flashHud.toDestroy == false)
                 {
@@ -261,7 +273,7 @@ namespace GXPEngine
                 //Incorrect order
                 Utils.print(this, " order incorrect ", string.Join(", ", collectOrder));
                 yield return IncorrectFlashPickupsOrderSequence(flashbackPickup);
-                
+
                 GameHud.Instance.ResetFlashbackButton.SetActive(true);
             }
         }
@@ -274,6 +286,8 @@ namespace GXPEngine
             var hiddenCollider = HiddenRoomCoverManager.Instance.HiddenRoomCoverCollider;
 
             DrawableTweener.TweenSpriteAlpha(hiddenRoomCover, 1, 0, 1000, Easing.Equation.QuadEaseOut);
+
+            GameSoundManager.Instance.PlayFx(Settings.Hidden_Room_Revealed_SFX);
 
             yield return new WaitForMilliSeconds(1400);
 
@@ -327,7 +341,7 @@ namespace GXPEngine
                     $"{this}: {textBox.x} {textBox.y} | {textBox.width} {textBox.height} | gameW: {game.width} | gameH: {game.height} | hudRatioX: {GameHud.Instance.HudRatioX} hudRatioY: {GameHud.Instance.HudRatioY}");
             }
         }
-        
+
         public void ResetMemorySequence()
         {
             _collectedFlashPickupsNames.Clear();

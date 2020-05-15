@@ -103,6 +103,8 @@ namespace GXPEngine
         public static float Background_Music_Volume = 0.4f;
         public static float SFX_Default_Volume = 0.7f;
 
+        public static string Base_Music = "data/audios/musics/base.ogg";
+        
         public static string HUD_Flashback_Counter_Format = "{0} of {1} flashbacks";
 
         public static string History_Pickedup_SFX = "data/audios/non-organic_sfx/pickup_2_reverb.wav";
@@ -115,7 +117,7 @@ namespace GXPEngine
         public static string Cave_Background_Ambient_Sound = "data/audios/sfx/ambiant_background.wav";
         public static float Cave_Background_Ambient_Sound_Volume = 0.4f;
 
-        public static string Hidden_Room_Revealed_Sound = "none";
+        public static string Hidden_Room_Revealed_SFX = "data/audios/non-organic_sfx/final_cave_reveal.ogg";
 
         public static string Door0_Open_Sound = "data/audios/sfx/261109__jaklocke__door-opening-and-closing-8.wav";
         public static float Door0_Open_Sound_Volume = 0.2f;

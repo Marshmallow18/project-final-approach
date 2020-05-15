@@ -73,7 +73,9 @@ namespace GXPEngine
                 counter++;
             }
 
-            var flashPickup = new FlashbackPickup("data/Flashback Pickup.png", flashData, 1, 1)
+            int flashNum = int.TryParse(flashData.Name.Replace("flashback ", ""), out flashNum) ? flashNum : 6;
+
+            var flashPickup = new FlashbackPickup($"data/flashback_pick_up_{flashNum}.png", flashData, 1, 1)
             {
                 name = objUniqueName
             };

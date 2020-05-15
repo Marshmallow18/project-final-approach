@@ -102,13 +102,6 @@ namespace GXPEngine
                 }
             }
 
-            //Load music from map properties
-            var startMusicFilename = _mapData.GetStringProperty("level_start_music", null);
-            if (startMusicFilename != null && File.Exists(Path.Combine(path, startMusicFilename)))
-            {
-                _musicsLevelMap.Add(startMusicFilename, new Sound(startMusicFilename, true, true));
-            }
-
             //Load aditional sfx
 
             //Flashback Picked up sound
@@ -121,9 +114,15 @@ namespace GXPEngine
             //Cave ambient
             LoadLoopSfxByFilename(Settings.Cave_Background_Ambient_Sound);
 
+            //Load hidden room appear sound
+            LoadSfxByFilename(Settings.Hidden_Room_Revealed_SFX);
+            
             //Door open
             LoadSfxByFilename(Settings.Door0_Open_Sound);
 
+            //Base music
+            LoadMusic(Settings.Base_Music);
+            
             //Screen musics
             LoadMusic(Settings.StartScreen_Music);
             LoadMusic(Settings.In_Game_StartScreen_1_Music);
