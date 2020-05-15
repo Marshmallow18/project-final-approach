@@ -59,6 +59,8 @@
     <Compile Include="Components\TmxFilesLoader.cs" />
     <Compile Include="Components\Vector2Int.cs" />
     <Compile Include="CoroutineManager.cs" />
+    <Compile Include="DarkHallManager.cs" />
+    <Compile Include="DarkHall.cs" />
     <Compile Include="Door.cs" />
     <Compile Include="DoorsManager.cs" />
     <Compile Include="DoorTrigger.cs" />

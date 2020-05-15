@@ -52,7 +52,7 @@ Cheat_Mode = false
 
 //Cam Settings
 Camera_Scale_Enable_With_E_C_Keys = true
-Camera_Scale = 0.965
+Camera_Scale = 0.5
 
 //StartScreen
 StartScreen_Bg_Image = data/StartScreenBg.png
@@ -64,3 +64,5 @@ In_Game_StartScreen_1_Music = data/audios/musics/open_scene_1.ogg
 
 In_Game_StartScreen_2_Bg_Image = data/Game_StartScreen_2.png
 In_Game_StartScreen_2_Music = data/audios/sfx/fl1_Hosp.ogg
+
+In_Game_StartScreen_3_Bg_Image = data/Game_StartScreen_3.png

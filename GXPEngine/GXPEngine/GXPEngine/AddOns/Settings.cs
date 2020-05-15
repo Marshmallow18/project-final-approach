@@ -137,6 +137,8 @@ namespace GXPEngine
         
         public static string In_Game_StartScreen_2_Bg_Image = "data/Game_StartScreen_1.png";
         public static string In_Game_StartScreen_2_Music = "data/audios/musics/noaudio.ogg";
+
+        public static string In_Game_StartScreen_3_Bg_Image = "data/Game_StartScreen_3.png";
         
         /// <summary>
         /// Load new values from the file settings.txt

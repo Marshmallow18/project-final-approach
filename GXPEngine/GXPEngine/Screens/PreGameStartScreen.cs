@@ -8,16 +8,20 @@ namespace GXPEngine.Screens
         private EasyDraw _fader;
 
         private bool _lockKey = true;
-        
+
         public delegate void OnFinished();
 
         private OnFinished _onFinished;
-        
-        public PreGameStartScreen(string fileName, string musicFilename, OnFinished onFinished = null) : base(fileName, false, false)
+
+        public PreGameStartScreen(string fileName, string musicFilename, OnFinished onFinished = null) : base(fileName,
+            false, false)
         {
-            GameSoundManager.Instance.FadeOutCurrentMusic();
-            GameSoundManager.Instance.PlayMusic(musicFilename);
-           
+            if (!string.IsNullOrWhiteSpace(musicFilename))
+            {
+                GameSoundManager.Instance.FadeOutCurrentMusic();
+                GameSoundManager.Instance.PlayMusic(musicFilename);
+            }
+
             _fader = new EasyDraw(game.width, game.height, false);
             _fader.Clear(Color.Black);
             AddChild(_fader);
@@ -36,17 +40,15 @@ namespace GXPEngine.Screens
             if (!_lockKey && Input.GetKeyDown(Key.ENTER))
             {
                 _lockKey = true;
-               FadeInAndFinish();
+                FadeInAndFinish();
             }
         }
 
         void FadeInAndFinish()
         {
-            GameSoundManager.Instance.FadeOutCurrentMusic();
-            
             DrawableTweener.TweenSpriteAlpha(_fader, 0, 1, Settings.Default_AlphaTween_Duration, () =>
             {
-                HierarchyManager.Instance.LateDestroy(this);
+                Destroy();
                 _onFinished?.Invoke();
             });
         }

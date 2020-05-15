@@ -52,8 +52,6 @@ namespace GXPEngine
             
             //DrawableTweener.TweenSpriteAlpha(this, 1, 0, 500, Easing.Equation.QuadEaseOut);
             SetFrame(1);
-
-            GameSoundManager.Instance.PlayFx(Settings.Door0_Open_Sound, Settings.SFX_Default_Volume);
             
             Console.WriteLine($"{this} open");
         }

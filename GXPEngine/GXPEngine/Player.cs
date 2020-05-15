@@ -15,7 +15,7 @@ public class Player : Sprite
     private float _vSpeed, _hSpeed, _deceleration, _state, _scale = 0.2f;
     private Random _rand;
     private float _currentSpeed;
-    private float _walkSpeed = 2f;
+    private float _walkSpeed = 2.4f;
     private float _runSpeed = 10f;
     private bool _lampOpen = true;
     private bool _inputEnabled;
@@ -48,12 +48,17 @@ public class Player : Sprite
         _animation.SetScaleXY(_scale, _scale);
         _animation.SetOriginToCenter();
 
-        _fog1 = new Sprite("fog.png", false, false);
+        _fog1 = new Sprite("fog.png", true, false);
         AddChild(_fog1);
         _fog1.x = -_fog1.width / 2;
         _fog1.y = -_fog1.height / 2;
-        _fog2 = new AnimationSprite("anim_fog.png", 2, 1, -1, false, false);
+
+        _fog2 = new AnimationSprite("anim_fog.png", 2, 1, -1, true, false);
+        
+        _fog1.scale = 10;
+
         AddChild(_fog2);
+        _fog2.x = x + 1000;
 
         _deceleration = 0.9f;
         _currentSpeed = _walkSpeed;
@@ -161,7 +166,7 @@ public class Player : Sprite
             _animation.SetFrame(_frame);
 
             _timer++;
-            if (_timer > 2)
+            if (_timer > 4)
             {
                 _frame++;
                 _timer = 0;
@@ -199,9 +204,9 @@ public class Player : Sprite
 
     public void LampReduceLight()
     {
-        if (oil > 30)
+        if (oil > 50)
         {
-            _fog2.SetScaleXY(oil / 100, oil / 100);
+            _fog2.SetScaleXY((oil / 100) * 3, (oil / 100) * 3);
             _lampOpen = true;
         }
         else

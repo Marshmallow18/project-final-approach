@@ -45,9 +45,11 @@ namespace GXPEngine
                 var doorTData = kv.Value;
                 doorTData.Name = doorTData.Name.ToLower();
 
+                bool isDarkTrigger = doorTData.GetBoolProperty("dark_trigger", false);
+
                 if (_doorsMap.TryGetValue(kv.Key, out var door))
                 {
-                    AddDoorTrigger(kv.Key, door, doorTData.X, doorTData.Y, doorTData.rotation, doorTData.Width, doorTData.Height);
+                    AddDoorTrigger(kv.Key, isDarkTrigger, door, doorTData.X, doorTData.Y, doorTData.rotation, doorTData.Width, doorTData.Height);
                 }
             }
 
@@ -84,9 +86,9 @@ namespace GXPEngine
             door.SetXY(pX, pY);
         }
 
-        private void AddDoorTrigger(string pName, Door door, float pX, float pY, float rot, float pWidth, float pHeight)
+        private void AddDoorTrigger(string pName, bool pIsDarkTrigger, Door door, float pX, float pY, float rot, float pWidth, float pHeight)
         {
-            var doorTrigger = new DoorTrigger(door);
+            var doorTrigger = new DoorTrigger(door, pIsDarkTrigger);
             _doorsTriggersMap.Add(pName, doorTrigger);   
             
             doorTrigger.width = Mathf.Round(pWidth);

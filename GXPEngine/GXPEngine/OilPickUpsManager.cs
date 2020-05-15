@@ -6,14 +6,19 @@ namespace GXPEngine
 {
     public class OilPickUpsManager : GameObject
     {
+        public static OilPickUpsManager Instance;
+
         private Dictionary<string, OilPickUp> _pickupsMap;
 
         private MapGameObject _map;
         private BaseLevel _level;
 
-        
+        public Dictionary<string, OilPickUp> PickupsMap { get => _pickupsMap; }
+
         public OilPickUpsManager(MapGameObject pMap, BaseLevel pLevel) : base(false)
         {
+            Instance = this;
+
             _pickupsMap = new Dictionary<string, OilPickUp>();
 
             _level = pLevel;
@@ -29,6 +34,10 @@ namespace GXPEngine
 
                 AddOilPickupToLevel(numType, oilType, memData.Name,"", memData.X, memData.Y, memData.rotation, memData.Width, memData.Height);
             }
+
+            RandomizeAll();
+
+
             CoroutineManager.StartCoroutine(Start(), this);
         }
 
@@ -67,6 +76,7 @@ namespace GXPEngine
             oil.SetOrigin(0, oil.texture.height);
             oil.rotation = pRotation;
             oil.SetXY(pX, pY);
+
         }
 
         private OilPickUp spawnOilPickup (int type)
@@ -80,6 +90,30 @@ namespace GXPEngine
             return candidates[Utils.Random(0, candidates.Count)];
         }
 
+        private void RandomizeAll()
+        {
+            for (int i = 1; i <= 3; i++)
+            {
+                RandomizeGroup(i);
+            }
+            
+        }
 
+        public void RandomizeGroup(int groupIndex)
+        {
+            var oils = _pickupsMap.Values.Where(o => o._oilType == groupIndex).ToList();
+
+            int randIndex = Utils.Random(0, oils.Count);
+
+            for (int j = 0; j < oils.Count; j++)
+            {
+                if (j != randIndex)
+                {
+                    oils[j].Enabled = false;
+                }
+            }
+
+            oils[randIndex].Enabled = true;
+        }
     }
 }
